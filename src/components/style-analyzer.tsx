@@ -111,7 +111,8 @@ export default function PdfSummarizer() {
         }
     };
     
-    const removeFile = () => {
+    const removeFile = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
         resetState(true);
     };
 
@@ -161,7 +162,7 @@ export default function PdfSummarizer() {
                             {status === 'uploading' && (
                                 <div className="flex flex-col items-center gap-4">
                                     <div className="relative h-20 w-20">
-                                        <Progress value={uploadProgress} className="absolute inset-0 h-full w-full" />
+                                        <Progress value={uploadProgress} asCircle={true} />
                                         <div className="absolute inset-0 flex items-center justify-center text-sm font-bold text-primary">
                                             {Math.round(uploadProgress)}%
                                         </div>
