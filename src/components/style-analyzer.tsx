@@ -116,7 +116,7 @@ export default function PdfSummarizer() {
                     onDragOver={(e) => e.preventDefault()}
                     className="relative w-full cursor-pointer transition-colors"
                 >
-                    <div className="flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-primary/50 bg-primary/10 p-12 text-center transition-colors hover:border-primary hover:bg-primary/20">
+                    <div className="flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-border bg-muted/20 p-12 text-center transition-colors hover:border-primary hover:bg-primary/10">
                         {status === 'loading' && fileName ? (
                             <div className="flex flex-col items-center gap-4">
                                  <Badge className="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
