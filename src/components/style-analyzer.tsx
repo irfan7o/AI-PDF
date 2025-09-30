@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { UploadCloud, Loader, AlertCircle, File, FileText } from 'lucide-react';
+import { FileUp, Loader, AlertCircle, File, FileText } from 'lucide-react';
 import { getSummary, AnalysisResult } from '@/app/actions';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -116,7 +116,7 @@ export default function PdfSummarizer() {
                     onDragOver={(e) => e.preventDefault()}
                     className="relative w-full cursor-pointer transition-colors"
                 >
-                    <div className="flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-border bg-muted/20 p-12 text-center transition-colors hover:border-primary hover:bg-primary/10">
+                    <div className="flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center transition-colors hover:border-primary hover:bg-primary/10 group">
                         {status === 'loading' && fileName ? (
                             <div className="flex flex-col items-center gap-4">
                                  <Badge className="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
@@ -128,8 +128,8 @@ export default function PdfSummarizer() {
                             </div>
                         ) : (
                             <>
-                                <div className="rounded-full bg-primary/20 p-3">
-                                    <UploadCloud className="h-8 w-8 text-primary" />
+                                <div className="rounded-full bg-gray-200 p-3 group-hover:bg-primary/20">
+                                    <FileUp className="h-8 w-8 text-gray-500 group-hover:text-primary" />
                                 </div>
                                 <p className="mt-4 font-semibold text-foreground">
                                     Drag and Drop file here or{' '}
