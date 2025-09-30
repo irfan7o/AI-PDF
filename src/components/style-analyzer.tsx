@@ -9,12 +9,12 @@ import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-type Status = 'idle' | 'loading' | 'success' | 'error';
+type Status = 'idle' | 'selected' | 'loading' | 'success' | 'error';
 
 export default function PdfSummarizer() {
     const [status, setStatus] = useState<Status>('idle');
     const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
-    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [dataUri, setDataUri] = useState<string | null>(null);
     const [fileName, setFileName] = useState<string | null>(null);
     const { toast } = useToast();
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -42,23 +42,22 @@ export default function PdfSummarizer() {
             });
             return;
         }
-
-        setStatus('loading');
+        
         setAnalysisResult(null);
         setFileName(file.name);
 
         const reader = new FileReader();
         reader.onloadend = async () => {
             const dataUri = reader.result as string;
-            setPreviewUrl(dataUri);
-            startAnalysis(dataUri);
+            setDataUri(dataUri);
+            setStatus('selected');
         };
         reader.readAsDataURL(file);
     };
     
-    const startAnalysis = async (dataUri: string) => {
+    const startAnalysis = async () => {
         if (!dataUri) return;
-
+        setStatus('loading');
         try {
             const result = await getSummary(dataUri);
             setAnalysisResult(result);
@@ -77,7 +76,7 @@ export default function PdfSummarizer() {
     const resetState = () => {
         setStatus('idle');
         setAnalysisResult(null);
-        setPreviewUrl(null);
+        setDataUri(null);
         setFileName(null);
     };
 
@@ -126,6 +125,19 @@ export default function PdfSummarizer() {
                                  </Badge>
                                 <Loader className="h-8 w-8 animate-spin text-primary mt-2" />
                                 <p className="text-sm text-muted-foreground">Summarizing...</p>
+                            </div>
+                        ) : status === 'selected' && fileName ? (
+                            <div className="flex flex-col items-center gap-4">
+                                <Badge className="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
+                                <File className="h-4 w-4"/>
+                                <span className="font-normal">{fileName}</span>
+                                </Badge>
+                                <Button
+                                  onClick={startAnalysis}
+                                  className="mt-4"
+                                >
+                                  Summarize
+                                </Button>
                             </div>
                         ) : (
                             <>
