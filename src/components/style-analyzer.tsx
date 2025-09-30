@@ -86,14 +86,14 @@ export default function PdfSummarizer() {
                 <CardTitle className="font-headline text-2xl">Summarize PDF</CardTitle>
                 <CardDescription>Upload a PDF document to get a concise summary.</CardDescription>
             </CardHeader>
-            <CardContent className="p-6 pt-0">
+            <CardContent className="p-6 pt-0 min-h-[350px]">
                 {status === 'success' && analysisResult ? (
                     <div className="w-full">
                         <div className="flex items-center gap-2 mb-4">
                             <FileText className="h-6 w-6"/>
                             <h2 className="font-headline text-xl">Summary for <Badge variant="secondary">{fileName}</Badge></h2>
                         </div>
-                        <ScrollArea className="h-64 p-4 border rounded-md bg-muted/50">
+                        <ScrollArea className="h-[258px] p-4 border rounded-md bg-muted/50">
                             <p className="text-sm text-foreground">{analysisResult.summary}</p>
                         </ScrollArea>
                     </div>
@@ -101,9 +101,9 @@ export default function PdfSummarizer() {
                     <div 
                         onDrop={handleDrop}
                         onDragOver={(e) => e.preventDefault()}
-                        className="relative w-full cursor-pointer transition-colors"
+                        className="relative w-full h-full cursor-pointer transition-colors"
                     >
-                        <div className="flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center transition-colors group hover:border-primary hover:bg-primary/10">
+                        <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center transition-colors group hover:border-primary hover:bg-primary/10">
                             {status === 'loading' && fileName ? (
                                 <div className="flex flex-col items-center gap-4">
                                      <Badge className="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
