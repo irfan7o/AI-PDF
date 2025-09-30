@@ -1,39 +1,21 @@
 "use server";
 
-import { detectAndSegmentClothing } from "@/ai/flows/detect-and-segment-clothing";
-import { generateShoppingSuggestions, GenerateShoppingSuggestionsOutput } from "@/ai/flows/generate-shopping-suggestions";
+import { summarizePdf, SummarizePdfOutput } from "@/ai/flows/summarize-pdf";
 
-export type AnalyzedOutfit = {
-    items: {
-        itemType: string;
-        description: string;
-        segmentedImage: string;
-        shoppingSuggestions?: GenerateShoppingSuggestionsOutput['suggestions'][0];
-    }[];
+export type AnalysisResult = {
+    summary: string;
 }
 
-export async function getStyleSuggestions(photoDataUri: string): Promise<AnalyzedOutfit> {
-    if (!photoDataUri) {
-        throw new Error("Image data URI is required.");
+export async function getSummary(pdfDataUri: string): Promise<AnalysisResult> {
+    if (!pdfDataUri) {
+        throw new Error("PDF data URI is required.");
     }
 
-    const segmentedItems = await detectAndSegmentClothing({ photoDataUri });
+    const result = await summarizePdf({ pdfDataUri });
 
-    if (!segmentedItems || segmentedItems.length === 0) {
-        return { items: [] };
+    if (!result.summary) {
+        return { summary: "Could not generate summary." };
     }
     
-    const itemDescriptions = segmentedItems.map(item => item.description);
-    const shoppingSuggestions = await generateShoppingSuggestions({ clothingItems: itemDescriptions });
-
-    const analyzedItems = segmentedItems.map((item, index) => {
-        const suggestionForItem = shoppingSuggestions.suggestions[index];
-
-        return {
-            ...item,
-            shoppingSuggestions: suggestionForItem,
-        };
-    });
-
-    return { items: analyzedItems };
+    return { summary: result.summary };
 }

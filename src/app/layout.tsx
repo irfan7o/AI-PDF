@@ -4,8 +4,8 @@ import {ThemeProvider} from '@/components/layout/theme-provider';
 import {Toaster} from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'StyleWise',
-  description: 'AI-powered fashion outfit detection and shopping suggestions.',
+  title: 'PDF Summarizer',
+  description: 'AI-powered PDF document summarization.',
 };
 
 export default function RootLayout({
