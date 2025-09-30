@@ -9,7 +9,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import pdf from 'pdf-parse';
 
 const SummarizePdfInputSchema = z.object({
   pdfDataUri: z
@@ -47,6 +46,7 @@ const summarizePdfFlow = ai.defineFlow(
     outputSchema: SummarizePdfOutputSchema,
   },
   async input => {
+    const pdf = (await import('pdf-parse')).default;
     const pdfBuffer = Buffer.from(input.pdfDataUri.split(',')[1], 'base64');
     const pdfData = await pdf(pdfBuffer);
 
