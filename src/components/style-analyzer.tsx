@@ -123,7 +123,7 @@ export default function PdfSummarizer() {
                                  <Badge className="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
                                     <File className="h-4 w-4"/>
                                     <span className="font-normal">{fileName}</span>
-                                </Badge>
+                                 </Badge>
                                 <Loader className="h-8 w-8 animate-spin text-primary mt-2" />
                                 <p className="text-sm text-muted-foreground">Summarizing...</p>
                             </div>
@@ -137,6 +137,7 @@ export default function PdfSummarizer() {
                                 <Button
                                   variant="outline"
                                   onClick={() => fileInputRef.current?.click()}
+                                  className="hover:bg-primary hover:text-primary-foreground"
                                 >
                                   Choose file
                                 </Button>
