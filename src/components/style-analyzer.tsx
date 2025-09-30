@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { FileUp, Loader, AlertCircle, File, FileText } from 'lucide-react';
 import { getSummary, AnalysisResult } from '@/app/actions';
 import { Button } from '@/components/ui/button';
@@ -17,6 +17,7 @@ export default function PdfSummarizer() {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [fileName, setFileName] = useState<string | null>(null);
     const { toast } = useToast();
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -131,16 +132,19 @@ export default function PdfSummarizer() {
                                 <div className="rounded-full bg-gray-200 p-3 group-hover:bg-primary/20">
                                     <FileUp className="h-8 w-8 text-gray-500 group-hover:text-primary" />
                                 </div>
-                                <p className="mt-4 font-semibold text-foreground">
-                                    Drag and Drop file here or{' '}
-                                    <label htmlFor="file-upload" className="cursor-pointer font-bold text-primary underline underline-offset-2">
-                                        Choose file
-                                    </label>
-                                </p>
-                                <p className="text-xs text-muted-foreground mt-2">PDF files up to 25MB</p>
+                                <p className="mt-4 font-semibold text-foreground">Drag and Drop file here</p>
+                                <p className="text-sm text-muted-foreground my-2">or</p>
+                                <Button
+                                  variant="outline"
+                                  onClick={() => fileInputRef.current?.click()}
+                                >
+                                  Choose file
+                                </Button>
+                                <p className="text-xs text-muted-foreground mt-4">PDF files up to 25MB</p>
                             </>
                         )}
                         <input
+                            ref={fileInputRef}
                             id="file-upload"
                             type="file"
                             className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
