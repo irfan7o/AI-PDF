@@ -101,7 +101,7 @@ export default function PdfSummarizer() {
                     <div 
                         onDrop={handleDrop}
                         onDragOver={(e) => e.preventDefault()}
-                        className="relative w-full h-full cursor-pointer transition-colors"
+                        className="relative w-full h-[322px] cursor-pointer transition-colors"
                     >
                         <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center transition-colors group hover:border-primary hover:bg-primary/10">
                             {status === 'loading' && fileName ? (
