@@ -173,10 +173,11 @@ export default function PdfSummarizer() {
                     </div>
                 )}
             </CardContent>
-            <CardFooter className="flex justify-center">
+            <CardFooter className="flex flex-col w-full">
                 <Button
                   onClick={startAnalysis}
                   disabled={status !== 'selected'}
+                  className="w-full"
                 >
                   Summarize
                 </Button>
