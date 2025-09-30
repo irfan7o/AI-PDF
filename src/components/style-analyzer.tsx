@@ -80,30 +80,6 @@ export default function PdfSummarizer() {
         setFileName(null);
     };
 
-    if (status === 'success' && analysisResult) {
-         return (
-            <div className="w-full max-w-2xl">
-                <Card className="shadow-2xl">
-                    <CardHeader>
-                         <CardTitle className="font-headline text-2xl flex items-center gap-2">
-                            <FileText className="h-6 w-6"/>
-                            Summary for <Badge variant="secondary">{fileName}</Badge>
-                        </CardTitle>
-                        <CardDescription>Here is the summary of your document.</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <ScrollArea className="h-64 p-4 border rounded-md bg-muted/50">
-                            <p className="text-sm text-foreground">{analysisResult.summary}</p>
-                        </ScrollArea>
-                    </CardContent>
-                    <CardFooter>
-                         <Button onClick={resetState} variant="outline">Summarize Another PDF</Button>
-                    </CardFooter>
-                </Card>
-            </div>
-        );
-    }
-
     return (
         <Card className="w-full max-w-lg shadow-2xl">
             <CardHeader className="text-center">
@@ -111,57 +87,68 @@ export default function PdfSummarizer() {
                 <CardDescription>Upload a PDF document to get a concise summary.</CardDescription>
             </CardHeader>
             <CardContent className="p-6 pt-0">
-                <div 
-                    onDrop={handleDrop}
-                    onDragOver={(e) => e.preventDefault()}
-                    className="relative w-full cursor-pointer transition-colors"
-                >
-                    <div className="flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center transition-colors group hover:border-primary hover:bg-primary/10">
-                        {status === 'loading' && fileName ? (
-                            <div className="flex flex-col items-center gap-4">
-                                 <Badge className="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
+                {status === 'success' && analysisResult ? (
+                    <div className="w-full">
+                        <div className="flex items-center gap-2 mb-4">
+                            <FileText className="h-6 w-6"/>
+                            <h2 className="font-headline text-xl">Summary for <Badge variant="secondary">{fileName}</Badge></h2>
+                        </div>
+                        <ScrollArea className="h-64 p-4 border rounded-md bg-muted/50">
+                            <p className="text-sm text-foreground">{analysisResult.summary}</p>
+                        </ScrollArea>
+                    </div>
+                ) : (
+                    <div 
+                        onDrop={handleDrop}
+                        onDragOver={(e) => e.preventDefault()}
+                        className="relative w-full cursor-pointer transition-colors"
+                    >
+                        <div className="flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center transition-colors group hover:border-primary hover:bg-primary/10">
+                            {status === 'loading' && fileName ? (
+                                <div className="flex flex-col items-center gap-4">
+                                     <Badge className="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
+                                        <File className="h-4 w-4"/>
+                                        <span className="font-normal">{fileName}</span>
+                                     </Badge>
+                                    <Loader className="h-8 w-8 animate-spin text-primary mt-2" />
+                                    <p className="text-sm text-muted-foreground">Summarizing...</p>
+                                </div>
+                            ) : status === 'selected' && fileName ? (
+                                <div className="flex flex-col items-center gap-4">
+                                    <Badge className="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
                                     <File className="h-4 w-4"/>
                                     <span className="font-normal">{fileName}</span>
-                                 </Badge>
-                                <Loader className="h-8 w-8 animate-spin text-primary mt-2" />
-                                <p className="text-sm text-muted-foreground">Summarizing...</p>
-                            </div>
-                        ) : status === 'selected' && fileName ? (
-                            <div className="flex flex-col items-center gap-4">
-                                <Badge className="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
-                                <File className="h-4 w-4"/>
-                                <span className="font-normal">{fileName}</span>
-                                </Badge>
-                            </div>
-                        ) : (
-                            <>
-                                <div className="rounded-full bg-gray-200 p-3 group-hover:bg-primary/20">
-                                    <FileUp className="h-8 w-8 text-gray-500 group-hover:text-primary" />
+                                    </Badge>
                                 </div>
-                                <p className="mt-4 font-semibold text-foreground">Drag and Drop file here</p>
-                                <p className="text-sm text-muted-foreground my-2">or</p>
-                                <Button
-                                  variant="outline"
-                                  onClick={() => fileInputRef.current?.click()}
-                                  className="hover:bg-primary hover:text-primary-foreground"
-                                >
-                                  Choose file
-                                </Button>
-                                <p className="text-xs text-muted-foreground mt-4">PDF files up to 25MB</p>
-                            </>
-                        )}
-                        <input
-                            ref={fileInputRef}
-                            id="file-upload"
-                            type="file"
-                            className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-                            onChange={handleFileChange}
-                            accept="application/pdf"
-                            disabled={status === 'loading'}
-                        />
+                            ) : (
+                                <>
+                                    <div className="rounded-full bg-gray-200 p-3 group-hover:bg-primary/20">
+                                        <FileUp className="h-8 w-8 text-gray-500 group-hover:text-primary" />
+                                    </div>
+                                    <p className="mt-4 font-semibold text-foreground">Drag and Drop file here</p>
+                                    <p className="text-sm text-muted-foreground my-2">or</p>
+                                    <Button
+                                      variant="outline"
+                                      onClick={() => fileInputRef.current?.click()}
+                                      className="hover:bg-primary hover:text-primary-foreground"
+                                    >
+                                      Choose file
+                                    </Button>
+                                    <p className="text-xs text-muted-foreground mt-4">PDF files up to 25MB</p>
+                                </>
+                            )}
+                            <input
+                                ref={fileInputRef}
+                                id="file-upload"
+                                type="file"
+                                className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                                onChange={handleFileChange}
+                                accept="application/pdf"
+                                disabled={status === 'loading'}
+                            />
+                        </div>
                     </div>
-                </div>
-                
+                )}
                  {status === 'error' && (
                     <div className="mt-4 text-center p-4 rounded-lg border border-destructive bg-destructive/10">
                         <div className="flex justify-center">
@@ -174,13 +161,17 @@ export default function PdfSummarizer() {
                 )}
             </CardContent>
             <CardFooter className="flex flex-col w-full">
-                <Button
-                  onClick={startAnalysis}
-                  disabled={status !== 'selected'}
-                  className="w-full"
-                >
-                  Summarize
-                </Button>
+                {status === 'success' ? (
+                     <Button onClick={resetState} variant="outline" className="w-full">Summarize Another PDF</Button>
+                ) : (
+                    <Button
+                      onClick={startAnalysis}
+                      disabled={status !== 'selected'}
+                      className="w-full"
+                    >
+                      Summarize
+                    </Button>
+                )}
             </CardFooter>
         </Card>
     );
