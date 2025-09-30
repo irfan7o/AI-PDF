@@ -116,7 +116,7 @@ export default function PdfSummarizer() {
                     onDragOver={(e) => e.preventDefault()}
                     className="relative w-full cursor-pointer transition-colors"
                 >
-                    <div className="flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center transition-colors hover:border-primary hover:bg-primary/10 group">
+                    <div className="flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center transition-colors group hover:border-primary hover:bg-primary/10">
                         {status === 'loading' && fileName ? (
                             <div className="flex flex-col items-center gap-4">
                                  <Badge className="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
@@ -132,12 +132,6 @@ export default function PdfSummarizer() {
                                 <File className="h-4 w-4"/>
                                 <span className="font-normal">{fileName}</span>
                                 </Badge>
-                                <Button
-                                  onClick={startAnalysis}
-                                  className="mt-4"
-                                >
-                                  Summarize
-                                </Button>
                             </div>
                         ) : (
                             <>
@@ -179,6 +173,14 @@ export default function PdfSummarizer() {
                     </div>
                 )}
             </CardContent>
+            <CardFooter className="flex justify-center">
+                <Button
+                  onClick={startAnalysis}
+                  disabled={status !== 'selected'}
+                >
+                  Summarize
+                </Button>
+            </CardFooter>
         </Card>
     );
 }
