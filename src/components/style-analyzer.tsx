@@ -139,12 +139,8 @@ export default function StyleAnalyzer() {
 
     return (
         <Card className="w-full max-w-lg shadow-2xl">
-            <CardHeader className="flex flex-row items-center justify-between">
+            <CardHeader>
                 <CardTitle className="font-headline text-2xl">Upload file</CardTitle>
-                <Button variant="ghost" size="icon" onClick={resetState} className="h-8 w-8">
-                    <X className="h-5 w-5" />
-                    <span className="sr-only">Close</span>
-                </Button>
             </CardHeader>
             <CardContent className="p-6 pt-0">
                 <div 
@@ -201,20 +197,6 @@ export default function StyleAnalyzer() {
                 )}
             </CardContent>
             <CardFooter className="flex-col items-stretch gap-4 p-6 pt-2">
-                 <div className="flex items-center justify-between rounded-lg border bg-card p-4">
-                    <div className="flex items-center gap-3">
-                         <div className="bg-secondary p-2 rounded-md">
-                            <Download className="h-5 w-5 text-secondary-foreground"/>
-                         </div>
-                        <div>
-                            <p className="font-semibold">Example Outfit</p>
-                            <p className="text-sm text-muted-foreground">Download an example to get started.</p>
-                        </div>
-                    </div>
-                    <Button variant="outline" size="sm" asChild>
-                        <a href="https://picsum.photos/seed/stylewise/1024/768" download="example-outfit.jpg">Download</a>
-                    </Button>
-                </div>
                 <div className="flex justify-end gap-2">
                     <Button variant="outline" onClick={resetState}>Cancel</Button>
                     <Button onClick={startAnalysis} disabled={!previewUrl || status === 'loading'}>Next</Button>
