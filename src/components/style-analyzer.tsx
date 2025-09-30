@@ -84,21 +84,25 @@ export default function StyleAnalyzer() {
 
             <div className="mx-auto mt-8 max-w-5xl">
                 {status === 'idle' && (
-                     <div
+                     <Card 
                         onDrop={handleDrop}
                         onDragOver={(e) => e.preventDefault()}
-                        className="relative flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/50 bg-card p-12 text-center transition-colors hover:border-primary hover:bg-accent/50"
-                    >
-                        <UploadCloud className="h-12 w-12 text-muted-foreground" />
-                        <p className="mt-4 font-semibold text-foreground">Drag & drop an image, or click to upload</p>
-                        <p className="text-sm text-muted-foreground">PNG, JPG, or WEBP</p>
-                        <input
-                            type="file"
-                            className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-                            onChange={handleFileChange}
-                            accept="image/png, image/jpeg, image/webp"
-                        />
-                    </div>
+                        className="relative cursor-pointer transition-colors hover:border-primary hover:bg-accent/50"
+                     >
+                         <CardContent className="flex w-full flex-col items-center justify-center p-0">
+                             <div className="flex w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/50 p-12 text-center">
+                                 <UploadCloud className="h-12 w-12 text-muted-foreground" />
+                                 <p className="mt-4 font-semibold text-foreground">Drag & drop an image, or click to upload</p>
+                                 <p className="text-sm text-muted-foreground">PNG, JPG, or WEBP</p>
+                                 <input
+                                     type="file"
+                                     className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                                     onChange={handleFileChange}
+                                     accept="image/png, image/jpeg, image/webp"
+                                 />
+                             </div>
+                         </CardContent>
+                     </Card>
                 )}
                 
                 {status === 'loading' && (
