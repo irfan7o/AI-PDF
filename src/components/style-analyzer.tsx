@@ -191,7 +191,7 @@ export default function PdfSummarizer() {
                                     <Button
                                       variant="outline"
                                       onClick={() => fileInputRef.current?.click()}
-                                      className="hover:bg-primary hover:text-primary-foreground"
+                                      className="group-hover:bg-primary group-hover:text-primary-foreground"
                                     >
                                       Choose file
                                     </Button>
