@@ -14,7 +14,7 @@ const menuItems = [
 export default function FloatingMenu() {
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-      <div className="rounded-full bg-card border shadow-lg p-2">
+      <div className="rounded-full bg-card shadow-lg p-2">
         <ScrollArea className="w-auto whitespace-nowrap">
           <div className="flex items-center space-x-2">
             {menuItems.map((item) => (
