@@ -148,7 +148,7 @@ export default function PdfSummarizer() {
                         onDragOver={(e) => e.preventDefault()}
                         className="relative w-full h-[322px] cursor-pointer transition-colors"
                     >
-                        <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center transition-colors group hover:border-primary hover:bg-primary/10 dark:bg-card dark:border-gray-700 dark:hover:bg-accent/10">
+                        <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center transition-colors group hover:border-primary hover:bg-primary/10 dark:bg-card dark:border-gray-700 dark:hover:border-primary dark:hover:bg-primary/10">
                             {status === 'loading' && (
                                 <div className="flex flex-col items-center gap-4">
                                      <Badge className="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
@@ -239,5 +239,7 @@ export default function PdfSummarizer() {
         </Card>
     );
 }
+
+    
 
     
