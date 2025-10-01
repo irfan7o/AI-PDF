@@ -215,12 +215,12 @@ export default function PdfSummarizer() {
 
 
     return (
-        <Card className="w-full max-w-lg shadow-lg">
+        <Card className="w-full max-w-lg shadow-sm rounded-xl">
             <CardHeader className="text-center">
                 <CardTitle className="font-headline text-2xl">Summarize PDF</CardTitle>
                 <CardDescription>Upload a PDF document to get a concise summary.</CardDescription>
             </CardHeader>
-            <CardContent className="p-6 pt-0 min-h-[350px]">
+            <CardContent className="p-6 pt-0 min-h-[350px] flex items-center">
                 {renderContent()}
             </CardContent>
             <CardFooter className="flex flex-col w-full">
@@ -239,5 +239,3 @@ export default function PdfSummarizer() {
         </Card>
     );
 }
-
-    
