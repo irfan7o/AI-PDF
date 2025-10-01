@@ -148,7 +148,7 @@ export default function PdfSummarizer() {
                         onDragOver={(e) => e.preventDefault()}
                         className="relative w-full h-[322px] cursor-pointer transition-colors"
                     >
-                        <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center transition-colors group hover:border-primary hover:bg-primary/10">
+                        <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center transition-colors group hover:border-primary hover:bg-primary/10 dark:bg-card dark:border-gray-700 dark:hover:bg-accent/10">
                             {status === 'loading' && (
                                 <div className="flex flex-col items-center gap-4">
                                      <Badge className="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
@@ -183,8 +183,8 @@ export default function PdfSummarizer() {
                             )}
                             {(status === 'idle') && (
                                 <>
-                                    <div className="rounded-full bg-gray-200 p-3 group-hover:bg-primary/20">
-                                        <FileUp className="h-8 w-8 text-gray-500 group-hover:text-primary" />
+                                    <div className="rounded-full bg-gray-200 p-3 group-hover:bg-primary/20 dark:bg-muted dark:group-hover:bg-primary/20">
+                                        <FileUp className="h-8 w-8 text-gray-500 group-hover:text-primary dark:text-muted-foreground" />
                                     </div>
                                     <p className="mt-4 font-semibold text-foreground">Drag and Drop file here</p>
                                     <p className="text-sm text-muted-foreground my-2">or</p>
@@ -215,12 +215,12 @@ export default function PdfSummarizer() {
 
 
     return (
-        <Card className="w-full max-w-lg shadow-sm rounded-xl">
+        <Card className="w-full max-w-lg shadow-sm rounded-xl border-0">
             <CardHeader className="text-center">
                 <CardTitle className="font-headline text-2xl">Summarize PDF</CardTitle>
                 <CardDescription>Upload a PDF document to get a concise summary.</CardDescription>
             </CardHeader>
-            <CardContent className="p-6 pt-0 min-h-[350px] flex items-center">
+            <CardContent className="p-6 pt-0 min-h-[354px] flex items-center">
                 {renderContent()}
             </CardContent>
             <CardFooter className="flex flex-col w-full">
@@ -239,3 +239,5 @@ export default function PdfSummarizer() {
         </Card>
     );
 }
+
+    
