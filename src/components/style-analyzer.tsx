@@ -189,9 +189,9 @@ export default function PdfSummarizer() {
                                     <p className="mt-4 font-semibold text-foreground">Drag and Drop file here</p>
                                     <p className="text-sm text-muted-foreground my-2">or</p>
                                     <Button
-                                      variant="outline"
+                                      variant="ghost"
                                       onClick={() => fileInputRef.current?.click()}
-                                      className="group-hover:bg-primary group-hover:text-primary-foreground"
+                                      className="group-hover:bg-primary group-hover:text-primary-foreground bg-gray-200 dark:bg-muted"
                                     >
                                       Choose file
                                     </Button>
