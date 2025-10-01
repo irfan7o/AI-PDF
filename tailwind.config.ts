@@ -17,8 +17,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['PT Sans', 'sans-serif'],
-        headline: ['Poppins', 'sans-serif'],
+        body: ['Overpass', 'sans-serif'],
+        headline: ['Overpass', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {
