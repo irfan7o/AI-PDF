@@ -177,11 +177,11 @@ export default function PdfSummarizer() {
                 return (
                     <Tabs defaultValue="file" onValueChange={(value) => setInputMode(value as InputMode)} className="w-full">
                         <TabsList className="grid w-full grid-cols-2">
-                            <TabsTrigger value="file">
+                            <TabsTrigger value="file" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                                 <FileUp className="mr-2 h-4 w-4"/>
                                 Upload File
                             </TabsTrigger>
-                            <TabsTrigger value="url">
+                            <TabsTrigger value="url" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
                                 <LinkIcon className="mr-2 h-4 w-4"/>
                                 From URL
                             </TabsTrigger>
@@ -287,7 +287,7 @@ export default function PdfSummarizer() {
 
 
     return (
-        <Card className="w-full max-w-lg shadow-sm rounded-xl border-0">
+        <Card className="w-full max-w-lg shadow-sm rounded-xl">
             <CardHeader className="text-center">
                 <CardTitle className="font-headline text-2xl">Summarize PDF</CardTitle>
                 <CardDescription>Upload a PDF document to get a concise summary.</CardDescription>
