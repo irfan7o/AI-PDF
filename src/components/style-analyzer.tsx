@@ -46,6 +46,7 @@ export default function PdfSummarizer() {
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         event.stopPropagation();
+        if (status === 'selected' || status === 'loading' || status === 'uploading') return;
         const file = event.dataTransfer.files?.[0];
         if (!file) return;
         processFile(file);
@@ -189,15 +190,19 @@ export default function PdfSummarizer() {
                         <TabsContent value="file" className="h-[322px] pt-4">
                              <div 
                                 onDrop={handleDrop}
-                                onDragOver={(e) => e.preventDefault()}
+                                onDragOver={(e) => {
+                                    if (status !== 'selected' && status !== 'loading' && status !== 'uploading') {
+                                        e.preventDefault();
+                                    }
+                                }}
                                 onClick={() => {
                                     if (status !== 'selected' && status !== 'loading' && status !== 'uploading') {
                                         fileInputRef.current?.click()
                                     }
                                 }}
-                                className="relative w-full h-full cursor-pointer transition-colors"
+                                className={`relative w-full h-full transition-colors ${status === 'idle' ? 'cursor-pointer' : 'cursor-default'}`}
                             >
-                                <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center transition-colors group hover:border-primary hover:bg-primary/10 dark:bg-card dark:border-gray-600 dark:hover:border-primary dark:hover:bg-primary/10">
+                                <div className={`flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed  bg-gray-50 p-12 text-center transition-colors group dark:bg-card dark:border-gray-600 ${status === 'idle' ? 'border-gray-300 hover:border-primary hover:bg-primary/10 dark:hover:border-primary dark:hover:bg-primary/10' : 'border-gray-300'}`}>
                                     {status === 'loading' && (
                                         <div className="flex flex-col items-center gap-4">
                                              <Badge className="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
@@ -254,7 +259,7 @@ export default function PdfSummarizer() {
                                         className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
                                         onChange={handleFileChange}
                                         accept="application/pdf"
-                                        disabled={status === 'loading' || status === 'uploading'}
+                                        disabled={status === 'loading' || status === 'uploading' || status === 'selected'}
                                     />
                                 </div>
                             </div>
