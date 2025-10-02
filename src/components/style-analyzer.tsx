@@ -89,8 +89,8 @@ export default function PdfSummarizer() {
             if (!pdfUrl) {
                 toast({
                     variant: 'destructive',
-                    title: 'URL Diperlukan',
-                    description: 'Silakan masukkan URL PDF.',
+                    title: 'URL Required',
+                    description: 'Please enter a PDF URL.',
                 });
                 return;
             }
@@ -100,17 +100,11 @@ export default function PdfSummarizer() {
             } catch (_) {
                 toast({
                     variant: 'destructive',
-                    title: 'URL tidak valid',
-                    description: 'Silakan masukkan URL yang valid.',
+                    title: 'Invalid URL',
+                    description: 'Please enter a valid URL.',
                 });
                 return;
             }
-            // In a real app, we'd fetch the PDF and convert it to a data URI.
-            // For now, we'll assume the backend can handle a direct URL.
-            // This is a placeholder for the fetching logic.
-            // This example will pass the URL and let the action handle it.
-            // A more robust solution might fetch the PDF on the client, convert to base64,
-            // but that can be blocked by CORS. A server-side fetch is better.
             analysisUri = `url:${pdfUrl}`;
             setFileName(pdfUrl.substring(pdfUrl.lastIndexOf('/') + 1));
         }
@@ -119,7 +113,6 @@ export default function PdfSummarizer() {
 
         setStatus('loading');
         try {
-            // The action needs to be updated to handle a URL-based URI
             const result = await getSummary(analysisUri);
             setAnalysisResult(result);
             setStatus('success');
@@ -128,8 +121,8 @@ export default function PdfSummarizer() {
             setStatus('error');
             toast({
                 variant: 'destructive',
-                title: 'Analisis Gagal',
-                description: 'Terjadi kesalahan saat meringkas PDF Anda. Silakan coba lagi.',
+                title: 'Analysis Failed',
+                description: 'An error occurred while summarizing your PDF. Please try again.',
             });
         }
     }
@@ -162,7 +155,7 @@ export default function PdfSummarizer() {
                     <div className="w-full">
                         <div className="flex items-center gap-2 mb-4">
                             <FileText className="h-6 w-6"/>
-                            <h2 className="font-headline text-xl">Ringkasan untuk <Badge variant="secondary" className="max-w-[200px] truncate">{fileName}</Badge></h2>
+                            <h2 className="font-headline text-xl">Summary for <Badge variant="secondary" className="max-w-[200px] truncate">{fileName}</Badge></h2>
                         </div>
                         <ScrollArea className="h-[258px] p-4 border rounded-md bg-muted/50">
                             <p className="text-sm text-foreground">{analysisResult.summary}</p>
@@ -175,9 +168,9 @@ export default function PdfSummarizer() {
                         <div className="flex justify-center">
                              <AlertCircle className="h-8 w-8 text-destructive" />
                         </div>
-                        <h2 className="mt-2 text-lg font-semibold text-destructive">Oops! Terjadi kesalahan.</h2>
-                        <p className="mt-1 text-sm text-destructive/80">Kami tidak dapat menganalisis dokumen Anda. Silakan coba lagi dengan yang lain.</p>
-                         <Button variant="outline" onClick={() => resetState(true)} className="mt-4">Coba Lagi</Button>
+                        <h2 className="mt-2 text-lg font-semibold text-destructive">Oops! An error occurred.</h2>
+                        <p className="mt-1 text-sm text-destructive/80">We couldn't analyze your document. Please try again with another one.</p>
+                         <Button variant="outline" onClick={() => resetState(true)} className="mt-4">Try Again</Button>
                     </div>
                 );
             default:
@@ -186,11 +179,11 @@ export default function PdfSummarizer() {
                         <TabsList className="grid w-full grid-cols-2">
                             <TabsTrigger value="file">
                                 <FileUp className="mr-2 h-4 w-4"/>
-                                Unggah File
+                                Upload File
                             </TabsTrigger>
                             <TabsTrigger value="url">
                                 <LinkIcon className="mr-2 h-4 w-4"/>
-                                Dari URL
+                                From URL
                             </TabsTrigger>
                         </TabsList>
                         <TabsContent value="file" className="h-[322px] pt-4">
@@ -207,7 +200,7 @@ export default function PdfSummarizer() {
                                                 <span className="font-normal">{fileName}</span>
                                              </Badge>
                                             <Loader className="h-8 w-8 animate-spin text-primary mt-2" />
-                                            <p className="text-sm text-muted-foreground">Meringkas...</p>
+                                            <p className="text-sm text-muted-foreground">Summarizing...</p>
                                         </div>
                                     )}
                                     {status === 'uploading' && (
@@ -218,7 +211,7 @@ export default function PdfSummarizer() {
                                                     {Math.round(uploadProgress)}%
                                                 </div>
                                             </div>
-                                            <p className="text-sm text-muted-foreground mt-2">Mengunggah {fileName}...</p>
+                                            <p className="text-sm text-muted-foreground mt-2">Uploading {fileName}...</p>
                                         </div>
                                     )}
                                     {status === 'selected' && fileName && inputMode === 'file' && (
@@ -237,16 +230,16 @@ export default function PdfSummarizer() {
                                             <div className="rounded-full bg-gray-200 p-3 group-hover:bg-primary/20 dark:bg-muted dark:group-hover:bg-primary/20">
                                                 <FileUp className="h-8 w-8 text-gray-500 group-hover:text-primary dark:text-muted-foreground" />
                                             </div>
-                                            <p className="mt-4 font-semibold text-foreground">Seret dan lepas file di sini</p>
-                                            <p className="text-sm text-muted-foreground my-2">atau</p>
+                                            <p className="mt-4 font-semibold text-foreground">Drag and drop file here</p>
+                                            <p className="text-sm text-muted-foreground my-2">or</p>
                                             <Button
                                               variant="ghost"
                                               onClick={() => fileInputRef.current?.click()}
                                               className="group-hover:bg-primary group-hover:text-primary-foreground bg-gray-200 dark:bg-muted border-0"
                                             >
-                                              Pilih File
+                                              Choose File
                                             </Button>
-                                            <p className="text-xs text-muted-foreground mt-4">File PDF hingga 25MB</p>
+                                            <p className="text-xs text-muted-foreground mt-4">PDF files up to 25MB</p>
                                         </>
                                     )}
                                     <input
@@ -266,15 +259,15 @@ export default function PdfSummarizer() {
                                 {status === 'loading' ? (
                                     <div className="flex flex-col items-center gap-4">
                                         <Loader className="h-8 w-8 animate-spin text-primary" />
-                                        <p className="text-sm text-muted-foreground mt-2">Meringkas...</p>
+                                        <p className="text-sm text-muted-foreground mt-2">Summarizing...</p>
                                     </div>
                                 ) : (
                                     <>
                                         <div className="rounded-full bg-gray-200 p-3 dark:bg-muted">
                                             <LinkIcon className="h-8 w-8 text-gray-500 dark:text-muted-foreground" />
                                         </div>
-                                        <p className="mt-4 font-semibold text-foreground">Masukkan URL PDF</p>
-                                        <p className="text-sm text-muted-foreground my-2">Tempel tautan ke PDF untuk diringkas.</p>
+                                        <p className="mt-4 font-semibold text-foreground">Enter PDF URL</p>
+                                        <p className="text-sm text-muted-foreground my-2">Paste a link to a PDF to summarize it.</p>
                                         <Input 
                                             type="url"
                                             placeholder="https://example.com/document.pdf"
@@ -296,22 +289,22 @@ export default function PdfSummarizer() {
     return (
         <Card className="w-full max-w-lg shadow-sm rounded-xl border-0">
             <CardHeader className="text-center">
-                <CardTitle className="font-headline text-2xl">Ringkas PDF</CardTitle>
-                <CardDescription>Unggah dokumen PDF untuk mendapatkan ringkasan singkat.</CardDescription>
+                <CardTitle className="font-headline text-2xl">Summarize PDF</CardTitle>
+                <CardDescription>Upload a PDF document to get a concise summary.</CardDescription>
             </CardHeader>
             <CardContent className="p-6 pt-0 min-h-[354px] flex items-center">
                 {renderContent()}
             </CardContent>
             <CardFooter className="flex flex-col w-full">
                 {status === 'success' ? (
-                     <Button onClick={() => resetState(true)} variant="outline" className="w-full">Ringkas PDF Lain</Button>
+                     <Button onClick={() => resetState(true)} variant="outline" className="w-full">Summarize Another PDF</Button>
                 ) : (
                     <Button
                       onClick={startAnalysis}
                       disabled={status === 'loading' || status === 'uploading' || (inputMode === 'file' && status !== 'selected') || (inputMode === 'url' && !pdfUrl)}
                       className="w-full"
                     >
-                      Ringkas
+                      Summarize
                     </Button>
                 )}
             </CardFooter>

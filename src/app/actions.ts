@@ -11,25 +11,25 @@ async function fetchAndConvertToDataURI(url: string): Promise<string> {
     try {
         const response = await fetch(url);
         if (!response.ok) {
-            throw new Error(`Gagal mengambil PDF dari URL: ${response.statusText}`);
+            throw new Error(`Failed to fetch PDF from URL: ${response.statusText}`);
         }
         const contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/pdf')) {
-            throw new Error('URL tidak menunjuk ke file PDF yang valid.');
+            throw new Error('The URL does not point to a valid PDF file.');
         }
         const arrayBuffer = await response.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
         return `data:application/pdf;base64,${buffer.toString('base64')}`;
     } catch (error) {
-        console.error("Kesalahan saat mengambil URL:", error);
-        throw new Error("Tidak dapat mengambil atau memproses URL PDF.");
+        console.error("Error fetching URL:", error);
+        throw new Error("Could not fetch or process the PDF URL.");
     }
 }
 
 
 export async function getSummary(uri: string): Promise<AnalysisResult> {
     if (!uri) {
-        throw new Error("URI PDF diperlukan.");
+        throw new Error("PDF URI is required.");
     }
 
     let pdfDataUri: string;
@@ -39,7 +39,7 @@ export async function getSummary(uri: string): Promise<AnalysisResult> {
         try {
             pdfDataUri = await fetchAndConvertToDataURI(url);
         } catch (error: any) {
-             return { summary: `Gagal memproses URL: ${error.message}` };
+             return { summary: `Failed to process URL: ${error.message}` };
         }
     } else {
         pdfDataUri = uri;
@@ -49,7 +49,7 @@ export async function getSummary(uri: string): Promise<AnalysisResult> {
     const result = await summarizePdf({ pdfDataUri });
 
     if (!result.summary) {
-        return { summary: "Tidak dapat menghasilkan ringkasan." };
+        return { summary: "Could not generate summary." };
     }
     
     return { summary: result.summary };
