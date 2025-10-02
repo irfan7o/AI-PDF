@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
-import { FileUp, Loader, AlertCircle, File, FileText, X, Link as LinkIcon } from 'lucide-react';
+import { FileUp, Loader, AlertCircle, File, FileText, Trash2, Link as LinkIcon } from 'lucide-react';
 import { getSummary, AnalysisResult } from '@/app/actions';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -225,7 +225,7 @@ export default function PdfSummarizer() {
                                                 <File className="h-4 w-4"/>
                                                 <span className="font-normal">{fileName}</span>
                                                  <button onClick={removeFile} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-0.5 hover:bg-red-600 z-10">
-                                                    <X className="h-3 w-3" />
+                                                    <Trash2 className="h-3 w-3" />
                                                 </button>
                                             </Badge>
                                         </div>
@@ -240,7 +240,7 @@ export default function PdfSummarizer() {
                                             <Button
                                               variant="ghost"
                                               onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click(); }}
-                                              className="group-hover:bg-primary group-hover:text-primary-foreground bg-gray-200 dark:bg-muted border-0"
+                                              className="group-hover:bg-primary group-hover:text-primary-foreground bg-gray-200 dark:bg-muted"
                                             >
                                               Choose File
                                             </Button>
