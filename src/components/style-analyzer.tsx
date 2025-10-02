@@ -177,11 +177,11 @@ export default function PdfSummarizer() {
                 return (
                     <Tabs defaultValue="file" onValueChange={(value) => setInputMode(value as InputMode)} className="w-full">
                         <TabsList className="grid w-full grid-cols-2">
-                            <TabsTrigger value="file" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                            <TabsTrigger value="file">
                                 <FileUp className="mr-2 h-4 w-4"/>
                                 Upload File
                             </TabsTrigger>
-                            <TabsTrigger value="url" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                            <TabsTrigger value="url">
                                 <LinkIcon className="mr-2 h-4 w-4"/>
                                 From URL
                             </TabsTrigger>
@@ -220,11 +220,11 @@ export default function PdfSummarizer() {
                                         </div>
                                     )}
                                     {status === 'selected' && fileName && inputMode === 'file' && (
-                                        <div className="flex flex-col items-center justify-center gap-4">
-                                            <Badge variant="secondary" className="flex items-center gap-2 p-2 px-4 rounded-lg">
+                                        <div className="flex flex-col items-center justify-center gap-2">
+                                            <div className="flex items-center gap-2 p-2 px-4 rounded-lg bg-secondary">
                                                 <File className="h-4 w-4"/>
                                                 <span className="font-normal max-w-[200px] truncate">{fileName}</span>
-                                            </Badge>
+                                            </div>
                                             <Button onClick={removeFile} variant="ghost" size="icon" className="text-red-500 hover:bg-red-500/10 hover:text-red-600 rounded-full mt-2">
                                                 <Trash2 className="h-5 w-5" />
                                             </Button>
@@ -316,9 +316,3 @@ export default function PdfSummarizer() {
         </Card>
     );
 }
-
-    
-
-    
-
-    
