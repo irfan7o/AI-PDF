@@ -190,6 +190,7 @@ export default function PdfSummarizer() {
                              <div 
                                 onDrop={handleDrop}
                                 onDragOver={(e) => e.preventDefault()}
+                                onClick={() => fileInputRef.current?.click()}
                                 className="relative w-full h-full cursor-pointer transition-colors"
                             >
                                 <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center transition-colors group hover:border-primary hover:bg-primary/10 dark:bg-card dark:border-gray-600 dark:hover:border-primary dark:hover:bg-primary/10">
@@ -234,7 +235,7 @@ export default function PdfSummarizer() {
                                             <p className="text-sm text-muted-foreground my-2">or</p>
                                             <Button
                                               variant="ghost"
-                                              onClick={() => fileInputRef.current?.click()}
+                                              onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click(); }}
                                               className="group-hover:bg-primary group-hover:text-primary-foreground bg-gray-200 dark:bg-muted border-0"
                                             >
                                               Choose File
