@@ -221,15 +221,13 @@ export default function PdfSummarizer() {
                                     )}
                                     {status === 'selected' && fileName && inputMode === 'file' && (
                                         <div className="flex flex-col items-center justify-center gap-4">
-                                            <div className="flex items-center gap-2">
-                                                <Badge className="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
-                                                    <File className="h-4 w-4"/>
-                                                    <span className="font-normal max-w-[200px] truncate">{fileName}</span>
-                                                </Badge>
-                                                <Button onClick={removeFile} variant="ghost" size="icon" className="text-red-500 hover:bg-red-500/10 hover:text-red-600">
-                                                    <Trash2 className="h-5 w-5" />
-                                                </Button>
-                                            </div>
+                                            <Badge variant="secondary" className="flex items-center gap-2 p-2 px-4 rounded-lg">
+                                                <File className="h-4 w-4"/>
+                                                <span className="font-normal max-w-[200px] truncate">{fileName}</span>
+                                            </Badge>
+                                            <Button onClick={removeFile} variant="ghost" size="icon" className="text-red-500 hover:bg-red-500/10 hover:text-red-600 rounded-full mt-2">
+                                                <Trash2 className="h-5 w-5" />
+                                            </Button>
                                         </div>
                                     )}
                                     {(status === 'idle' || (status === 'selected' && inputMode !== 'file')) && (
@@ -318,6 +316,8 @@ export default function PdfSummarizer() {
         </Card>
     );
 }
+
+    
 
     
 
