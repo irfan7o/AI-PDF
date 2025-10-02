@@ -146,40 +146,29 @@ export default function PdfSummarizer() {
     const FileUploadArea = () => (
         <div 
             onDrop={handleDrop}
-            onDragOver={(e) => {
-                if (status === 'idle') {
-                    e.preventDefault();
-                }
-            }}
-            className={`relative w-full h-full transition-colors ${status === 'idle' ? 'cursor-pointer' : 'cursor-default'}`}
-            onClick={() => {
-                if (status === 'idle') {
-                    fileInputRef.current?.click()
-                }
-            }}
+            onDragOver={(e) => { e.preventDefault(); }}
+            onClick={() => fileInputRef.current?.click()}
+            className="group relative flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center transition-colors hover:border-primary hover:bg-primary/10 dark:border-gray-600 dark:bg-card dark:hover:border-primary dark:hover:bg-primary/10"
         >
-            <div className={`flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed bg-gray-50 p-12 text-center transition-colors group dark:bg-card dark:border-gray-600 ${status === 'idle' ? 'border-gray-300 hover:border-primary hover:bg-primary/10 dark:hover:border-primary dark:hover:bg-primary/10' : 'border-gray-300'}`}>
-                <div className="rounded-full bg-gray-200 p-3 group-hover:bg-primary/20 dark:bg-muted dark:group-hover:bg-primary/20">
-                    <FileUp className="h-8 w-8 text-gray-500 group-hover:text-primary dark:text-muted-foreground" />
-                </div>
-                <p className="mt-4 font-semibold text-foreground">Drag and drop file here</p>
-                <p className="text-sm text-muted-foreground my-2">or</p>
-                <Button
-                  variant="ghost"
-                  className="group-hover:bg-primary group-hover:text-primary-foreground bg-gray-200 dark:bg-muted"
-                >
-                  Choose File
-                </Button>
-                <p className="text-xs text-muted-foreground mt-4">PDF files up to 25MB</p>
+            <div className="rounded-full bg-gray-200 p-3 transition-colors group-hover:bg-primary/20 dark:bg-muted dark:group-hover:bg-primary/20">
+                <FileUp className="h-8 w-8 text-gray-500 transition-colors group-hover:text-primary dark:text-muted-foreground" />
             </div>
+            <p className="mt-4 font-semibold text-foreground">Drag and drop file here</p>
+            <p className="my-2 text-sm text-muted-foreground">or</p>
+            <Button
+              variant="ghost"
+              className="bg-gray-200 transition-colors group-hover:bg-primary group-hover:text-primary-foreground dark:bg-muted"
+            >
+              Choose File
+            </Button>
+            <p className="mt-4 text-xs text-muted-foreground">PDF files up to 25MB</p>
             <input
                 ref={fileInputRef}
                 id="file-upload"
                 type="file"
-                className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                className="hidden"
                 onChange={handleFileChange}
                 accept="application/pdf"
-                disabled={status !== 'idle'}
             />
         </div>
     );
@@ -224,41 +213,37 @@ export default function PdfSummarizer() {
                         </TabsList>
                         <TabsContent value="file" className="h-[322px] pt-4">
                              <div className="relative w-full h-full">
-                                <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center transition-colors dark:bg-card dark:border-gray-600">
-                                    {status === 'loading' && (
-                                        <div className="flex flex-col items-center gap-4">
-                                             <Badge className="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
-                                                <File className="h-4 w-4"/>
-                                                <span className="font-normal">{fileName}</span>
-                                             </Badge>
-                                            <Loader className="h-8 w-8 animate-spin text-primary mt-2" />
-                                            <p className="text-sm text-muted-foreground">Summarizing...</p>
-                                        </div>
-                                    )}
-                                    {status === 'uploading' && (
-                                        <div className="flex flex-col items-center gap-4">
-                                            <div className="relative h-20 w-20">
-                                                <Progress value={uploadProgress} asCircle={true} />
-                                                <div className="absolute inset-0 flex items-center justify-center text-sm font-bold text-primary">
-                                                    {Math.round(uploadProgress)}%
-                                                </div>
+                                {status === 'loading' && (
+                                    <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center dark:border-gray-600 dark:bg-card">
+                                        <Badge className="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
+                                            <File className="h-4 w-4"/>
+                                            <span className="font-normal">{fileName}</span>
+                                        </Badge>
+                                        <Loader className="h-8 w-8 animate-spin text-primary mt-2" />
+                                        <p className="text-sm text-muted-foreground">Summarizing...</p>
+                                    </div>
+                                )}
+                                {status === 'uploading' && (
+                                    <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center dark:border-gray-600 dark:bg-card">
+                                        <div className="relative h-20 w-20">
+                                            <Progress value={uploadProgress} asCircle={true} />
+                                            <div className="absolute inset-0 flex items-center justify-center text-sm font-bold text-primary">
+                                                {Math.round(uploadProgress)}%
                                             </div>
-                                            <p className="text-sm text-muted-foreground mt-2">Uploading {fileName}...</p>
                                         </div>
-                                    )}
-                                    {status === 'selected' && fileName && inputMode === 'file' && (
-                                        <div className="flex flex-col items-center justify-center gap-2">
-                                            <div className="flex items-center gap-2 p-2 px-4 rounded-lg bg-secondary">
-                                                <File className="h-4 w-4"/>
-                                                <span className="font-normal max-w-[200px] truncate">{fileName}</span>
-                                            </div>
-                                            <Button onClick={() => resetState(true)} variant="ghost" size="icon" className="text-red-500 hover:bg-red-500/10 hover:text-red-600 rounded-full mt-2">
-                                                <Trash2 className="h-5 w-5" />
-                                            </Button>
-                                        </div>
-                                    )}
-                                    {status === 'idle' && inputMode === 'file' && <FileUploadArea />}
-                                </div>
+                                        <p className="text-sm text-muted-foreground mt-2">Uploading {fileName}...</p>
+                                    </div>
+                                )}
+                                {status === 'selected' && fileName && inputMode === 'file' && (
+                                    <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center dark:border-gray-600 dark:bg-card">
+                                        <File className="h-12 w-12 text-gray-400" />
+                                        <p className="font-semibold mt-4 max-w-[200px] truncate">{fileName}</p>
+                                        <Button onClick={() => resetState(true)} variant="ghost" size="icon" className="text-red-500 hover:bg-red-500/10 hover:text-red-600 rounded-full mt-2">
+                                            <Trash2 className="h-5 w-5" />
+                                        </Button>
+                                    </div>
+                                )}
+                                {status === 'idle' && inputMode === 'file' && <FileUploadArea />}
                             </div>
                         </TabsContent>
                         <TabsContent value="url" className="h-[322px] pt-4">
