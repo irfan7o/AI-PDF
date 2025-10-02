@@ -196,6 +196,11 @@ export default function PdfSummarizer() {
                                     }
                                 }}
                                 className={`relative w-full h-full transition-colors ${status === 'idle' ? 'cursor-pointer' : 'cursor-default'}`}
+                                onClick={() => {
+                                    if (status === 'idle') {
+                                        fileInputRef.current?.click()
+                                    }
+                                }}
                             >
                                 <div className={`flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed  bg-gray-50 p-12 text-center transition-colors group dark:bg-card dark:border-gray-600 ${status === 'idle' ? 'border-gray-300 hover:border-primary hover:bg-primary/10 dark:hover:border-primary dark:hover:bg-primary/10' : 'border-gray-300'}`}>
                                     {status === 'loading' && (
@@ -232,20 +237,14 @@ export default function PdfSummarizer() {
                                     )}
                                     {(status === 'idle' || (status === 'selected' && inputMode !== 'file')) && (
                                         <>
-                                            <div className="rounded-full bg-gray-200 p-3 group-hover:bg-primary/20 dark:bg-muted dark:group-hover:bg-primary/20"
-                                                onClick={() => {
-                                                    if (status !== 'selected' && status !== 'loading' && status !== 'uploading') {
-                                                        fileInputRef.current?.click()
-                                                    }
-                                                }}
-                                            >
+                                            <div className="rounded-full bg-gray-200 p-3 group-hover:bg-primary/20 dark:bg-muted dark:group-hover:bg-primary/20">
                                                 <FileUp className="h-8 w-8 text-gray-500 group-hover:text-primary dark:text-muted-foreground" />
                                             </div>
                                             <p className="mt-4 font-semibold text-foreground">Drag and drop file here</p>
                                             <p className="text-sm text-muted-foreground my-2">or</p>
                                             <Button
                                               variant="ghost"
-                                              onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click(); }}
+                                              onClick={(e) => { e.stopPropagation(); if (status === 'idle') {fileInputRef.current?.click()}; }}
                                               className="group-hover:bg-primary group-hover:text-primary-foreground bg-gray-200 dark:bg-muted"
                                             >
                                               Choose File
@@ -260,7 +259,7 @@ export default function PdfSummarizer() {
                                         className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
                                         onChange={handleFileChange}
                                         accept="application/pdf"
-                                        disabled={status === 'loading' || status === 'uploading' || status === 'selected'}
+                                        disabled={status !== 'idle'}
                                     />
                                 </div>
                             </div>
