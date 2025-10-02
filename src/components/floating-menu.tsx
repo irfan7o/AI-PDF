@@ -9,6 +9,8 @@ const menuItems = [
   { name: 'Chat PDF', active: false },
   { name: 'PDF to Audio', active: false },
   { name: 'PDF Translator', active: false },
+  { name: 'Image to PDF', active: false },
+  { name: 'PDF to Image', active: false },
 ];
 
 export default function FloatingMenu() {
@@ -21,7 +23,7 @@ export default function FloatingMenu() {
               <Button
                 key={item.name}
                 variant={item.active ? 'default' : 'ghost'}
-                className="rounded-full"
+                className="rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
                 size="sm"
               >
                 {item.name}
