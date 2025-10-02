@@ -190,7 +190,11 @@ export default function PdfSummarizer() {
                              <div 
                                 onDrop={handleDrop}
                                 onDragOver={(e) => e.preventDefault()}
-                                onClick={() => fileInputRef.current?.click()}
+                                onClick={() => {
+                                    if (status !== 'selected' && status !== 'loading' && status !== 'uploading') {
+                                        fileInputRef.current?.click()
+                                    }
+                                }}
                                 className="relative w-full h-full cursor-pointer transition-colors"
                             >
                                 <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center transition-colors group hover:border-primary hover:bg-primary/10 dark:bg-card dark:border-gray-600 dark:hover:border-primary dark:hover:bg-primary/10">
@@ -220,7 +224,7 @@ export default function PdfSummarizer() {
                                             <Badge className="relative flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
                                                 <File className="h-4 w-4"/>
                                                 <span className="font-normal">{fileName}</span>
-                                                 <button onClick={removeFile} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-0.5 hover:bg-red-600">
+                                                 <button onClick={removeFile} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-0.5 hover:bg-red-600 z-10">
                                                     <X className="h-3 w-3" />
                                                 </button>
                                             </Badge>
@@ -312,3 +316,5 @@ export default function PdfSummarizer() {
         </Card>
     );
 }
+
+    
