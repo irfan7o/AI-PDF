@@ -122,12 +122,12 @@ export default function ChatPdf() {
 
     if (status !== 'idle' && file && fileUrl) {
         return (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-6xl h-[calc(100vh-15rem)]">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-6xl h-[calc(100vh-18rem)]">
                 <Card className="flex flex-col">
-                    <CardHeader className='flex-row items-center justify-between'>
-                        <CardTitle className='text-lg font-medium truncate'>{file.name}</CardTitle>
-                        <Button onClick={resetState} variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10 hover:text-destructive rounded-full">
-                           <Trash2 className="h-5 w-5"/>
+                    <CardHeader className='flex-row items-center justify-between p-3 border-b'>
+                        <CardTitle className='text-sm font-medium truncate'>{file.name}</CardTitle>
+                        <Button onClick={resetState} variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10 hover:text-destructive rounded-full h-8 w-8">
+                           <Trash2 className="h-4 w-4"/>
                         </Button>
                     </CardHeader>
                     <CardContent className="flex-grow p-0">
@@ -231,3 +231,5 @@ export default function ChatPdf() {
         </Card>
     );
 }
+
+    
