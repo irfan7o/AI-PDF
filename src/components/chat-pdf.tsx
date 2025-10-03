@@ -122,7 +122,7 @@ export default function ChatPdf() {
 
     if (status !== 'idle' && file && fileUrl) {
         return (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-6xl h-[calc(100vh-10rem)]">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-6xl h-[calc(100vh-15rem)]">
                 <Card className="flex flex-col">
                     <CardHeader className='flex-row items-center justify-between'>
                         <CardTitle className='text-lg font-medium truncate'>{file.name}</CardTitle>
