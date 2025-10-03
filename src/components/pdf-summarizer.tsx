@@ -1,0 +1,252 @@
+
+"use client";
+
+import { useState, useRef, ChangeEvent, DragEvent } from 'react';
+import { FileUp, Loader, AlertCircle, Trash2, FileText } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { useToast } from '@/hooks/use-toast';
+import { Input } from '@/components/ui/input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useTranslation } from '@/contexts/translation-context';
+import { getSummary, AnalysisResult } from '@/app/actions';
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+    DialogClose,
+} from '@/components/ui/dialog';
+import { ScrollArea } from './ui/scroll-area';
+
+type Status = 'idle' | 'uploading' | 'selected' | 'loading' | 'error' | 'success';
+
+export default function PdfSummarizer() {
+    const { t } = useTranslation();
+    const [status, setStatus] = useState<Status>('idle');
+    const [dataUri, setDataUri] = useState<string | null>(null);
+    const [fileName, setFileName] = useState<string | null>(null);
+    const [fileSize, setFileSize] = useState<number | null>(null);
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [url, setUrl] = useState('');
+    const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
+    const { toast } = useToast();
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const resetState = () => {
+        setStatus('idle');
+        setDataUri(null);
+        setFileName(null);
+        setFileSize(null);
+        setUrl('');
+        setAnalysisResult(null);
+        setUploadProgress(0);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+        }
+    };
+
+    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) processFile(file);
+    };
+
+    const handleDrop = (event: DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const file = event.dataTransfer.files?.[0];
+        if (file) processFile(file);
+    };
+
+    const processFile = (file: File) => {
+        if (file.type !== 'application/pdf') {
+            toast({ variant: 'destructive', title: t('toast', 'invalidFileType'), description: t('toast', 'invalidFileTypeDesc') });
+            return;
+        }
+        setFileName(file.name);
+        setFileSize(file.size);
+        setStatus('uploading');
+        const reader = new FileReader();
+        reader.onprogress = (event) => {
+            if (event.lengthComputable) {
+                setUploadProgress((event.loaded / event.total) * 100);
+            }
+        };
+        reader.onloadend = () => {
+            setDataUri(reader.result as string);
+            setStatus('selected');
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const handleSummarize = async () => {
+        let uriToSummarize = dataUri;
+
+        if (url) {
+            try {
+                new URL(url);
+            } catch (_) {
+                toast({ variant: 'destructive', title: t('toast', 'invalidUrl'), description: t('toast', 'invalidUrlDesc') });
+                return;
+            }
+            uriToSummarize = `url:${url}`;
+        }
+
+        if (!uriToSummarize) {
+            toast({ variant: 'destructive', title: t('toast', 'urlRequired'), description: t('toast', 'urlRequiredDesc') });
+            return;
+        }
+
+        setStatus('loading');
+        try {
+            const result = await getSummary(uriToSummarize);
+            if (result.summary === 'Could not generate summary.' || result.summary.startsWith('Failed to process URL:')) {
+                 setStatus('error');
+            } else {
+                setAnalysisResult(result);
+                setStatus('success');
+            }
+        } catch (error) {
+            console.error(error);
+            setStatus('error');
+            toast({ variant: 'destructive', title: t('toast', 'analysisFailed'), description: t('toast', 'analysisFailedDesc') });
+        }
+    };
+
+    const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
+    };
+
+    const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
+    };
+
+    const formatFileSize = (bytes: number | null) => {
+        if (bytes === null) return '';
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    };
+
+    return (
+        <Card className="w-full max-w-lg shadow-sm rounded-xl">
+            <CardHeader className="text-center">
+                <CardTitle className="font-headline text-2xl">{t('main', 'title')}</CardTitle>
+                <CardDescription>{t('main', 'description')}</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <Tabs defaultValue="uploadFile">
+                    <TabsList className="grid w-full grid-cols-2">
+                        <TabsTrigger value="uploadFile">{t('tabs', 'uploadFile')}</TabsTrigger>
+                        <TabsTrigger value="fromUrl">{t('tabs', 'fromUrl')}</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="uploadFile">
+                        <div
+                            onDrop={handleDrop}
+                            onDragOver={handleDragOver}
+                            onDragLeave={handleDragLeave}
+                            onClick={() => fileInputRef.current?.click()}
+                            className="w-full min-h-[200px] mt-4 rounded-lg border-2 border-dashed p-12 text-center transition-colors flex items-center justify-center cursor-pointer hover:border-primary hover:bg-primary/10"
+                        >
+                            {status === 'idle' && (
+                                <div className="flex flex-col items-center justify-center h-full">
+                                    <div className="rounded-full p-3 bg-gray-200 dark:bg-muted">
+                                        <FileUp className="h-8 w-8 text-gray-500 dark:text-muted-foreground" />
+                                    </div>
+                                    <p className="mt-4 font-semibold text-foreground">{t('uploadArea', 'dragAndDrop')}</p>
+                                    <p className="my-2 text-sm text-muted-foreground">{t('uploadArea', 'or')}</p>
+                                    <Button variant="ghost">{t('uploadArea', 'chooseFile')}</Button>
+                                </div>
+                            )}
+                            {status === 'uploading' && (
+                                <div className="flex h-full w-full flex-col items-center justify-center">
+                                    <Loader className="h-12 w-12 animate-spin text-primary" />
+                                    <p className="text-sm text-muted-foreground mt-4">{t('status', 'uploading')} {Math.round(uploadProgress)}%</p>
+                                </div>
+                            )}
+                            {(status === 'selected' || status === 'loading') && fileName && (
+                                <div className="text-center">
+                                    <FileText className="h-12 w-12 mx-auto text-primary" />
+                                    <p className="font-semibold mt-4">{fileName}</p>
+                                    <p className="text-sm text-muted-foreground">
+                                        {formatFileSize(fileSize)}
+                                        {analysisResult?.pageCount && ` - ${analysisResult.pageCount} ${t('fileInfo', 'pages')}`}
+                                    </p>
+                                </div>
+                            )}
+                            {status === 'error' && (
+                                <div className="text-center p-4 rounded-lg h-full flex flex-col justify-center">
+                                    <div className="flex justify-center">
+                                        <AlertCircle className="h-8 w-8 text-destructive" />
+                                    </div>
+                                    <h2 className="mt-2 text-lg font-semibold text-destructive">{t('status', 'errorTitle')}</h2>
+                                    <p className="mt-1 text-sm text-muted-foreground">{t('status', 'errorDescription')}</p>
+                                    <Button variant="outline" onClick={resetState} className="mt-4">{t('buttons', 'tryAgain')}</Button>
+                                </div>
+                            )}
+                        </div>
+                        <input
+                            ref={fileInputRef}
+                            id="file-upload"
+                            type="file"
+                            className="hidden"
+                            onChange={handleFileChange}
+                            accept="application/pdf"
+                        />
+                    </TabsContent>
+                    <TabsContent value="fromUrl">
+                        <div className="p-4 text-center">
+                            <h3 className="text-lg font-semibold">{t('urlInput', 'title')}</h3>
+                            <p className="text-sm text-muted-foreground mt-1">{t('urlInput', 'description')}</p>
+                            <Input
+                                type="url"
+                                placeholder="https://example.com/document.pdf"
+                                value={url}
+                                onChange={(e) => { setUrl(e.target.value); if(dataUri) { setDataUri(null); setFileName(null); } }}
+                                className="mt-4"
+                            />
+                        </div>
+                    </TabsContent>
+                </Tabs>
+                <div className="flex justify-end gap-2 mt-4">
+                     {(status === 'selected' || status === 'loading') && (
+                        <Button variant="ghost" size="icon" onClick={resetState} disabled={status === 'loading'}>
+                           {status === 'loading' ? <Loader className="animate-spin h-5 w-5" /> : <Trash2 className="h-5 w-5" />}
+                        </Button>
+                    )}
+                    <Button onClick={handleSummarize} disabled={(!dataUri && !url) || status === 'loading'}>
+                        {status === 'loading' ? <Loader className="animate-spin" /> : t('buttons', 'summarize')}
+                    </Button>
+                </div>
+            </CardContent>
+
+            <Dialog open={status === 'success'} onOpenChange={(open) => !open && resetState()}>
+                <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                        <DialogTitle>{t('dialog', 'summaryFor')} <span className="font-mono">{fileName || (url ? new URL(url).pathname.split('/').pop() : '')}</span></DialogTitle>
+                        <DialogDescription>{t('dialog', 'summaryDescription')}</DialogDescription>
+                    </DialogHeader>
+                    {analysisResult && (
+                        <>
+                            <ScrollArea className="max-h-[50vh] my-4 pr-6">
+                                <p className="text-sm">{analysisResult.summary}</p>
+                            </ScrollArea>
+                            <div className="text-sm text-muted-foreground">
+                                {analysisResult.pageCount} {t('fileInfo', 'pages')}
+                            </div>
+                        </>
+                    )}
+                    <DialogClose asChild>
+                        <Button type="button" onClick={resetState}>{t('buttons', 'summarizeAnother')}</Button>
+                    </DialogClose>
+                </DialogContent>
+            </Dialog>
+
+        </Card>
+    );
+}

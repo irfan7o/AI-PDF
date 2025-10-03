@@ -6,20 +6,34 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { MoreHorizontal, FileText, MessageSquare, Music, Languages, FileImage, Image } from 'lucide-react';
 import { useTranslation } from '@/contexts/translation-context';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
-const menuItems = [
-  { name: 'pdfSummarizer', active: true, icon: <FileText/> },
-  { name: 'chatPdf', active: false, icon: <MessageSquare/> },
-  { name: 'pdfToAudio', active: false, icon: <Music/> },
-  { name: 'pdfTranslator', active: false, icon: <Languages/> },
-  { name: 'imageToPdf', active: false, icon: <FileImage/> },
-  { name: 'pdfToImage', active: false, icon: <Image/> },
+type MenuItem = {
+  name: 'pdfSummarizer' | 'chatPdf' | 'pdfToAudio' | 'pdfTranslator' | 'imageToPdf' | 'pdfToImage';
+  href: string;
+  icon: JSX.Element;
+  active: boolean; // Keep for dialog
+};
+
+
+const allMenuItems: MenuItem[] = [
+    { name: 'pdfSummarizer', href: '/', icon: <FileText/>, active: false },
+    { name: 'chatPdf', href: '/chat-pdf', icon: <MessageSquare/>, active: false },
+    { name: 'pdfToAudio', href: '#', icon: <Music/>, active: false },
+    { name: 'pdfTranslator', href: '#', icon: <Languages/>, active: false },
+    { name: 'imageToPdf', href: '#', 'icon': <FileImage/>, active: false },
+    { name: 'pdfToImage', href: '#', 'icon': <Image/>, active: false },
 ];
 
-const visibleMenuItems = menuItems.slice(0, 3);
-
-export default function FloatingMenu() {
+export default function FloatingMenu({ activeFeature }: { activeFeature?: string }) {
   const { t } = useTranslation();
+  const pathname = usePathname();
+
+  const menuItems = allMenuItems.map(item => ({...item, active: item.href === pathname}));
+  const visibleMenuItems = menuItems.slice(0, 3);
+
+
   return (
     <Dialog>
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
@@ -29,11 +43,12 @@ export default function FloatingMenu() {
               {visibleMenuItems.map((item) => (
                 <Button
                   key={item.name}
-                  variant={item.active ? 'default' : 'ghost'}
+                  variant={item.href === pathname ? 'default' : 'ghost'}
                   className="rounded-full"
                   size="sm"
+                  asChild
                 >
-                  {t('floatingMenu', item.name as any)}
+                  <Link href={item.href}>{t('floatingMenu', item.name as any)}</Link>
                 </Button>
               ))}
             </div>
@@ -57,11 +72,14 @@ export default function FloatingMenu() {
           {menuItems.map(item => (
             <Button
                 key={item.name}
-                variant={item.active ? 'default' : 'outline'}
-                className="w-full justify-start"
+                variant={item.href === pathname ? 'default' : 'outline'}
+                className="w-full justify-start gap-2"
+                asChild
               >
-                {item.icon}
-                <span>{t('floatingMenu', item.name as any)}</span>
+                <Link href={item.href}>
+                    {item.icon}
+                    <span>{t('floatingMenu', item.name as any)}</span>
+                </Link>
               </Button>
           ))}
         </div>
