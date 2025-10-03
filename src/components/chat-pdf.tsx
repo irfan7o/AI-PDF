@@ -73,17 +73,17 @@ export default function ChatPdf() {
         resetState();
         setStatus('uploading');
 
-        const reader = new FileReader();
-        reader.onprogress = (event) => {
-            if (event.lengthComputable) {
-                setUploadProgress((event.loaded / eventToProcess.total) * 100);
+        // Simulate upload for immediate UI feedback
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += 10;
+            setUploadProgress(progress);
+            if (progress >= 100) {
+                clearInterval(interval);
+                setFile(fileToProcess);
+                setStatus('selected');
             }
-        };
-        reader.onloadend = () => {
-            setFile(fileToProcess);
-            setStatus('selected');
-        };
-        reader.readAsDataURL(fileToProcess);
+        }, 50);
     };
 
     const handleSendMessage = async (e: React.FormEvent) => {
