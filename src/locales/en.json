@@ -1,0 +1,59 @@
+
+{
+  "main": {
+    "title": "Summarize PDF",
+    "description": "Upload a PDF document to get a concise summary."
+  },
+  "uploadArea": {
+    "dragAndDrop": "Drag and drop file here",
+    "or": "or",
+    "chooseFile": "Choose File",
+    "fileSizeLimit": "PDF files up to 25MB"
+  },
+  "status": {
+    "uploading": "Uploading",
+    "errorTitle": "Oops! An error occurred.",
+    "errorDescription": "We couldn't analyze your document. Please try again with another one."
+  },
+  "fileInfo": {
+    "pages": "pages"
+  },
+  "buttons": {
+    "summarize": "Summarize",
+    "tryAgain": "Try Again",
+    "close": "Close",
+    "summarizeAnother": "Summarize Another"
+  },
+  "tabs": {
+    "uploadFile": "Upload File",
+    "fromUrl": "From URL"
+  },
+  "urlInput": {
+    "title": "Enter PDF URL",
+    "description": "Paste a link to a PDF to summarize it."
+  },
+  "dialog": {
+    "summaryFor": "Summary for",
+    "summaryDescription": "Here is a concise summary of your document.",
+    "allFeatures": "All Features",
+    "selectFeature": "Select a feature to get started."
+  },
+  "floatingMenu": {
+    "pdfSummarizer": "PDF Summarizer",
+    "chatPdf": "Chat PDF",
+    "pdfToAudio": "PDF to Audio",
+    "pdfTranslator": "PDF Translator",
+    "imageToPdf": "Image to PDF",
+    "pdfToImage": "PDF to Image"
+  },
+  "toast": {
+    "invalidFileType": "Invalid File Type",
+    "invalidFileTypeDesc": "Please upload a PDF file.",
+    "urlRequired": "URL Required",
+    "urlRequiredDesc": "Please enter a PDF URL.",
+    "invalidUrl": "Invalid URL",
+    "invalidUrlDesc": "Please enter a valid URL.",
+    "analysisFailed": "Analysis Failed",
+    "analysisFailedDesc": "An error occurred while summarizing your PDF. Please try again."
+  }
+}

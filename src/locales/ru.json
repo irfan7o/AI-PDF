@@ -1,0 +1,59 @@
+
+{
+  "main": {
+    "title": "Суммаризировать PDF",
+    "description": "Загрузите PDF-документ, чтобы получить краткое резюме."
+  },
+  "uploadArea": {
+    "dragAndDrop": "Перетащите файл сюда",
+    "or": "или",
+    "chooseFile": "Выберите файл",
+    "fileSizeLimit": "PDF-файлы до 25 МБ"
+  },
+  "status": {
+    "uploading": "Загрузка",
+    "errorTitle": "Ой! Произошла ошибка.",
+    "errorDescription": "Не удалось проанализировать ваш документ. Пожалуйста, попробуйте другой."
+  },
+  "fileInfo": {
+    "pages": "страниц"
+  },
+  "buttons": {
+    "summarize": "Суммаризировать",
+    "tryAgain": "Попробовать снова",
+    "close": "Закрыть",
+    "summarizeAnother": "Суммаризировать другой"
+  },
+  "tabs": {
+    "uploadFile": "Загрузить файл",
+    "fromUrl": "По URL"
+  },
+  "urlInput": {
+    "title": "Введите URL PDF",
+    "description": "Вставьте ссылку на PDF, чтобы суммаризировать его."
+  },
+  "dialog": {
+    "summaryFor": "Резюме для",
+    "summaryDescription": "Вот краткое резюме вашего документа.",
+    "allFeatures": "Все функции",
+    "selectFeature": "Выберите функцию, чтобы начать."
+  },
+  "floatingMenu": {
+    "pdfSummarizer": "Суммаризатор PDF",
+    "chatPdf": "Чат PDF",
+    "pdfToAudio": "PDF в аудио",
+    "pdfTranslator": "Переводчик PDF",
+    "imageToPdf": "Изображение в PDF",
+    "pdfToImage": "PDF в изображение"
+  },
+  "toast": {
+    "invalidFileType": "Неверный тип файла",
+    "invalidFileTypeDesc": "Пожалуйста, загрузите PDF-файл.",
+    "urlRequired": "Требуется URL",
+    "urlRequiredDesc": "Пожалуйста, введите URL PDF.",
+    "invalidUrl": "Неверный URL",
+    "invalidUrlDesc": "Пожалуйста, введите действительный URL.",
+    "analysisFailed": "Анализ не удался",
+    "analysisFailedDesc": "Произошла ошибка при суммировании вашего PDF. Пожалуйста, попробуйте снова."
+  }
+}

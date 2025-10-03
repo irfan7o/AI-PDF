@@ -1,0 +1,59 @@
+
+{
+  "main": {
+    "title": "PDF 요약",
+    "description": "간결한 요약을 얻으려면 PDF 문서를 업로드하십시오."
+  },
+  "uploadArea": {
+    "dragAndDrop": "여기에 파일 끌어다 놓기",
+    "or": "또는",
+    "chooseFile": "파일 선택",
+    "fileSizeLimit": "최대 25MB의 PDF 파일"
+  },
+  "status": {
+    "uploading": "업로드 중",
+    "errorTitle": "오류가 발생했습니다.",
+    "errorDescription": "문서를 분석할 수 없습니다. 다른 문서로 다시 시도하십시오."
+  },
+  "fileInfo": {
+    "pages": "페이지"
+  },
+  "buttons": {
+    "summarize": "요약",
+    "tryAgain": "다시 시도",
+    "close": "닫기",
+    "summarizeAnother": "다른 파일 요약"
+  },
+  "tabs": {
+    "uploadFile": "파일 업로드",
+    "fromUrl": "URL에서"
+  },
+  "urlInput": {
+    "title": "PDF URL 입력",
+    "description": "요약할 PDF 링크를 붙여넣으세요."
+  },
+  "dialog": {
+    "summaryFor": "에 대한 요약",
+    "summaryDescription": "문서의 간결한 요약입니다.",
+    "allFeatures": "모든 기능",
+    "selectFeature": "시작할 기능을 선택하세요."
+  },
+  "floatingMenu": {
+    "pdfSummarizer": "PDF 요약기",
+    "chatPdf": "채팅 PDF",
+    "pdfToAudio": "PDF를 오디오로",
+    "pdfTranslator": "PDF 번역기",
+    "imageToPdf": "이미지를 PDF로",
+    "pdfToImage": "PDF를 이미지로"
+  },
+  "toast": {
+    "invalidFileType": "잘못된 파일 형식",
+    "invalidFileTypeDesc": "PDF 파일을 업로드하십시오.",
+    "urlRequired": "URL 필요",
+    "urlRequiredDesc": "PDF URL을 입력하십시오.",
+    "invalidUrl": "잘못된 URL",
+    "invalidUrlDesc": "유효한 URL을 입력하십시오.",
+    "analysisFailed": "분석 실패",
+    "analysisFailedDesc": "PDF를 요약하는 동안 오류가 발생했습니다. 다시 시도하십시오."
+  }
+}

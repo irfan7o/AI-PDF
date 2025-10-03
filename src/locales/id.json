@@ -1,0 +1,59 @@
+
+{
+  "main": {
+    "title": "Ringkas PDF",
+    "description": "Unggah dokumen PDF untuk mendapatkan ringkasan singkat."
+  },
+  "uploadArea": {
+    "dragAndDrop": "Seret dan lepas file di sini",
+    "or": "atau",
+    "chooseFile": "Pilih File",
+    "fileSizeLimit": "File PDF hingga 25MB"
+  },
+  "status": {
+    "uploading": "Mengunggah",
+    "errorTitle": "Ups! Terjadi kesalahan.",
+    "errorDescription": "Kami tidak dapat menganalisis dokumen Anda. Silakan coba lagi dengan yang lain."
+  },
+  "fileInfo": {
+    "pages": "halaman"
+  },
+  "buttons": {
+    "summarize": "Ringkas",
+    "tryAgain": "Coba Lagi",
+    "close": "Tutup",
+    "summarizeAnother": "Ringkas yang Lain"
+  },
+  "tabs": {
+    "uploadFile": "Unggah File",
+    "fromUrl": "Dari URL"
+  },
+  "urlInput": {
+    "title": "Masukkan URL PDF",
+    "description": "Tempel tautan ke PDF untuk meringkasnya."
+  },
+  "dialog": {
+    "summaryFor": "Ringkasan untuk",
+    "summaryDescription": "Berikut adalah ringkasan singkat dari dokumen Anda.",
+    "allFeatures": "Semua Fitur",
+    "selectFeature": "Pilih fitur untuk memulai."
+  },
+  "floatingMenu": {
+    "pdfSummarizer": "Peringkas PDF",
+    "chatPdf": "Chat PDF",
+    "pdfToAudio": "PDF ke Audio",
+    "pdfTranslator": "Penerjemah PDF",
+    "imageToPdf": "Gambar ke PDF",
+    "pdfToImage": "PDF ke Gambar"
+  },
+  "toast": {
+    "invalidFileType": "Jenis File Tidak Valid",
+    "invalidFileTypeDesc": "Silakan unggah file PDF.",
+    "urlRequired": "URL Diperlukan",
+    "urlRequiredDesc": "Silakan masukkan URL PDF.",
+    "invalidUrl": "URL Tidak Valid",
+    "invalidUrlDesc": "Silakan masukkan URL yang valid.",
+    "analysisFailed": "Analisis Gagal",
+    "analysisFailedDesc": "Terjadi kesalahan saat meringkas PDF Anda. Silakan coba lagi."
+  }
+}

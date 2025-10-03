@@ -1,0 +1,59 @@
+
+{
+  "main": {
+    "title": "PDFを要約",
+    "description": "PDFドキュメントをアップロードして、簡潔な要約を取得します。"
+  },
+  "uploadArea": {
+    "dragAndDrop": "ここにファイルをドラッグ＆ドロップ",
+    "or": "または",
+    "chooseFile": "ファイルを選択",
+    "fileSizeLimit": "最大25MBのPDFファイル"
+  },
+  "status": {
+    "uploading": "アップロード中",
+    "errorTitle": "おっと！エラーが発生しました。",
+    "errorDescription": "ドキュメントを分析できませんでした。別のドキュメントで再試行してください。"
+  },
+  "fileInfo": {
+    "pages": "ページ"
+  },
+  "buttons": {
+    "summarize": "要約",
+    "tryAgain": "再試行",
+    "close": "閉じる",
+    "summarizeAnother": "別のものを要約"
+  },
+  "tabs": {
+    "uploadFile": "ファイルをアップロード",
+    "fromUrl": "URLから"
+  },
+  "urlInput": {
+    "title": "PDFのURLを入力",
+    "description": "PDFへのリンクを貼り付けて要約します。"
+  },
+  "dialog": {
+    "summaryFor": "の要約",
+    "summaryDescription": "これがあなたのドキュメントの簡潔な要約です。",
+    "allFeatures": "すべての機能",
+    "selectFeature": "開始する機能を選択してください。"
+  },
+  "floatingMenu": {
+    "pdfSummarizer": "PDF要約ツール",
+    "chatPdf": "チャットPDF",
+    "pdfToAudio": "PDFを音声に",
+    "pdfTranslator": "PDF翻訳ツール",
+    "imageToPdf": "画像をPDFに",
+    "pdfToImage": "PDFを画像に"
+  },
+  "toast": {
+    "invalidFileType": "無効なファイルタイプ",
+    "invalidFileTypeDesc": "PDFファイルをアップロードしてください。",
+    "urlRequired": "URLが必要です",
+    "urlRequiredDesc": "PDFのURLを入力してください。",
+    "invalidUrl": "無効なURL",
+    "invalidUrlDesc": "有効なURLを入力してください。",
+    "analysisFailed": "分析に失敗しました",
+    "analysisFailedDesc": "PDFの要約中にエラーが発生しました。もう一度お試しください。"
+  }
+}

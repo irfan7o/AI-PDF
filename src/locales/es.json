@@ -1,0 +1,59 @@
+
+{
+  "main": {
+    "title": "Resumir PDF",
+    "description": "Sube un documento PDF para obtener un resumen conciso."
+  },
+  "uploadArea": {
+    "dragAndDrop": "Arrastra y suelta el archivo aquí",
+    "or": "o",
+    "chooseFile": "Elegir archivo",
+    "fileSizeLimit": "Archivos PDF de hasta 25 MB"
+  },
+  "status": {
+    "uploading": "Subiendo",
+    "errorTitle": "¡Vaya! Ocurrió un error.",
+    "errorDescription": "No pudimos analizar su documento. Por favor, inténtelo de nuevo con otro."
+  },
+  "fileInfo": {
+    "pages": "páginas"
+  },
+  "buttons": {
+    "summarize": "Resumir",
+    "tryAgain": "Intentar de nuevo",
+    "close": "Cerrar",
+    "summarizeAnother": "Resumir otro"
+  },
+  "tabs": {
+    "uploadFile": "Subir archivo",
+    "fromUrl": "Desde URL"
+  },
+  "urlInput": {
+    "title": "Ingresar URL del PDF",
+    "description": "Pega un enlace a un PDF para resumirlo."
+  },
+  "dialog": {
+    "summaryFor": "Resumen de",
+    "summaryDescription": "Aquí tienes un resumen conciso de tu documento.",
+    "allFeatures": "Todas las funciones",
+    "selectFeature": "Selecciona una función para comenzar."
+  },
+  "floatingMenu": {
+    "pdfSummarizer": "Resumidor de PDF",
+    "chatPdf": "Chatear con PDF",
+    "pdfToAudio": "PDF a audio",
+    "pdfTranslator": "Traductor de PDF",
+    "imageToPdf": "Imagen a PDF",
+    "pdfToImage": "PDF a imagen"
+  },
+  "toast": {
+    "invalidFileType": "Tipo de archivo no válido",
+    "invalidFileTypeDesc": "Por favor, sube un archivo PDF.",
+    "urlRequired": "Se requiere URL",
+    "urlRequiredDesc": "Por favor, ingresa una URL de PDF.",
+    "invalidUrl": "URL no válida",
+    "invalidUrlDesc": "Por favor, ingresa una URL válida.",
+    "analysisFailed": "El análisis falló",
+    "analysisFailedDesc": "Ocurrió un error al resumir tu PDF. Por favor, inténtalo de nuevo."
+  }
+}

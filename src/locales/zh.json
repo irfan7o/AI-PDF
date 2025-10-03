@@ -1,0 +1,59 @@
+
+{
+  "main": {
+    "title": "总结PDF",
+    "description": "上传PDF文档以获得简洁的摘要。"
+  },
+  "uploadArea": {
+    "dragAndDrop": "将文件拖放到此处",
+    "or": "或",
+    "chooseFile": "选择文件",
+    "fileSizeLimit": "最大25MB的PDF文件"
+  },
+  "status": {
+    "uploading": "上传中",
+    "errorTitle": "哦！出错了。",
+    "errorDescription": "我们无法分析您的文档。请换个文档再试一次。"
+  },
+  "fileInfo": {
+    "pages": "页"
+  },
+  "buttons": {
+    "summarize": "总结",
+    "tryAgain": "再试一次",
+    "close": "关闭",
+    "summarizeAnother": "总结另一个"
+  },
+  "tabs": {
+    "uploadFile": "上传文件",
+    "fromUrl": "来自URL"
+  },
+  "urlInput": {
+    "title": "输入PDF网址",
+    "description": "粘贴PDF链接以进行总结。"
+  },
+  "dialog": {
+    "summaryFor": "的摘要",
+    "summaryDescription": "这是您文档的简洁摘要。",
+    "allFeatures": "所有功能",
+    "selectFeature": "选择一个功能以开始。"
+  },
+  "floatingMenu": {
+    "pdfSummarizer": "PDF摘要器",
+    "chatPdf": "聊天PDF",
+    "pdfToAudio": "PDF转音频",
+    "pdfTranslator": "PDF翻译器",
+    "imageToPdf": "图片转PDF",
+    "pdfToImage": "PDF转图片"
+  },
+  "toast": {
+    "invalidFileType": "文件类型无效",
+    "invalidFileTypeDesc": "请上传PDF文件。",
+    "urlRequired": "需要URL",
+    "urlRequiredDesc": "请输入PDF的URL。",
+    "invalidUrl": "无效的URL",
+    "invalidUrlDesc": "请输入有效的URL。",
+    "analysisFailed": "分析失败",
+    "analysisFailedDesc": "总结您的PDF时出错。请重试。"
+  }
+}

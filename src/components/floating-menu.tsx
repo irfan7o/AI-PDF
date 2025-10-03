@@ -5,19 +5,21 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { MoreHorizontal, FileText, MessageSquare, Music, Languages, FileImage, Image } from 'lucide-react';
+import { useTranslation } from '@/contexts/translation-context';
 
 const menuItems = [
-  { name: 'PDF Summarizer', active: true, icon: <FileText/> },
-  { name: 'Chat PDF', active: false, icon: <MessageSquare/> },
-  { name: 'PDF to Audio', active: false, icon: <Music/> },
-  { name: 'PDF Translator', active: false, icon: <Languages/> },
-  { name: 'Image to PDF', active: false, icon: <FileImage/> },
-  { name: 'PDF to Image', active: false, icon: <Image/> },
+  { name: 'pdfSummarizer', active: true, icon: <FileText/> },
+  { name: 'chatPdf', active: false, icon: <MessageSquare/> },
+  { name: 'pdfToAudio', active: false, icon: <Music/> },
+  { name: 'pdfTranslator', active: false, icon: <Languages/> },
+  { name: 'imageToPdf', active: false, icon: <FileImage/> },
+  { name: 'pdfToImage', active: false, icon: <Image/> },
 ];
 
 const visibleMenuItems = menuItems.slice(0, 3);
 
 export default function FloatingMenu() {
+  const { t } = useTranslation();
   return (
     <Dialog>
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
@@ -31,7 +33,7 @@ export default function FloatingMenu() {
                   className="rounded-full"
                   size="sm"
                 >
-                  {item.name}
+                  {t('floatingMenu', item.name as any)}
                 </Button>
               ))}
             </div>
@@ -46,9 +48,9 @@ export default function FloatingMenu() {
       </div>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>All Features</DialogTitle>
+          <DialogTitle>{t('dialog', 'allFeatures')}</DialogTitle>
           <DialogDescription>
-            Select a feature to get started.
+            {t('dialog', 'selectFeature')}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -59,7 +61,7 @@ export default function FloatingMenu() {
                 className="w-full justify-start"
               >
                 {item.icon}
-                <span>{item.name}</span>
+                <span>{t('floatingMenu', item.name as any)}</span>
               </Button>
           ))}
         </div>

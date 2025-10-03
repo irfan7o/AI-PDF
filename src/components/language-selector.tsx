@@ -12,8 +12,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useTranslation, type Language } from "@/contexts/translation-context";
 
-const languages = [
+const languages: { value: Language, label: string }[] = [
     { value: "en", label: "English" },
     { value: "id", label: "Indonesia" },
     { value: "ru", label: "Русский" },
@@ -26,7 +27,7 @@ const languages = [
 ]
 
 export default function LanguageSelector() {
-  const [selectedLanguage, setSelectedLanguage] = React.useState("en")
+  const { language, setLanguage } = useTranslation();
 
   return (
     <DropdownMenu>
@@ -37,15 +38,15 @@ export default function LanguageSelector() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        {languages.map((language) => (
+        {languages.map((lang) => (
           <DropdownMenuItem
-            key={language.value}
-            onSelect={() => setSelectedLanguage(language.value)}
+            key={lang.value}
+            onSelect={() => setLanguage(lang.value)}
             className="cursor-pointer"
           >
             <div className="flex items-center justify-between w-full">
-                <span>{language.label}</span>
-                {selectedLanguage === language.value && <Check className="h-4 w-4" />}
+                <span>{lang.label}</span>
+                {language === lang.value && <Check className="h-4 w-4" />}
             </div>
           </DropdownMenuItem>
         ))}

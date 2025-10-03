@@ -1,0 +1,59 @@
+
+{
+  "main": {
+    "title": "PDF zusammenfassen",
+    "description": "Laden Sie ein PDF-Dokument hoch, um eine prägnante Zusammenfassung zu erhalten."
+  },
+  "uploadArea": {
+    "dragAndDrop": "Datei hierher ziehen und ablegen",
+    "or": "oder",
+    "chooseFile": "Datei auswählen",
+    "fileSizeLimit": "PDF-Dateien bis zu 25 MB"
+  },
+  "status": {
+    "uploading": "Hochladen",
+    "errorTitle": "Hoppla! Ein Fehler ist aufgetreten.",
+    "errorDescription": "Wir konnten Ihr Dokument nicht analysieren. Bitte versuchen Sie es mit einem anderen."
+  },
+  "fileInfo": {
+    "pages": "Seiten"
+  },
+  "buttons": {
+    "summarize": "Zusammenfassen",
+    "tryAgain": "Erneut versuchen",
+    "close": "Schließen",
+    "summarizeAnother": "Eine weitere zusammenfassen"
+  },
+  "tabs": {
+    "uploadFile": "Datei hochladen",
+    "fromUrl": "Von URL"
+  },
+  "urlInput": {
+    "title": "PDF-URL eingeben",
+    "description": "Fügen Sie einen Link zu einer PDF-Datei ein, um sie zusammenzufassen."
+  },
+  "dialog": {
+    "summaryFor": "Zusammenfassung für",
+    "summaryDescription": "Hier ist eine prägnante Zusammenfassung Ihres Dokuments.",
+    "allFeatures": "Alle Funktionen",
+    "selectFeature": "Wählen Sie eine Funktion aus, um zu beginnen."
+  },
+  "floatingMenu": {
+    "pdfSummarizer": "PDF-Zusammenfasser",
+    "chatPdf": "Chat PDF",
+    "pdfToAudio": "PDF zu Audio",
+    "pdfTranslator": "PDF-Übersetzer",
+    "imageToPdf": "Bild zu PDF",
+    "pdfToImage": "PDF zu Bild"
+  },
+  "toast": {
+    "invalidFileType": "Ungültiger Dateityp",
+    "invalidFileTypeDesc": "Bitte laden Sie eine PDF-Datei hoch.",
+    "urlRequired": "URL erforderlich",
+    "urlRequiredDesc": "Bitte geben Sie eine PDF-URL ein.",
+    "invalidUrl": "Ungültige URL",
+    "invalidUrlDesc": "Bitte geben Sie eine gültige URL ein.",
+    "analysisFailed": "Analyse fehlgeschlagen",
+    "analysisFailedDesc": "Beim Zusammenfassen Ihrer PDF-Datei ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+  }
+}

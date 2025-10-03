@@ -9,15 +9,16 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { useTranslation } from '@/contexts/translation-context';
 
 type Status = 'idle' | 'uploading' | 'selected' | 'loading' | 'success' | 'error';
 type InputMode = 'file' | 'url';
 
 export default function PdfSummarizer() {
+    const { t } = useTranslation();
     const [status, setStatus] = useState<Status>('idle');
     const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
     const [dataUri, setDataUri] = useState<string | null>(null);
@@ -67,8 +68,8 @@ export default function PdfSummarizer() {
         if (file.type !== 'application/pdf') {
             toast({
                 variant: 'destructive',
-                title: 'Invalid File Type',
-                description: 'Please upload a PDF file.',
+                title: t('toast', 'invalidFileType'),
+                description: t('toast', 'invalidFileTypeDesc'),
             });
             return;
         }
@@ -95,7 +96,6 @@ export default function PdfSummarizer() {
             localStorage.setItem('uploadedPdfSize', file.size.toString());
             setUploadProgress(100);
 
-            // Pre-fetch page count
             try {
                 const result = await getSummary(dataUri);
                 if (result.pageCount) {
@@ -103,7 +103,6 @@ export default function PdfSummarizer() {
                     localStorage.setItem('uploadedPdfPageCount', result.pageCount.toString());
                 }
             } catch (error) {
-                // Ignore errors here, will be handled during full analysis
                 console.error("Failed to pre-fetch page count:", error);
             }
         };
@@ -116,8 +115,8 @@ export default function PdfSummarizer() {
             if (!pdfUrl) {
                 toast({
                     variant: 'destructive',
-                    title: 'URL Required',
-                    description: 'Please enter a PDF URL.',
+                    title: t('toast', 'urlRequired'),
+                    description: t('toast', 'urlRequiredDesc'),
                 });
                 return;
             }
@@ -126,8 +125,8 @@ export default function PdfSummarizer() {
             } catch (_) {
                 toast({
                     variant: 'destructive',
-                    title: 'Invalid URL',
-                    description: 'Please enter a valid URL.',
+                    title: t('toast', 'invalidUrl'),
+                    description: t('toast', 'invalidUrlDesc'),
                 });
                 return;
             }
@@ -152,8 +151,8 @@ export default function PdfSummarizer() {
             setStatus('error');
             toast({
                 variant: 'destructive',
-                title: 'Analysis Failed',
-                description: 'An error occurred while summarizing your PDF. Please try again.',
+                title: t('toast', 'analysisFailed'),
+                description: t('toast', 'analysisFailedDesc'),
             });
         }
     }
@@ -207,7 +206,7 @@ export default function PdfSummarizer() {
 
     const FileUploadArea = () => (
         <div 
-            onClick={() => {
+            onClick={(e) => {
                 if (!isUploadDisabled) {
                      fileInputRef.current?.click()
                 }
@@ -221,16 +220,16 @@ export default function PdfSummarizer() {
                 <div className={`rounded-full p-3 transition-colors ${!isUploadDisabled ? 'bg-gray-200 group-hover:bg-primary/20 dark:bg-muted dark:group-hover:bg-primary/20' : 'bg-gray-200/50 dark:bg-muted/50'}`}>
                     <FileUp className={`h-8 w-8 transition-colors ${!isUploadDisabled ? 'text-gray-500 group-hover:text-primary dark:text-muted-foreground' : 'text-gray-400/80 dark:text-muted-foreground/50'}`} />
                 </div>
-                <p className={`mt-4 font-semibold ${!isUploadDisabled ? 'text-foreground' : 'text-muted-foreground/80'}`}>Drag and drop file here</p>
-                <p className={`my-2 text-sm ${!isUploadDisabled ? 'text-muted-foreground' : 'text-muted-foreground/60'}`}>or</p>
+                <p className={`mt-4 font-semibold ${!isUploadDisabled ? 'text-foreground' : 'text-muted-foreground/80'}`}>{t('uploadArea', 'dragAndDrop')}</p>
+                <p className={`my-2 text-sm ${!isUploadDisabled ? 'text-muted-foreground' : 'text-muted-foreground/60'}`}>{t('uploadArea', 'or')}</p>
                 <Button
                 variant="ghost"
                 disabled={isUploadDisabled}
                 className={`transition-colors ${!isUploadDisabled ? 'bg-gray-200 group-hover:bg-primary group-hover:text-primary-foreground dark:bg-muted' : ''}`}
                 >
-                Choose File
+                {t('uploadArea', 'chooseFile')}
                 </Button>
-                <p className={`mt-4 text-xs ${!isUploadDisabled ? 'text-muted-foreground' : 'text-muted-foreground/60'}`}>PDF files up to 25MB</p>
+                <p className={`mt-4 text-xs ${!isUploadDisabled ? 'text-muted-foreground' : 'text-muted-foreground/60'}`}>{t('uploadArea', 'fileSizeLimit')}</p>
              </>
             
             <input
@@ -247,7 +246,7 @@ export default function PdfSummarizer() {
 
     const closeModal = () => {
         setIsModalOpen(false);
-        setStatus('selected'); // Go back to selected state, don't reset fully
+        setStatus('selected');
     }
 
     const startNew = () => {
@@ -263,9 +262,9 @@ export default function PdfSummarizer() {
                         <div className="flex justify-center">
                              <AlertCircle className="h-8 w-8 text-destructive" />
                         </div>
-                        <h2 className="mt-2 text-lg font-semibold text-destructive">Oops! An error occurred.</h2>
-                        <p className="mt-1 text-sm text-destructive/80">We couldn't analyze your document. Please try again with another one.</p>
-                         <Button variant="outline" onClick={() => resetState(true)} className="mt-4">Try Again</Button>
+                        <h2 className="mt-2 text-lg font-semibold text-destructive">{t('status', 'errorTitle')}</h2>
+                        <p className="mt-1 text-sm text-destructive/80">{t('status', 'errorDescription')}</p>
+                         <Button variant="outline" onClick={() => resetState(true)} className="mt-4">{t('buttons', 'tryAgain')}</Button>
                     </div>
                 );
             case 'idle':
@@ -274,11 +273,11 @@ export default function PdfSummarizer() {
                         <TabsList className="grid w-full grid-cols-2">
                             <TabsTrigger value="file">
                                 <FileUp className="mr-2 h-4 w-4"/>
-                                Upload File
+                                {t('tabs', 'uploadFile')}
                             </TabsTrigger>
                             <TabsTrigger value="url">
                                 <LinkIcon className="mr-2 h-4 w-4"/>
-                                From URL
+                                {t('tabs', 'fromUrl')}
                             </TabsTrigger>
                         </TabsList>
                         <TabsContent value="file" className="h-[322px] pt-4">
@@ -289,8 +288,8 @@ export default function PdfSummarizer() {
                                 <div className="rounded-full bg-gray-200 p-3 dark:bg-muted">
                                     <LinkIcon className="h-8 w-8 text-gray-500 dark:text-muted-foreground" />
                                 </div>
-                                <p className="mt-4 font-semibold text-foreground">Enter PDF URL</p>
-                                <p className="text-sm text-muted-foreground my-2">Paste a link to a PDF to summarize it.</p>
+                                <p className="mt-4 font-semibold text-foreground">{t('urlInput', 'title')}</p>
+                                <p className="text-sm text-muted-foreground my-2">{t('urlInput', 'description')}</p>
                                 <Input 
                                     type="url"
                                     placeholder="https://example.com/document.pdf"
@@ -306,12 +305,11 @@ export default function PdfSummarizer() {
                  return (
                     <div className="flex h-full w-full flex-col items-center justify-center">
                         <div className="relative h-20 w-20">
-                            <Progress value={uploadProgress} asCircle={true} />
                             <div className="absolute inset-0 flex items-center justify-center text-sm font-bold text-primary">
                                 {Math.round(uploadProgress)}%
                             </div>
                         </div>
-                        <p className="text-sm text-muted-foreground mt-2 max-w-[200px] truncate">Uploading {fileName}...</p>
+                        <p className="text-sm text-muted-foreground mt-2 max-w-[200px] truncate">{t('status', 'uploading')} {fileName}...</p>
                     </div>
                 );
             case 'loading':
@@ -325,7 +323,7 @@ export default function PdfSummarizer() {
                                 <p className="font-semibold mt-4 max-w-[250px] truncate">{fileName}</p>
                                 <div className="text-sm text-muted-foreground mt-1">
                                     <span>{formatBytes(fileSize)}</span>
-                                    {pageCount && <span> &middot; {pageCount} pages</span>}
+                                    {pageCount && <span> &middot; {pageCount} {t('fileInfo', 'pages')}</span>}
                                 </div>
                                 {status === 'loading' ? (
                                     <div className="mt-4">
@@ -355,8 +353,8 @@ export default function PdfSummarizer() {
         <>
             <Card className="w-full max-w-lg shadow-sm rounded-xl">
                 <CardHeader className="text-center">
-                    <CardTitle className="font-headline text-2xl">Summarize PDF</CardTitle>
-                    <CardDescription>Upload a PDF document to get a concise summary.</CardDescription>
+                    <CardTitle className="font-headline text-2xl">{t('main', 'title')}</CardTitle>
+                    <CardDescription>{t('main', 'description')}</CardDescription>
                 </CardHeader>
                 <CardContent className="p-6 pt-0 min-h-[354px] flex items-center justify-center">
                     {renderContent()}
@@ -368,7 +366,7 @@ export default function PdfSummarizer() {
                       className="w-full"
                     >
                       {status === 'loading' && <Loader className="mr-2 h-4 w-4 animate-spin" />}
-                      Summarize
+                      {t('buttons', 'summarize')}
                     </Button>
                 </CardFooter>
             </Card>
@@ -377,10 +375,10 @@ export default function PdfSummarizer() {
                     <DialogHeader>
                         <DialogTitle className="flex items-center gap-2">
                              <FileText className="h-6 w-6"/>
-                             Summary for <Badge variant="secondary" className="max-w-[200px] truncate">{fileName}</Badge>
+                             {t('dialog', 'summaryFor')} <Badge variant="secondary" className="max-w-[200px] truncate">{fileName}</Badge>
                         </DialogTitle>
                          <DialogDescription>
-                            Here is a concise summary of your document.
+                            {t('dialog', 'summaryDescription')}
                         </DialogDescription>
                     </DialogHeader>
                     {analysisResult && (
@@ -389,13 +387,11 @@ export default function PdfSummarizer() {
                         </ScrollArea>
                     )}
                     <div className="flex justify-end gap-2">
-                        <Button variant="outline" onClick={closeModal}>Close</Button>
-                        <Button onClick={startNew}>Summarize Another</Button>
+                        <Button variant="outline" onClick={closeModal}>{t('buttons', 'close')}</Button>
+                        <Button onClick={startNew}>{t('buttons', 'summarizeAnother')}</Button>
                     </div>
                 </DialogContent>
             </Dialog>
         </>
     );
 }
-
-    

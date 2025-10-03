@@ -1,6 +1,7 @@
 import type {Metadata} from 'next';
 import './globals.css';
 import {Toaster} from '@/components/ui/toaster';
+import { TranslationProvider } from '@/contexts/translation-context';
 
 export const metadata: Metadata = {
   title: 'PDF Summarizer',
@@ -23,8 +24,10 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
+        <TranslationProvider>
           {children}
           <Toaster />
+        </TranslationProvider>
       </body>
     </html>
   );
