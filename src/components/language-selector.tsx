@@ -16,13 +16,13 @@ import {
 const languages = [
     { value: "en", label: "English" },
     { value: "id", label: "Indonesia" },
-    { value: "ru", label: "Russia" },
-    { value: "hi", label: "India" },
-    { value: "es", label: "Spanyol" },
-    { value: "de", label: "German" },
-    { value: "zh", label: "Cina" },
-    { value: "ja", label: "Jepang" },
-    { value: "ko", label: "Korea" },
+    { value: "ru", label: "Русский" },
+    { value: "hi", label: "हिन्दी" },
+    { value: "es", label: "Español" },
+    { value: "de", label: "Deutsch" },
+    { value: "zh", label: "中文" },
+    { value: "ja", label: "日本語" },
+    { value: "ko", label: "한국어" },
 ]
 
 export default function LanguageSelector() {
@@ -41,6 +41,7 @@ export default function LanguageSelector() {
           <DropdownMenuItem
             key={language.value}
             onSelect={() => setSelectedLanguage(language.value)}
+            className="cursor-pointer"
           >
             <div className="flex items-center justify-between w-full">
                 <span>{language.label}</span>
