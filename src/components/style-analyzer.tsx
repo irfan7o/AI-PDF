@@ -22,6 +22,8 @@ export default function PdfSummarizer() {
     const [dataUri, setDataUri] = useState<string | null>(null);
     const [pdfUrl, setPdfUrl] = useState<string>('');
     const [fileName, setFileName] = useState<string | null>(null);
+    const [fileSize, setFileSize] = useState<number | null>(null);
+    const [pageCount, setPageCount] = useState<number | null>(null);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [inputMode, setInputMode] = useState<InputMode>('file');
     const { toast } = useToast();
@@ -30,9 +32,14 @@ export default function PdfSummarizer() {
     useEffect(() => {
         const savedFile = localStorage.getItem('uploadedPdf');
         const savedFileName = localStorage.getItem('uploadedPdfName');
+        const savedFileSize = localStorage.getItem('uploadedPdfSize');
+        const savedPageCount = localStorage.getItem('uploadedPdfPageCount');
+
         if (savedFile && savedFileName) {
             setDataUri(savedFile);
             setFileName(savedFileName);
+            if (savedFileSize) setFileSize(Number(savedFileSize));
+            if (savedPageCount) setPageCount(Number(savedPageCount));
             setStatus('selected');
         }
     }, []);
@@ -46,7 +53,9 @@ export default function PdfSummarizer() {
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         event.stopPropagation();
-        if (status !== 'idle') return;
+        const area = event.currentTarget;
+        area.classList.remove('border-primary', 'bg-primary/10');
+        if (status !== 'idle' && status !== 'selected' && status !== 'error') return;
         const file = event.dataTransfer.files?.[0];
         if (!file) return;
         processFile(file);
@@ -64,6 +73,7 @@ export default function PdfSummarizer() {
         
         resetState(false);
         setFileName(file.name);
+        setFileSize(file.size);
         setStatus('uploading');
 
         const reader = new FileReader();
@@ -76,9 +86,11 @@ export default function PdfSummarizer() {
         reader.onloadend = async () => {
             const dataUri = reader.result as string;
             setDataUri(dataUri);
+            
             setStatus('selected');
             localStorage.setItem('uploadedPdf', dataUri);
             localStorage.setItem('uploadedPdfName', file.name);
+            localStorage.setItem('uploadedPdfSize', file.size.toString());
             setUploadProgress(100);
         };
         reader.readAsDataURL(file);
@@ -115,6 +127,10 @@ export default function PdfSummarizer() {
         try {
             const result = await getSummary(analysisUri);
             setAnalysisResult(result);
+            if (result.pageCount) {
+                setPageCount(result.pageCount);
+                localStorage.setItem('uploadedPdfPageCount', result.pageCount.toString());
+            }
             setStatus('success');
         } catch (error) {
             console.error(error);
@@ -135,20 +151,55 @@ export default function PdfSummarizer() {
         if (fullReset) {
             setDataUri(null);
             setFileName(null);
+            setFileSize(null);
+            setPageCount(null);
             localStorage.removeItem('uploadedPdf');
             localStorage.removeItem('uploadedPdfName');
+            localStorage.removeItem('uploadedPdfSize');
+            localStorage.removeItem('uploadedPdfPageCount');
             if (fileInputRef.current) {
                 fileInputRef.current.value = "";
             }
         }
     };
 
+    const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (status === 'idle' || status === 'error') {
+            const area = event.currentTarget;
+            area.classList.add('border-primary', 'bg-primary/10');
+        }
+    };
+    
+    const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const area = event.currentTarget;
+        area.classList.remove('border-primary', 'bg-primary/10');
+    };
+
+    const formatBytes = (bytes: number | null, decimals = 2) => {
+        if (bytes === null || bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const dm = decimals < 0 ? 0 : decimals;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+
+
     const FileUploadArea = () => (
         <div 
+            onClick={() => {
+                if (status === 'idle' || status === 'error') {
+                     fileInputRef.current?.click()
+                }
+            }}
             onDrop={handleDrop}
-            onDragOver={(e) => { e.preventDefault(); }}
-            onClick={() => fileInputRef.current?.click()}
-            className="group relative flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center transition-colors hover:border-primary hover:bg-primary/10 dark:border-gray-600 dark:bg-card dark:hover:border-primary dark:hover:bg-primary/10"
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            className={`group relative flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-12 text-center transition-colors dark:border-gray-600 ${status === 'idle' || status === 'error' ? 'cursor-pointer bg-gray-50 dark:bg-card hover:border-primary hover:bg-primary/10' : 'cursor-default bg-transparent'}`}
         >
             <div className="rounded-full bg-gray-200 p-3 transition-colors group-hover:bg-primary/20 dark:bg-muted dark:group-hover:bg-primary/20">
                 <FileUp className="h-8 w-8 text-gray-500 transition-colors group-hover:text-primary dark:text-muted-foreground" />
@@ -157,6 +208,7 @@ export default function PdfSummarizer() {
             <p className="my-2 text-sm text-muted-foreground">or</p>
             <Button
               variant="ghost"
+              disabled={status !== 'idle' && status !== 'error'}
               className="bg-gray-200 transition-colors group-hover:bg-primary group-hover:text-primary-foreground dark:bg-muted"
             >
               Choose File
@@ -169,6 +221,7 @@ export default function PdfSummarizer() {
                 className="hidden"
                 onChange={handleFileChange}
                 accept="application/pdf"
+                disabled={status !== 'idle' && status !== 'error'}
             />
         </div>
     );
@@ -198,9 +251,9 @@ export default function PdfSummarizer() {
                          <Button variant="outline" onClick={() => resetState(true)} className="mt-4">Try Again</Button>
                     </div>
                 );
-            default:
+            case 'idle':
                 return (
-                    <Tabs defaultValue="file" onValueChange={(value) => setInputMode(value as InputMode)} className="w-full">
+                     <Tabs defaultValue="file" onValueChange={(value) => setInputMode(value as InputMode)} className="w-full">
                         <TabsList className="grid w-full grid-cols-2">
                             <TabsTrigger value="file">
                                 <FileUp className="mr-2 h-4 w-4"/>
@@ -212,67 +265,74 @@ export default function PdfSummarizer() {
                             </TabsTrigger>
                         </TabsList>
                         <TabsContent value="file" className="h-[322px] pt-4">
-                             <div className="relative w-full h-full">
-                                {status === 'loading' && (
-                                    <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center dark:border-gray-600 dark:bg-card">
-                                        <Badge className="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
-                                            <File className="h-4 w-4"/>
-                                            <span className="font-normal">{fileName}</span>
-                                        </Badge>
-                                        <Loader className="h-8 w-8 animate-spin text-primary mt-2" />
-                                        <p className="text-sm text-muted-foreground">Summarizing...</p>
-                                    </div>
-                                )}
-                                {status === 'uploading' && (
-                                    <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center dark:border-gray-600 dark:bg-card">
-                                        <div className="relative h-20 w-20">
-                                            <Progress value={uploadProgress} asCircle={true} />
-                                            <div className="absolute inset-0 flex items-center justify-center text-sm font-bold text-primary">
-                                                {Math.round(uploadProgress)}%
-                                            </div>
-                                        </div>
-                                        <p className="text-sm text-muted-foreground mt-2">Uploading {fileName}...</p>
-                                    </div>
-                                )}
-                                {status === 'selected' && fileName && inputMode === 'file' && (
-                                    <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center dark:border-gray-600 dark:bg-card">
-                                        <File className="h-12 w-12 text-gray-400" />
-                                        <p className="font-semibold mt-4 max-w-[200px] truncate">{fileName}</p>
-                                        <Button onClick={() => resetState(true)} variant="ghost" size="icon" className="text-red-500 hover:bg-red-500/10 hover:text-red-600 rounded-full mt-2">
-                                            <Trash2 className="h-5 w-5" />
-                                        </Button>
-                                    </div>
-                                )}
-                                {status === 'idle' && inputMode === 'file' && <FileUploadArea />}
-                            </div>
+                             <FileUploadArea />
                         </TabsContent>
                         <TabsContent value="url" className="h-[322px] pt-4">
-                            <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center dark:bg-card dark:border-gray-600">
-                                {status === 'loading' ? (
-                                    <div className="flex flex-col items-center gap-4">
-                                        <Loader className="h-8 w-8 animate-spin text-primary" />
-                                        <p className="text-sm text-muted-foreground mt-2">Summarizing...</p>
-                                    </div>
-                                ) : (
-                                    <>
-                                        <div className="rounded-full bg-gray-200 p-3 dark:bg-muted">
-                                            <LinkIcon className="h-8 w-8 text-gray-500 dark:text-muted-foreground" />
-                                        </div>
-                                        <p className="mt-4 font-semibold text-foreground">Enter PDF URL</p>
-                                        <p className="text-sm text-muted-foreground my-2">Paste a link to a PDF to summarize it.</p>
-                                        <Input 
-                                            type="url"
-                                            placeholder="https://example.com/document.pdf"
-                                            value={pdfUrl}
-                                            onChange={(e) => setPdfUrl(e.target.value)}
-                                            className="mt-2"
-                                            disabled={status === 'loading'}
-                                        />
-                                    </>
-                                )}
+                             <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center dark:bg-card dark:border-gray-600">
+                                <div className="rounded-full bg-gray-200 p-3 dark:bg-muted">
+                                    <LinkIcon className="h-8 w-8 text-gray-500 dark:text-muted-foreground" />
+                                </div>
+                                <p className="mt-4 font-semibold text-foreground">Enter PDF URL</p>
+                                <p className="text-sm text-muted-foreground my-2">Paste a link to a PDF to summarize it.</p>
+                                <Input 
+                                    type="url"
+                                    placeholder="https://example.com/document.pdf"
+                                    value={pdfUrl}
+                                    onChange={(e) => setPdfUrl(e.target.value)}
+                                    className="mt-2"
+                                />
                             </div>
                         </TabsContent>
                     </Tabs>
+                );
+            default:
+                return (
+                    <div 
+                        onDrop={handleDrop}
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onClick={() => {
+                            if (status === 'idle' || status === 'error') {
+                                fileInputRef.current?.click()
+                            }
+                        }}
+                        className={`group relative flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed  p-12 text-center transition-colors  ${status === 'idle' || status === 'error' ? 'cursor-pointer border-gray-300 bg-gray-50 dark:border-gray-600 dark:bg-card hover:border-primary hover:bg-primary/10' : 'cursor-default border-transparent'}`}
+                    >
+                         {status === 'loading' && (
+                            <>
+                                <Badge className="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
+                                    <File className="h-4 w-4"/>
+                                    <span className="font-normal">{fileName}</span>
+                                </Badge>
+                                <Loader className="h-8 w-8 animate-spin text-primary mt-2" />
+                                <p className="text-sm text-muted-foreground">Summarizing...</p>
+                            </>
+                        )}
+                        {status === 'uploading' && (
+                            <>
+                                <div className="relative h-20 w-20">
+                                    <Progress value={uploadProgress} asCircle={true} />
+                                    <div className="absolute inset-0 flex items-center justify-center text-sm font-bold text-primary">
+                                        {Math.round(uploadProgress)}%
+                                    </div>
+                                </div>
+                                <p className="text-sm text-muted-foreground mt-2">Uploading {fileName}...</p>
+                            </>
+                        )}
+                        {status === 'selected' && fileName && (
+                           <div className="flex flex-col items-center justify-center text-center">
+                                <File className="h-12 w-12 text-gray-400" />
+                                <p className="font-semibold mt-4 max-w-[200px] truncate">{fileName}</p>
+                                <div className="text-sm text-muted-foreground mt-1">
+                                    <span>{formatBytes(fileSize)}</span>
+                                    {pageCount && <span> &middot; {pageCount} pages</span>}
+                                </div>
+                                <Button onClick={(e) => { e.stopPropagation(); resetState(true); }} variant="ghost" size="icon" className="text-red-500 hover:bg-red-500/10 hover:text-red-600 rounded-full mt-2">
+                                    <Trash2 className="h-5 w-5" />
+                                </Button>
+                            </div>
+                        )}
+                    </div>
                 );
         }
     };
@@ -303,5 +363,3 @@ export default function PdfSummarizer() {
         </Card>
     );
 }
-
-    

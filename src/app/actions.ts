@@ -1,10 +1,11 @@
 "use server";
 
 import { summarizePdf, SummarizePdfOutput } from "@/ai/flows/summarize-pdf";
-import { z } from "zod";
+import pdfParse from "pdf-parse";
 
 export type AnalysisResult = {
     summary: string;
+    pageCount?: number;
 }
 
 async function fetchAndConvertToDataURI(url: string): Promise<string> {
@@ -33,6 +34,7 @@ export async function getSummary(uri: string): Promise<AnalysisResult> {
     }
 
     let pdfDataUri: string;
+    let pageCount: number | undefined = undefined;
 
     if (uri.startsWith('url:')) {
         const url = uri.substring(4);
@@ -45,12 +47,21 @@ export async function getSummary(uri: string): Promise<AnalysisResult> {
         pdfDataUri = uri;
     }
 
+    try {
+      const pdfBuffer = Buffer.from(pdfDataUri.split(',')[1], 'base64');
+      const pdfData = await pdfParse(pdfBuffer);
+      pageCount = pdfData.numpages;
+    } catch (err) {
+        console.error("Error parsing PDF on server:", err);
+        // We can still try to get the summary
+    }
+
 
     const result = await summarizePdf({ pdfDataUri });
 
     if (!result.summary) {
-        return { summary: "Could not generate summary." };
+        return { summary: "Could not generate summary.", pageCount };
     }
     
-    return { summary: result.summary };
+    return { summary: result.summary, pageCount };
 }
