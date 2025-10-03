@@ -12,6 +12,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 type Status = 'idle' | 'uploading' | 'selected' | 'loading' | 'success' | 'error';
 type InputMode = 'file' | 'url';
@@ -26,6 +27,7 @@ export default function PdfSummarizer() {
     const [pageCount, setPageCount] = useState<number | null>(null);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [inputMode, setInputMode] = useState<InputMode>('file');
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const { toast } = useToast();
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -55,7 +57,7 @@ export default function PdfSummarizer() {
         event.stopPropagation();
         const area = event.currentTarget;
         area.classList.remove('border-primary', 'bg-primary/10');
-        if (status !== 'idle' && status !== 'selected' && status !== 'error' && status !== 'uploading' && status !== 'loading') return;
+        if (status !== 'idle' && status !== 'error') return;
         const file = event.dataTransfer.files?.[0];
         if (!file) return;
         processFile(file);
@@ -92,6 +94,18 @@ export default function PdfSummarizer() {
             localStorage.setItem('uploadedPdfName', file.name);
             localStorage.setItem('uploadedPdfSize', file.size.toString());
             setUploadProgress(100);
+
+            // Pre-fetch page count
+            try {
+                const result = await getSummary(dataUri);
+                if (result.pageCount) {
+                    setPageCount(result.pageCount);
+                    localStorage.setItem('uploadedPdfPageCount', result.pageCount.toString());
+                }
+            } catch (error) {
+                // Ignore errors here, will be handled during full analysis
+                console.error("Failed to pre-fetch page count:", error);
+            }
         };
         reader.readAsDataURL(file);
     };
@@ -132,6 +146,7 @@ export default function PdfSummarizer() {
                 localStorage.setItem('uploadedPdfPageCount', result.pageCount.toString());
             }
             setStatus('success');
+            setIsModalOpen(true);
         } catch (error) {
             console.error(error);
             setStatus('error');
@@ -200,25 +215,23 @@ export default function PdfSummarizer() {
             onDrop={handleDrop}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
-            className={`group relative flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed  p-12 text-center transition-colors ${!isUploadDisabled ? 'cursor-pointer border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-card hover:border-primary hover:bg-primary/10' : 'cursor-default border-transparent'}`}
+            className={`group relative flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed p-12 text-center transition-colors ${!isUploadDisabled ? 'cursor-pointer border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-card hover:border-primary hover:bg-primary/10' : 'cursor-default border-gray-400/30 bg-gray-50/50 dark:border-gray-700/50 dark:bg-card/50'}`}
         >
-             {status === 'idle' || status === 'error' ? (
-                 <>
-                    <div className="rounded-full bg-gray-200 p-3 transition-colors group-hover:bg-primary/20 dark:bg-muted dark:group-hover:bg-primary/20">
-                        <FileUp className="h-8 w-8 text-gray-500 transition-colors group-hover:text-primary dark:text-muted-foreground" />
-                    </div>
-                    <p className="mt-4 font-semibold text-foreground">Drag and drop file here</p>
-                    <p className="my-2 text-sm text-muted-foreground">or</p>
-                    <Button
-                    variant="ghost"
-                    disabled={isUploadDisabled}
-                    className="bg-gray-200 transition-colors group-hover:bg-primary group-hover:text-primary-foreground dark:bg-muted"
-                    >
-                    Choose File
-                    </Button>
-                    <p className="mt-4 text-xs text-muted-foreground">PDF files up to 25MB</p>
-                 </>
-             ) : null}
+             <>
+                <div className={`rounded-full p-3 transition-colors ${!isUploadDisabled ? 'bg-gray-200 group-hover:bg-primary/20 dark:bg-muted dark:group-hover:bg-primary/20' : 'bg-gray-200/50 dark:bg-muted/50'}`}>
+                    <FileUp className={`h-8 w-8 transition-colors ${!isUploadDisabled ? 'text-gray-500 group-hover:text-primary dark:text-muted-foreground' : 'text-gray-400/80 dark:text-muted-foreground/50'}`} />
+                </div>
+                <p className={`mt-4 font-semibold ${!isUploadDisabled ? 'text-foreground' : 'text-muted-foreground/80'}`}>Drag and drop file here</p>
+                <p className={`my-2 text-sm ${!isUploadDisabled ? 'text-muted-foreground' : 'text-muted-foreground/60'}`}>or</p>
+                <Button
+                variant="ghost"
+                disabled={isUploadDisabled}
+                className={`transition-colors ${!isUploadDisabled ? 'bg-gray-200 group-hover:bg-primary group-hover:text-primary-foreground dark:bg-muted' : ''}`}
+                >
+                Choose File
+                </Button>
+                <p className={`mt-4 text-xs ${!isUploadDisabled ? 'text-muted-foreground' : 'text-muted-foreground/60'}`}>PDF files up to 25MB</p>
+             </>
             
             <input
                 ref={fileInputRef}
@@ -231,21 +244,19 @@ export default function PdfSummarizer() {
             />
         </div>
     );
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setStatus('selected'); // Go back to selected state, don't reset fully
+    }
+
+    const startNew = () => {
+        setIsModalOpen(false);
+        resetState(true);
+    }
     
     const renderContent = () => {
         switch (status) {
-            case 'success':
-                return analysisResult && (
-                    <div className="w-full">
-                        <div className="flex items-center gap-2 mb-4">
-                            <FileText className="h-6 w-6"/>
-                            <h2 className="font-headline text-xl">Summary for <Badge variant="secondary" className="max-w-[200px] truncate">{fileName}</Badge></h2>
-                        </div>
-                        <ScrollArea className="h-[258px] p-4 border rounded-md bg-muted/50">
-                            <p className="text-sm text-foreground">{analysisResult.summary}</p>
-                        </ScrollArea>
-                    </div>
-                );
             case 'error':
                  return (
                     <div className="text-center p-4 rounded-lg border border-destructive bg-destructive/10 h-full flex flex-col justify-center">
@@ -274,7 +285,7 @@ export default function PdfSummarizer() {
                              <FileUploadArea />
                         </TabsContent>
                         <TabsContent value="url" className="h-[322px] pt-4">
-                             <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center dark:bg-card dark:border-gray-600">
+                             <div className="flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-12 text-center transition-colors hover:border-primary hover:bg-primary/10 dark:bg-card dark:border-gray-600">
                                 <div className="rounded-full bg-gray-200 p-3 dark:bg-muted">
                                     <LinkIcon className="h-8 w-8 text-gray-500 dark:text-muted-foreground" />
                                 </div>
@@ -291,31 +302,24 @@ export default function PdfSummarizer() {
                         </TabsContent>
                     </Tabs>
                 );
-            default: // Covers 'loading', 'uploading', 'selected'
+            case 'uploading':
+                 return (
+                    <div className="flex h-full w-full flex-col items-center justify-center">
+                        <div className="relative h-20 w-20">
+                            <Progress value={uploadProgress} asCircle={true} />
+                            <div className="absolute inset-0 flex items-center justify-center text-sm font-bold text-primary">
+                                {Math.round(uploadProgress)}%
+                            </div>
+                        </div>
+                        <p className="text-sm text-muted-foreground mt-2 max-w-[200px] truncate">Uploading {fileName}...</p>
+                    </div>
+                );
+            case 'loading':
+            case 'success':
+            case 'selected':
                 return (
                     <div className="flex h-full w-full flex-col items-center justify-center">
-                         {status === 'loading' && (
-                            <>
-                                <Badge className="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary/80 text-primary-foreground">
-                                    <FileText className="h-4 w-4"/>
-                                    <span className="font-normal max-w-[200px] truncate">{fileName}</span>
-                                </Badge>
-                                <Loader className="h-8 w-8 animate-spin text-primary mt-4" />
-                                <p className="text-sm text-muted-foreground mt-2">Summarizing...</p>
-                            </>
-                        )}
-                        {status === 'uploading' && (
-                            <>
-                                <div className="relative h-20 w-20">
-                                    <Progress value={uploadProgress} asCircle={true} />
-                                    <div className="absolute inset-0 flex items-center justify-center text-sm font-bold text-primary">
-                                        {Math.round(uploadProgress)}%
-                                    </div>
-                                </div>
-                                <p className="text-sm text-muted-foreground mt-2 max-w-[200px] truncate">Uploading {fileName}...</p>
-                            </>
-                        )}
-                        {status === 'selected' && fileName && (
+                        {fileName && (
                            <div className="flex flex-col items-center justify-center text-center">
                                 <FileText className="h-12 w-12 text-gray-400" />
                                 <p className="font-semibold mt-4 max-w-[250px] truncate">{fileName}</p>
@@ -323,53 +327,75 @@ export default function PdfSummarizer() {
                                     <span>{formatBytes(fileSize)}</span>
                                     {pageCount && <span> &middot; {pageCount} pages</span>}
                                 </div>
-                                <Button 
-                                    onClick={(e) => { e.stopPropagation(); resetState(true); }} 
-                                    variant="ghost" 
-                                    size="icon" 
-                                    className="text-destructive hover:bg-destructive/10 hover:text-destructive rounded-full mt-4"
-                                >
-                                    <Trash2 className="h-5 w-5" />
-                                </Button>
+                                {status === 'loading' ? (
+                                    <div className="mt-4">
+                                        <Loader className="h-8 w-8 animate-spin text-primary" />
+                                    </div>
+                                ) : (
+                                    <Button 
+                                        onClick={(e) => { e.stopPropagation(); resetState(true); }} 
+                                        variant="ghost" 
+                                        size="icon" 
+                                        className="text-destructive hover:bg-destructive/10 hover:text-destructive rounded-full mt-4"
+                                    >
+                                        <Trash2 className="h-5 w-5" />
+                                    </Button>
+                                )}
                             </div>
                         )}
                     </div>
                 );
+            default:
+                return null;
         }
     };
 
 
     return (
-        <Card className="w-full max-w-lg shadow-sm rounded-xl">
-            <CardHeader className="text-center">
-                <CardTitle className="font-headline text-2xl">Summarize PDF</CardTitle>
-                <CardDescription>Upload a PDF document to get a concise summary.</CardDescription>
-            </CardHeader>
-            <CardContent className="p-6 pt-0 min-h-[354px] flex items-center">
-                 {status === 'idle' || status === 'error' ? renderContent() : (
-                    <div 
-                        onDrop={handleDrop}
-                        onDragOver={handleDragOver}
-                        onDragLeave={handleDragLeave}
-                        className={`group relative flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-dashed p-12 text-center transition-colors  ${isUploadDisabled ? 'border-transparent' : 'cursor-pointer border-gray-300 bg-gray-50 dark:border-gray-600 dark:bg-card hover:border-primary hover:bg-primary/10'}`}
-                    >
-                         {renderContent()}
-                    </div>
-                 )}
-            </CardContent>
-            <CardFooter className="flex flex-col w-full">
-                {status === 'success' ? (
-                     <Button onClick={() => resetState(true)} variant="outline" className="w-full">Summarize Another PDF</Button>
-                ) : (
+        <>
+            <Card className="w-full max-w-lg shadow-sm rounded-xl">
+                <CardHeader className="text-center">
+                    <CardTitle className="font-headline text-2xl">Summarize PDF</CardTitle>
+                    <CardDescription>Upload a PDF document to get a concise summary.</CardDescription>
+                </CardHeader>
+                <CardContent className="p-6 pt-0 min-h-[354px] flex items-center justify-center">
+                    {renderContent()}
+                </CardContent>
+                <CardFooter className="flex flex-col w-full">
                     <Button
                       onClick={startAnalysis}
                       disabled={status === 'loading' || status === 'uploading' || (inputMode === 'file' && status !== 'selected') || (inputMode === 'url' && !pdfUrl)}
                       className="w-full"
                     >
+                      {status === 'loading' && <Loader className="mr-2 h-4 w-4 animate-spin" />}
                       Summarize
                     </Button>
-                )}
-            </CardFooter>
-        </Card>
+                </CardFooter>
+            </Card>
+            <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                <DialogContent className="sm:max-w-2xl">
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                             <FileText className="h-6 w-6"/>
+                             Summary for <Badge variant="secondary" className="max-w-[200px] truncate">{fileName}</Badge>
+                        </DialogTitle>
+                         <DialogDescription>
+                            Here is a concise summary of your document.
+                        </DialogDescription>
+                    </DialogHeader>
+                    {analysisResult && (
+                        <ScrollArea className="h-[350px] p-4 border rounded-md bg-muted/50 my-4">
+                            <p className="text-sm text-foreground">{analysisResult.summary}</p>
+                        </ScrollArea>
+                    )}
+                    <div className="flex justify-end gap-2">
+                        <Button variant="outline" onClick={closeModal}>Close</Button>
+                        <Button onClick={startNew}>Summarize Another</Button>
+                    </div>
+                </DialogContent>
+            </Dialog>
+        </>
     );
 }
+
+    
