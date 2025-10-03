@@ -6,7 +6,7 @@ export default function ChatPdfPage() {
   return (
     <>
       <Header />
-      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-muted/40 p-4 pt-20">
+      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-muted/40 p-4 pt-20 pb-24">
         <ChatPdf />
         <FloatingMenu activeFeature="chatPdf" />
       </div>
