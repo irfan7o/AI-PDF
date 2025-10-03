@@ -21,6 +21,7 @@ export default function ChatPdf() {
     const [status, setStatus] = useState<Status>('idle');
     const [file, setFile] = useState<File | null>(null);
     const [fileUrl, setFileUrl] = useState<string | null>(null);
+    const [dataUri, setDataUri] = useState<string | null>(null);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [messages, setMessages] = useState<Message[]>([]);
     const [currentMessage, setCurrentMessage] = useState('');
@@ -28,21 +29,23 @@ export default function ChatPdf() {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        if (file) {
-            const url = URL.createObjectURL(file);
-            setFileUrl(url);
+      // Create a URL for the file to be used in the iframe
+      if (file) {
+        const url = URL.createObjectURL(file);
+        setFileUrl(url);
 
-            return () => {
-                URL.revokeObjectURL(url);
-                setFileUrl(null);
-            };
-        }
+        // Revoke the URL when the component unmounts or the file changes
+        return () => {
+          URL.revokeObjectURL(url);
+          setFileUrl(null);
+        };
+      }
     }, [file]);
-
 
     const resetState = () => {
         setStatus('idle');
         setFile(null);
+        setDataUri(null);
         setMessages([]);
         setCurrentMessage('');
         setUploadProgress(0);
@@ -71,24 +74,25 @@ export default function ChatPdf() {
         }
         
         resetState();
+        setFile(fileToProcess);
         setStatus('uploading');
 
-        // Simulate upload for immediate UI feedback
-        let progress = 0;
-        const interval = setInterval(() => {
-            progress += 10;
-            setUploadProgress(progress);
-            if (progress >= 100) {
-                clearInterval(interval);
-                setFile(fileToProcess);
-                setStatus('selected');
+        const reader = new FileReader();
+        reader.onprogress = (event) => {
+            if (event.lengthComputable) {
+                setUploadProgress((event.loaded / event.total) * 100);
             }
-        }, 50);
+        };
+        reader.onloadend = () => {
+            setDataUri(reader.result as string);
+            setStatus('selected');
+        };
+        reader.readAsDataURL(fileToProcess);
     };
 
     const handleSendMessage = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!currentMessage.trim() || status === 'loading') return;
+        if (!currentMessage.trim() || status === 'loading' || !dataUri) return;
 
         const newMessages: Message[] = [...messages, { role: 'user', content: currentMessage }];
         setMessages(newMessages);
@@ -96,6 +100,7 @@ export default function ChatPdf() {
         setStatus('loading');
 
         // Mock AI response for now
+        // In the future, you would call a server action here with the `dataUri` and `currentMessage`
         setTimeout(() => {
             setMessages([...newMessages, { role: 'assistant', content: 'This is a mock response from the assistant.' }]);
             setStatus('selected');
@@ -115,7 +120,7 @@ export default function ChatPdf() {
     };
 
 
-    if (file && fileUrl) {
+    if (status !== 'idle' && file && fileUrl) {
         return (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-6xl h-[calc(100vh-8rem)]">
                 <Card className="flex flex-col">
