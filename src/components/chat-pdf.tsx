@@ -19,18 +19,30 @@ type Message = {
 export default function ChatPdf() {
     const { t } = useTranslation();
     const [status, setStatus] = useState<Status>('idle');
-    const [dataUri, setDataUri] = useState<string | null>(null);
-    const [fileName, setFileName] = useState<string | null>(null);
+    const [file, setFile] = useState<File | null>(null);
+    const [fileUrl, setFileUrl] = useState<string | null>(null);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [messages, setMessages] = useState<Message[]>([]);
     const [currentMessage, setCurrentMessage] = useState('');
     const { toast } = useToast();
     const fileInputRef = useRef<HTMLInputElement>(null);
 
+    useEffect(() => {
+        if (file) {
+            const url = URL.createObjectURL(file);
+            setFileUrl(url);
+
+            return () => {
+                URL.revokeObjectURL(url);
+                setFileUrl(null);
+            };
+        }
+    }, [file]);
+
+
     const resetState = () => {
         setStatus('idle');
-        setDataUri(null);
-        setFileName(null);
+        setFile(null);
         setMessages([]);
         setCurrentMessage('');
         setUploadProgress(0);
@@ -40,38 +52,38 @@ export default function ChatPdf() {
     };
     
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) processFile(file);
+        const selectedFile = event.target.files?.[0];
+        if (selectedFile) processFile(selectedFile);
     };
 
     const handleDrop = (event: DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         event.stopPropagation();
         event.currentTarget.classList.remove('border-primary', 'bg-primary/10');
-        const file = event.dataTransfer.files?.[0];
-        if (file) processFile(file);
+        const droppedFile = event.dataTransfer.files?.[0];
+        if (droppedFile) processFile(droppedFile);
     };
 
-    const processFile = (file: File) => {
-        if (file.type !== 'application/pdf') {
+    const processFile = (fileToProcess: File) => {
+        if (fileToProcess.type !== 'application/pdf') {
             toast({ variant: 'destructive', title: t('toast', 'invalidFileType'), description: t('toast', 'invalidFileTypeDesc') });
             return;
         }
-        setFileName(file.name);
+        
+        resetState();
         setStatus('uploading');
-        setMessages([]);
-        setCurrentMessage('');
+
         const reader = new FileReader();
         reader.onprogress = (event) => {
             if (event.lengthComputable) {
-                setUploadProgress((event.loaded / event.total) * 100);
+                setUploadProgress((event.loaded / eventToProcess.total) * 100);
             }
         };
         reader.onloadend = () => {
-            setDataUri(reader.result as string);
+            setFile(fileToProcess);
             setStatus('selected');
         };
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(fileToProcess);
     };
 
     const handleSendMessage = async (e: React.FormEvent) => {
@@ -103,18 +115,18 @@ export default function ChatPdf() {
     };
 
 
-    if (dataUri) {
+    if (file && fileUrl) {
         return (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-6xl h-[calc(100vh-8rem)]">
                 <Card className="flex flex-col">
                     <CardHeader className='flex-row items-center justify-between'>
-                        <CardTitle className='text-lg font-medium truncate'>{fileName}</CardTitle>
+                        <CardTitle className='text-lg font-medium truncate'>{file.name}</CardTitle>
                         <Button onClick={resetState} variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10 hover:text-destructive rounded-full">
                            <Trash2 className="h-5 w-5"/>
                         </Button>
                     </CardHeader>
                     <CardContent className="flex-grow p-0">
-                       <iframe src={dataUri} className="w-full h-full border-0" title={fileName ?? 'PDF Preview'}/>
+                       <iframe src={fileUrl} className="w-full h-full border-0" title={file.name ?? 'PDF Preview'}/>
                     </CardContent>
                 </Card>
 
@@ -214,5 +226,3 @@ export default function ChatPdf() {
         </Card>
     );
 }
-
-    
