@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect, ChangeEvent, DragEvent } from 'react';
@@ -26,17 +27,15 @@ export default function ChatPdf() {
     const { toast } = useToast();
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const resetState = (fullReset = true) => {
+    const resetState = () => {
         setStatus('idle');
+        setDataUri(null);
+        setFileName(null);
         setMessages([]);
         setCurrentMessage('');
         setUploadProgress(0);
-        if (fullReset) {
-            setDataUri(null);
-            setFileName(null);
-            if (fileInputRef.current) {
-                fileInputRef.current.value = "";
-            }
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";
         }
     };
     
@@ -58,9 +57,10 @@ export default function ChatPdf() {
             toast({ variant: 'destructive', title: t('toast', 'invalidFileType'), description: t('toast', 'invalidFileTypeDesc') });
             return;
         }
-        resetState(false);
         setFileName(file.name);
         setStatus('uploading');
+        setMessages([]);
+        setCurrentMessage('');
         const reader = new FileReader();
         reader.onprogress = (event) => {
             if (event.lengthComputable) {
@@ -103,13 +103,13 @@ export default function ChatPdf() {
     };
 
 
-    if (status !== 'idle' && status !== 'uploading' && status !== 'error' && dataUri) {
+    if (dataUri) {
         return (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-6xl h-[calc(100vh-8rem)]">
                 <Card className="flex flex-col">
                     <CardHeader className='flex-row items-center justify-between'>
                         <CardTitle className='text-lg font-medium truncate'>{fileName}</CardTitle>
-                        <Button onClick={() => resetState(true)} variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10 hover:text-destructive rounded-full">
+                        <Button onClick={resetState} variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10 hover:text-destructive rounded-full">
                            <Trash2 className="h-5 w-5"/>
                         </Button>
                     </CardHeader>
@@ -198,7 +198,7 @@ export default function ChatPdf() {
                                  <AlertCircle className="h-8 w-8 text-destructive" />
                              </div>
                              <h2 className="mt-2 text-lg font-semibold text-destructive">{t('status', 'errorTitle')}</h2>
-                             <Button variant="outline" onClick={() => resetState(true)} className="mt-4">{t('buttons', 'tryAgain')}</Button>
+                             <Button variant="outline" onClick={resetState} className="mt-4">{t('buttons', 'tryAgain')}</Button>
                          </div>
                     )}
                 </div>
@@ -214,3 +214,5 @@ export default function ChatPdf() {
         </Card>
     );
 }
+
+    
