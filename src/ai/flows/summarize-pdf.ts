@@ -21,6 +21,7 @@ export type SummarizePdfInput = z.infer<typeof SummarizePdfInputSchema>;
 
 const SummarizePdfOutputSchema = z.object({
   summary: z.string().describe('A concise summary of the provided PDF document.'),
+  pageCount: z.number().describe('The total number of pages in the PDF document.'),
 });
 export type SummarizePdfOutput = z.infer<typeof SummarizePdfOutputSchema>;
 
@@ -35,7 +36,9 @@ const summarizePdfPrompt = ai.definePrompt({
       document: z.string(),
     }),
   },
-  output: {schema: SummarizePdfOutputSchema},
+  output: {schema: z.object({
+    summary: z.string().describe('A concise summary of the provided PDF document.'),
+  })},
   prompt: `You are an expert at summarizing documents. Please provide a concise summary of the following document:\n\n{{{document}}}`,
 });
 
@@ -51,6 +54,13 @@ const summarizePdfFlow = ai.defineFlow(
     const pdfData = await pdf(pdfBuffer);
 
     const {output} = await summarizePdfPrompt({document: pdfData.text});
-    return output!;
+    if (!output) {
+      throw new Error("Could not generate summary.");
+    }
+    
+    return {
+        summary: output.summary,
+        pageCount: pdfData.numpages,
+    };
   }
 );
