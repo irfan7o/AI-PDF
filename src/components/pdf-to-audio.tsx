@@ -34,7 +34,7 @@ export default function PdfToAudio() {
     const [uploadProgress, setUploadProgress] = useState(0);
     const [audioResult, setAudioResult] = useState<AudioResult | null>(null);
     const [isVoiceModalOpen, setIsVoiceModalOpen] = useState(false);
-    const [selectedVoice, setSelectedVoice] = useState(voices[0].id);
+    const [selectedVoice, setSelectedVoice] = useState('');
     const { toast } = useToast();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const audioRef = useRef<HTMLAudioElement>(null);
@@ -64,6 +64,7 @@ export default function PdfToAudio() {
         setFile(null);
         setDataUri(null);
         setAudioResult(null);
+        setSelectedVoice('');
         setUploadProgress(0);
         if (audioRef.current) {
             audioRef.current.pause();
@@ -112,7 +113,7 @@ export default function PdfToAudio() {
     };
 
     const handleGenerate = async () => {
-        if (!dataUri) return;
+        if (!dataUri || !selectedVoice) return;
 
         setStatus('converting');
         const result = await getAudio(dataUri, selectedVoice);
@@ -168,7 +169,7 @@ export default function PdfToAudio() {
                 <ScrollArea className="max-h-[60vh] pr-6">
                     <RadioGroup value={selectedVoice} onValueChange={(value) => {setSelectedVoice(value); setIsVoiceModalOpen(false);}} className="grid grid-cols-2 gap-4 mt-4">
                         {voices.map((voice) => (
-                            <Label key={voice.id} htmlFor={voice.id} className="cursor-pointer rounded-lg border p-4 transition-colors hover:bg-accent has-[input:checked]:bg-primary has-[input:checked]:text-primary-foreground has-[input:checked]:border-primary">
+                            <Label key={voice.id} htmlFor={voice.id} className="cursor-pointer rounded-lg border p-4 transition-colors hover:bg-accent has-[input:checked]:border-primary has-[input:checked]:bg-primary has-[input:checked]:text-primary-foreground">
                                 <div className="flex items-center justify-between">
                                     <h4 className="font-semibold">{voice.name}</h4>
                                     <RadioGroupItem value={voice.id} id={voice.id} className="sr-only" />
@@ -274,7 +275,7 @@ export default function PdfToAudio() {
                                  <ListMusic className="mr-2" />
                                  {voices.find(v => v.id === selectedVoice)?.name || 'Select Voice'}
                              </Button>
-                             <Button onClick={handleGenerate} disabled={status !== 'selected'} className="w-full">
+                             <Button onClick={handleGenerate} disabled={status !== 'selected' || !selectedVoice} className="w-full">
                                  <Music className="mr-2" />
                                  Generate Audio
                              </Button>
@@ -287,5 +288,4 @@ export default function PdfToAudio() {
             {renderVoiceSelectionModal()}
         </>
     );
-    
-    
+}
