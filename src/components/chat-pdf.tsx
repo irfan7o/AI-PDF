@@ -193,7 +193,7 @@ export default function ChatPdf() {
                 onClick={() => fileInputRef.current?.click()}
                 className="p-6 pt-0"
             >
-                <div className="w-full min-h-[300px] h-full rounded-lg border-2 border-dashed p-12 text-center transition-colors flex items-center justify-center cursor-pointer hover:border-primary hover:bg-primary/10">
+                <div className="group w-full min-h-[300px] h-full rounded-lg border-2 border-dashed p-12 text-center transition-colors flex items-center justify-center cursor-pointer hover:border-primary hover:bg-primary/10">
                     {status === 'idle' && (
                          <div className="flex flex-col items-center justify-center h-full">
                              <div className="rounded-full p-3 bg-gray-200 dark:bg-muted">
@@ -201,7 +201,7 @@ export default function ChatPdf() {
                              </div>
                              <p className="mt-4 font-semibold text-foreground">{t('uploadArea', 'dragAndDrop')}</p>
                              <p className="my-2 text-sm text-muted-foreground">{t('uploadArea', 'or')}</p>
-                             <Button variant="ghost" className="hover:bg-primary hover:text-primary-foreground">{t('uploadArea', 'chooseFile')}</Button>
+                             <Button variant="ghost" className="group-hover:bg-primary group-hover:text-primary-foreground">{t('uploadArea', 'chooseFile')}</Button>
                          </div>
                     )}
                     {status === 'uploading' && (

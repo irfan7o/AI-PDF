@@ -186,7 +186,7 @@ export default function PdfSummarizer() {
                             onDragLeave={handleDragLeave}
                             onClick={() => status === 'idle' && fileInputRef.current?.click()}
                             className={cn(
-                                "w-full min-h-[200px] mt-4 rounded-lg border-2 border-dashed p-12 text-center transition-colors flex items-center justify-center",
+                                "group w-full min-h-[200px] mt-4 rounded-lg border-2 border-dashed p-12 text-center transition-colors flex items-center justify-center",
                                 status === 'idle' && "cursor-pointer hover:border-primary hover:bg-primary/10"
                             )}
                         >
@@ -197,7 +197,7 @@ export default function PdfSummarizer() {
                                     </div>
                                     <p className="mt-4 font-semibold text-foreground">{t('uploadArea', 'dragAndDrop')}</p>
                                     <p className="my-2 text-sm text-muted-foreground">{t('uploadArea', 'or')}</p>
-                                    <Button variant="ghost" className="hover:bg-primary hover:text-primary-foreground">{t('uploadArea', 'chooseFile')}</Button>
+                                    <Button variant="ghost" className="group-hover:bg-primary group-hover:text-primary-foreground">{t('uploadArea', 'chooseFile')}</Button>
                                 </div>
                             )}
                             {status === 'uploading' && (

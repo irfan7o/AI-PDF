@@ -165,10 +165,9 @@ export default function ImageToPdf() {
                                 </div>
                             </div>
                         ))}
-                         <label htmlFor="file-upload-more" className="cursor-pointer">
+                         <label htmlFor="file-upload-more" className="cursor-pointer aspect-square">
                             <div
-                                className="aspect-square border-2 border-dashed rounded-lg flex flex-col items-center justify-center text-muted-foreground hover:border-primary hover:text-primary transition-colors h-full w-full p-0"
-                                onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click() }}
+                                className="border-2 border-dashed rounded-lg flex flex-col items-center justify-center text-muted-foreground hover:border-primary hover:text-primary transition-colors h-full w-full p-0"
                             >
                                 <FileUp className="h-8 w-8"/>
                                 <p className="text-xs mt-2 text-center">{t('uploadArea', 'addMore')}</p>
@@ -223,7 +222,7 @@ export default function ImageToPdf() {
                     onClick={() => fileInputRef.current?.click()}
                     className="p-6 pt-0"
                 >
-                    <div className={cn("w-full min-h-[300px] h-full rounded-lg border-2 border-dashed p-12 text-center transition-colors flex flex-col items-center justify-center cursor-pointer hover:border-primary hover:bg-primary/10")}>
+                    <div className={cn("group w-full min-h-[300px] h-full rounded-lg border-2 border-dashed p-12 text-center transition-colors flex flex-col items-center justify-center cursor-pointer hover:border-primary hover:bg-primary/10")}>
                         {status === 'idle' && (
                              <div className="flex flex-col items-center justify-center h-full">
                                  <div className="rounded-full p-3 bg-gray-200 dark:bg-muted">
@@ -231,7 +230,7 @@ export default function ImageToPdf() {
                                  </div>
                                  <p className="mt-4 font-semibold text-foreground">{t('uploadArea', 'dragAndDropImages')}</p>
                                  <p className="my-2 text-sm text-muted-foreground">{t('uploadArea', 'or')}</p>
-                                 <Button variant="ghost" className="hover:bg-primary hover:text-primary-foreground" onClick={(e) => {e.stopPropagation(); fileInputRef.current?.click()}}>{t('uploadArea', 'chooseFiles')}</Button>
+                                 <Button variant="ghost" className="group-hover:bg-primary group-hover:text-primary-foreground" onClick={(e) => {e.stopPropagation(); fileInputRef.current?.click()}}>{t('uploadArea', 'chooseFiles')}</Button>
                              </div>
                         )}
                     </div>

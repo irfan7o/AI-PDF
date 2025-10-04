@@ -140,7 +140,7 @@ export default function PdfTranslator() {
                     className="p-6 pt-0"
                 >
                     <div className={cn(
-                        "w-full min-h-[300px] h-full rounded-lg border-2 border-dashed p-12 text-center transition-colors flex flex-col items-center justify-center",
+                        "group w-full min-h-[300px] h-full rounded-lg border-2 border-dashed p-12 text-center transition-colors flex flex-col items-center justify-center",
                         status === 'idle' && "cursor-pointer hover:border-primary hover:bg-primary/10"
                     )}>
                         {status === 'idle' && (
@@ -150,7 +150,7 @@ export default function PdfTranslator() {
                                  </div>
                                  <p className="mt-4 font-semibold text-foreground">{t('uploadArea', 'dragAndDrop')}</p>
                                  <p className="my-2 text-sm text-muted-foreground">{t('uploadArea', 'or')}</p>
-                                 <Button variant="ghost" className="hover:bg-primary hover:text-primary-foreground" onClick={(e) => {e.stopPropagation(); fileInputRef.current?.click()}}>{t('uploadArea', 'chooseFile')}</Button>
+                                 <Button variant="ghost" className="group-hover:bg-primary group-hover:text-primary-foreground" onClick={(e) => {e.stopPropagation(); fileInputRef.current?.click()}}>{t('uploadArea', 'chooseFile')}</Button>
                              </div>
                         )}
                         {status === 'uploading' && (
