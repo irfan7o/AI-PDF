@@ -163,14 +163,22 @@ export default function ImageToPdf() {
                                 </div>
                             </div>
                         ))}
-                         <Button
-                            variant="outline"
-                            onClick={() => fileInputRef.current?.click()}
-                            className="aspect-square border-2 border-dashed rounded-lg flex flex-col items-center justify-center text-muted-foreground hover:border-primary hover:text-primary cursor-pointer transition-colors h-full w-full p-0"
-                         >
-                            <FileUp className="h-8 w-8"/>
-                            <p className="text-xs mt-2 text-center">{t('uploadArea', 'addMore')}</p>
-                         </Button>
+                         <label htmlFor="file-upload-more" className="cursor-pointer">
+                            <div
+                                className="aspect-square border-2 border-dashed rounded-lg flex flex-col items-center justify-center text-muted-foreground hover:border-primary hover:text-primary transition-colors h-full w-full p-0"
+                            >
+                                <FileUp className="h-8 w-8"/>
+                                <p className="text-xs mt-2 text-center">{t('uploadArea', 'addMore')}</p>
+                            </div>
+                         </label>
+                         <input
+                            id="file-upload-more"
+                            type="file"
+                            className="hidden"
+                            onChange={handleFileChange}
+                            accept="image/*"
+                            multiple
+                        />
                     </div>
                 </CardContent>
                 <CardFooter className="flex-col gap-4">
