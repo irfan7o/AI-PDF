@@ -270,19 +270,19 @@ export default function PdfToAudio() {
                         </div>
                     )}
 
-                    <div className="flex justify-end gap-2 w-full">
-                        {(status === 'selected' || status === 'success' || status === 'error') && status !== 'converting' && (
-                             <Button variant="ghost" onClick={resetState}>
+                    <div className="flex flex-col gap-2 w-full">
+                         {(status === 'selected' || status === 'success' || status === 'error') && status !== 'converting' && (
+                            <Button variant="ghost" onClick={resetState}>
                                 {status === 'success' ? t('buttons', 'convertAnother') : t('buttons', 'tryAgain')}
-                             </Button>
+                            </Button>
                         )}
                         {status === 'selected' && (
-                           <div className='flex gap-2'>
+                           <div className='flex flex-col gap-2 w-full'>
                              <Button variant="outline" onClick={() => setIsVoiceModalOpen(true)} disabled={status !== 'selected'}>
                                  <ListMusic className="mr-2" />
                                  Pilih Suara
                              </Button>
-                             <Button onClick={handleGenerate} disabled={status !== 'selected'}>
+                             <Button onClick={handleGenerate} disabled={status !== 'selected'} className="w-full">
                                  <Music className="mr-2" />
                                  Generate Audio
                              </Button>
@@ -295,5 +295,5 @@ export default function PdfToAudio() {
             {renderVoiceSelectionModal()}
         </>
     );
-
+}
     
