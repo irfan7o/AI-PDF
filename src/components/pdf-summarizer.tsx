@@ -244,7 +244,7 @@ export default function PdfSummarizer() {
                              <Textarea
                                  readOnly
                                  value={analysisResult.summary}
-                                 className="my-4 h-64 resize-none"
+                                 className="my-4 h-80 resize-none"
                              />
                             <div className="text-sm text-muted-foreground">
                                 {analysisResult.pageCount} {t('fileInfo', 'pages')}
