@@ -26,7 +26,9 @@
   },
   "tabs": {
     "uploadFile": "Загрузить файл",
-    "fromUrl": "По URL"
+    "fromUrl": "По URL",
+    "summary": "Резюме",
+    "fullText": "Преобразовать в текст"
   },
   "urlInput": {
     "title": "Введите URL PDF",
@@ -36,7 +38,9 @@
     "summaryFor": "Резюме для",
     "summaryDescription": "Вот краткое резюме вашего документа.",
     "allFeatures": "Все функции",
-    "selectFeature": "Выберите функцию, чтобы начать."
+    "selectFeature": "Выберите функцию, чтобы начать.",
+    "resultsFor": "Результаты для",
+    "page": "Страница"
   },
   "floatingMenu": {
     "pdfSummarizer": "Суммаризатор PDF",
@@ -57,3 +61,5 @@
     "analysisFailedDesc": "Произошла ошибка при суммировании вашего PDF. Пожалуйста, попробуйте снова."
   }
 }
+
+    

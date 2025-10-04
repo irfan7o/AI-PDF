@@ -26,7 +26,9 @@
   },
   "tabs": {
     "uploadFile": "Upload File",
-    "fromUrl": "From URL"
+    "fromUrl": "From URL",
+    "summary": "Summary",
+    "fullText": "Convert to Text"
   },
   "urlInput": {
     "title": "Enter PDF URL",
@@ -36,7 +38,9 @@
     "summaryFor": "Summary for",
     "summaryDescription": "Here is a concise summary of your document.",
     "allFeatures": "All Features",
-    "selectFeature": "Select a feature to get started."
+    "selectFeature": "Select a feature to get started.",
+    "resultsFor": "Results for",
+    "page": "Page"
   },
   "floatingMenu": {
     "pdfSummarizer": "PDF Summarizer",
@@ -57,3 +61,5 @@
     "analysisFailedDesc": "An error occurred while summarizing your PDF. Please try again."
   }
 }
+
+    

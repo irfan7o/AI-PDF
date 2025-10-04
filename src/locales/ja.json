@@ -26,7 +26,9 @@
   },
   "tabs": {
     "uploadFile": "ファイルをアップロード",
-    "fromUrl": "URLから"
+    "fromUrl": "URLから",
+    "summary": "要約",
+    "fullText": "テキストに変換"
   },
   "urlInput": {
     "title": "PDFのURLを入力",
@@ -36,7 +38,9 @@
     "summaryFor": "の要約",
     "summaryDescription": "これがあなたのドキュメントの簡潔な要約です。",
     "allFeatures": "すべての機能",
-    "selectFeature": "開始する機能を選択してください。"
+    "selectFeature": "開始する機能を選択してください。",
+    "resultsFor": "の結果",
+    "page": "ページ"
   },
   "floatingMenu": {
     "pdfSummarizer": "PDF要約ツール",
@@ -57,3 +61,5 @@
     "analysisFailedDesc": "PDFの要約中にエラーが発生しました。もう一度お試しください。"
   }
 }
+
+    

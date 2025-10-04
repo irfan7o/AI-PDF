@@ -26,7 +26,9 @@
   },
   "tabs": {
     "uploadFile": "Subir archivo",
-    "fromUrl": "Desde URL"
+    "fromUrl": "Desde URL",
+    "summary": "Resumen",
+    "fullText": "Convertir a texto"
   },
   "urlInput": {
     "title": "Ingresar URL del PDF",
@@ -36,7 +38,9 @@
     "summaryFor": "Resumen de",
     "summaryDescription": "Aquí tienes un resumen conciso de tu documento.",
     "allFeatures": "Todas las funciones",
-    "selectFeature": "Selecciona una función para comenzar."
+    "selectFeature": "Selecciona una función para comenzar.",
+    "resultsFor": "Resultados para",
+    "page": "Página"
   },
   "floatingMenu": {
     "pdfSummarizer": "Resumidor de PDF",
@@ -57,3 +61,5 @@
     "analysisFailedDesc": "Ocurrió un error al resumir tu PDF. Por favor, inténtalo de nuevo."
   }
 }
+
+    

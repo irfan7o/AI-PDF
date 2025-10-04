@@ -26,7 +26,9 @@
   },
   "tabs": {
     "uploadFile": "上传文件",
-    "fromUrl": "来自URL"
+    "fromUrl": "来自URL",
+    "summary": "摘要",
+    "fullText": "转换为文本"
   },
   "urlInput": {
     "title": "输入PDF网址",
@@ -36,7 +38,9 @@
     "summaryFor": "的摘要",
     "summaryDescription": "这是您文档的简洁摘要。",
     "allFeatures": "所有功能",
-    "selectFeature": "选择一个功能以开始。"
+    "selectFeature": "选择一个功能以开始。",
+    "resultsFor": "的结果",
+    "page": "页"
   },
   "floatingMenu": {
     "pdfSummarizer": "PDF摘要器",
@@ -57,3 +61,5 @@
     "analysisFailedDesc": "总结您的PDF时出错。请重试。"
   }
 }
+
+    

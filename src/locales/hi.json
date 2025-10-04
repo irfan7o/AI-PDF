@@ -26,7 +26,9 @@
   },
   "tabs": {
     "uploadFile": "फ़ाइल अपलोड करें",
-    "fromUrl": "URL से"
+    "fromUrl": "URL से",
+    "summary": "सारांश",
+    "fullText": "पाठ में बदलें"
   },
   "urlInput": {
     "title": "पीडीएफ़ URL दर्ज करें",
@@ -36,7 +38,9 @@
     "summaryFor": "के लिए सारांश",
     "summaryDescription": "यहाँ आपके दस्तावेज़ का संक्षिप्त सारांश है।",
     "allFeatures": "सभी सुविधाएँ",
-    "selectFeature": "आरंभ करने के लिए एक सुविधा चुनें।"
+    "selectFeature": "आरंभ करने के लिए एक सुविधा चुनें।",
+    "resultsFor": "के लिए परिणाम",
+    "page": "पृष्ठ"
   },
   "floatingMenu": {
     "pdfSummarizer": "पीडीएफ़ सारांशक",
@@ -57,3 +61,5 @@
     "analysisFailedDesc": "आपके पीडीएफ़ को सारांशित करते समय एक त्रुटि हुई। कृपया पुनः प्रयास करें।"
   }
 }
+
+    

@@ -26,7 +26,9 @@
   },
   "tabs": {
     "uploadFile": "Datei hochladen",
-    "fromUrl": "Von URL"
+    "fromUrl": "Von URL",
+    "summary": "Zusammenfassung",
+    "fullText": "In Text umwandeln"
   },
   "urlInput": {
     "title": "PDF-URL eingeben",
@@ -36,7 +38,9 @@
     "summaryFor": "Zusammenfassung für",
     "summaryDescription": "Hier ist eine prägnante Zusammenfassung Ihres Dokuments.",
     "allFeatures": "Alle Funktionen",
-    "selectFeature": "Wählen Sie eine Funktion aus, um zu beginnen."
+    "selectFeature": "Wählen Sie eine Funktion aus, um zu beginnen.",
+    "resultsFor": "Ergebnisse für",
+    "page": "Seite"
   },
   "floatingMenu": {
     "pdfSummarizer": "PDF-Zusammenfasser",
@@ -57,3 +61,5 @@
     "analysisFailedDesc": "Beim Zusammenfassen Ihrer PDF-Datei ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
   }
 }
+
+    

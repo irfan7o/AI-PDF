@@ -26,7 +26,9 @@
   },
   "tabs": {
     "uploadFile": "Unggah File",
-    "fromUrl": "Dari URL"
+    "fromUrl": "Dari URL",
+    "summary": "Ringkasan",
+    "fullText": "Ubah menjadi Teks"
   },
   "urlInput": {
     "title": "Masukkan URL PDF",
@@ -36,7 +38,9 @@
     "summaryFor": "Ringkasan untuk",
     "summaryDescription": "Berikut adalah ringkasan singkat dari dokumen Anda.",
     "allFeatures": "Semua Fitur",
-    "selectFeature": "Pilih fitur untuk memulai."
+    "selectFeature": "Pilih fitur untuk memulai.",
+    "resultsFor": "Hasil untuk",
+    "page": "Halaman"
   },
   "floatingMenu": {
     "pdfSummarizer": "Peringkas PDF",
@@ -57,3 +61,5 @@
     "analysisFailedDesc": "Terjadi kesalahan saat meringkas PDF Anda. Silakan coba lagi."
   }
 }
+
+    
