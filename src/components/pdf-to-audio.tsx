@@ -2,13 +2,13 @@
 "use client";
 
 import { useState, useRef, useEffect, ChangeEvent, DragEvent } from 'react';
-import { FileUp, Loader, AlertCircle, Trash2, FileText, Music, User, Play, Pause } from 'lucide-react';
+import { FileUp, Loader, AlertCircle, Trash2, FileText, Music, User, Play, Pause, ListMusic } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from '@/contexts/translation-context';
 import { getAudio, AudioResult } from '@/app/actions';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription as DialogDescriptionComponent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription as DialogDescriptionComponent, DialogClose } from '@/components/ui/dialog';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from './ui/scroll-area';
@@ -112,12 +112,10 @@ export default function PdfToAudio() {
         reader.readAsDataURL(fileToProcess);
     };
 
-    const handleConvert = async () => {
+    const handleGenerate = async () => {
         if (!dataUri) return;
 
         setStatus('converting');
-        setIsVoiceModalOpen(false);
-
         const result = await getAudio(dataUri, selectedVoice);
 
         if (result.error || !result.audioDataUri) {
@@ -183,9 +181,9 @@ export default function PdfToAudio() {
                     </RadioGroup>
                 </ScrollArea>
                 <div className="flex justify-end mt-4">
-                    <Button onClick={handleConvert} disabled={status === 'converting'}>
-                        {status === 'converting' ? <Loader className="animate-spin" /> : t('buttons', 'confirmAndConvert')}
-                    </Button>
+                    <DialogClose asChild>
+                      <Button>Pilih</Button>
+                    </DialogClose>
                 </div>
             </DialogContent>
         </Dialog>
@@ -279,10 +277,16 @@ export default function PdfToAudio() {
                              </Button>
                         )}
                         {status === 'selected' && (
-                            <Button onClick={() => setIsVoiceModalOpen(true)} disabled={status !== 'selected'}>
-                                <Music className="mr-2" />
-                                {t('buttons', 'convertToAudio')}
-                            </Button>
+                           <div className='flex gap-2'>
+                             <Button variant="outline" onClick={() => setIsVoiceModalOpen(true)} disabled={status !== 'selected'}>
+                                 <ListMusic className="mr-2" />
+                                 Pilih Suara
+                             </Button>
+                             <Button onClick={handleGenerate} disabled={status !== 'selected'}>
+                                 <Music className="mr-2" />
+                                 Generate Audio
+                             </Button>
+                           </div>
                         )}
                     </div>
                 </CardFooter>
