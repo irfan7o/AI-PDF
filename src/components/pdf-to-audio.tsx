@@ -97,7 +97,7 @@ export default function PdfToAudio() {
         
         resetState();
         setFile(fileToProcess);
-        setStatus('uploading');
+setStatus('uploading');
 
         const reader = new FileReader();
         reader.onprogress = (event) => {
@@ -206,7 +206,7 @@ export default function PdfToAudio() {
                                  </div>
                                  <p className="mt-4 font-semibold text-foreground">{t('uploadArea', 'dragAndDrop')}</p>
                                  <p className="my-2 text-sm text-muted-foreground">{t('uploadArea', 'or')}</p>
-                                 <Button variant="ghost" onClick={() => fileInputRef.current?.click()}>{t('uploadArea', 'chooseFile')}</Button>
+                                 <Button variant="ghost" className="hover:bg-primary/10 hover:text-primary" onClick={() => fileInputRef.current?.click()}>{t('uploadArea', 'chooseFile')}</Button>
                              </div>
                         )}
                         {status === 'uploading' && (
@@ -242,7 +242,6 @@ export default function PdfToAudio() {
                          type="file"
                          className="hidden"
                          onChange={handleFileChange}
-                         accept="application/pdf"
                          disabled={status !== 'idle'}
                      />
                 </CardContent>
@@ -268,7 +267,7 @@ export default function PdfToAudio() {
                     )}
 
                     <div className="flex flex-col gap-2 w-full items-center">
-                         <Button variant="outline" size="sm" onClick={() => setIsVoiceModalOpen(true)} disabled={status !== 'selected' && status !== 'success' && status !== 'error'}>
+                         <Button variant="outline" size="sm" onClick={() => setIsVoiceModalOpen(true)} disabled={status === 'idle' || status === 'uploading' || status === 'converting'}>
                              <ListMusic className="mr-2" />
                              {voices.find(v => v.id === selectedVoice)?.name || "Select Voice"}
                          </Button>
@@ -284,3 +283,5 @@ export default function PdfToAudio() {
         </>
     );
 }
+
+    

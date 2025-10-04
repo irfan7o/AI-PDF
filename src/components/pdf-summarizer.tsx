@@ -197,7 +197,7 @@ export default function PdfSummarizer() {
                                     </div>
                                     <p className="mt-4 font-semibold text-foreground">{t('uploadArea', 'dragAndDrop')}</p>
                                     <p className="my-2 text-sm text-muted-foreground">{t('uploadArea', 'or')}</p>
-                                    <Button variant="ghost">{t('uploadArea', 'chooseFile')}</Button>
+                                    <Button variant="ghost" className="hover:bg-primary/10 hover:text-primary">{t('uploadArea', 'chooseFile')}</Button>
                                 </div>
                             )}
                             {status === 'uploading' && (
@@ -240,7 +240,7 @@ export default function PdfSummarizer() {
                         />
                     </TabsContent>
                     <TabsContent value="fromUrl">
-                        <div className="w-full min-h-[200px] mt-4 rounded-lg border-2 border-transparent p-12 text-center transition-colors flex flex-col items-center justify-center">
+                         <div className="w-full min-h-[200px] mt-4 rounded-lg border-2 border-transparent p-12 text-center transition-colors flex flex-col items-center justify-center">
                             <h3 className="text-lg font-semibold">{t('urlInput', 'title')}</h3>
                             <p className="text-sm text-muted-foreground mt-1 mb-4">{t('urlInput', 'description')}</p>
                             <Input
@@ -298,5 +298,7 @@ export default function PdfSummarizer() {
         </Card>
     );
 }
+
+    
 
     
