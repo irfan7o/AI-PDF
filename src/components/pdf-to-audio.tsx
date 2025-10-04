@@ -235,7 +235,7 @@ export default function PdfToAudio() {
                                      <AlertCircle className="h-8 w-8 text-destructive" />
                                  </div>
                                  <h2 className="mt-2 text-lg font-semibold text-destructive">{t('status', 'errorTitle')}</h2>
-                                 <p className="mt-1 text-sm text-muted-foreground">{t('status', 'errorDescription')}</p>
+                                 <Button variant="ghost" onClick={resetState} className="mt-4">{t('buttons', 'tryAgain')}</Button>
                              </div>
                         )}
                     </div>
@@ -260,6 +260,9 @@ export default function PdfToAudio() {
                                 </Button>
                                 <audio ref={audioRef} src={audioResult.audioDataUri} className="hidden"></audio>
                             </div>
+                             <Button variant="ghost" onClick={resetState}>
+                                {t('buttons', 'convertAnother')}
+                            </Button>
                         </div>
                     )}
                     
@@ -271,14 +274,9 @@ export default function PdfToAudio() {
                     )}
 
                     <div className="flex flex-col gap-2 w-full">
-                         {(status === 'selected' || status === 'success' || status === 'error') && status !== 'converting' && (
-                            <Button variant="ghost" onClick={resetState}>
-                                {status === 'success' ? t('buttons', 'convertAnother') : t('buttons', 'tryAgain')}
-                            </Button>
-                        )}
                         {status === 'selected' && (
-                           <div className='flex flex-col gap-2 w-full'>
-                             <Button variant="outline" onClick={() => setIsVoiceModalOpen(true)} disabled={status !== 'selected'}>
+                           <div className='flex flex-col gap-2 w-full items-center'>
+                             <Button variant="outline" size="sm" onClick={() => setIsVoiceModalOpen(true)} disabled={status !== 'selected'}>
                                  <ListMusic className="mr-2" />
                                  Pilih Suara
                              </Button>
@@ -288,6 +286,11 @@ export default function PdfToAudio() {
                              </Button>
                            </div>
                         )}
+                         {(status !== 'idle' && status !== 'uploading' && status !== 'selected' && status !== 'converting') && (
+                            <Button variant="ghost" onClick={resetState}>
+                                {status === 'success' ? t('buttons', 'convertAnother') : t('buttons', 'tryAgain')}
+                            </Button>
+                        )}
                     </div>
                 </CardFooter>
             </Card>
@@ -296,4 +299,6 @@ export default function PdfToAudio() {
         </>
     );
 }
+    
+
     
