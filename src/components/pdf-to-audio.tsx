@@ -216,16 +216,16 @@ export default function PdfToAudio() {
                         {voices.map((voice) => (
                              <Label key={voice.id} htmlFor={voice.id} className={cn("cursor-pointer rounded-lg border p-4 transition-colors hover:bg-accent flex justify-between items-center", selectedVoice === voice.id ? "border-primary bg-primary/10" : "")}>
                                 <div className="flex flex-col gap-1">
-                                    <h4 className="font-semibold">{voice.name}</h4>
                                     <div className="flex items-center gap-1 text-muted-foreground">
                                         <User className="h-4 w-4" />
                                         <p className="text-sm">{voice.gender}</p>
                                     </div>
+                                    <h4 className="font-semibold">{voice.name}</h4>
                                 </div>
                                 <Button 
                                     variant="ghost" 
                                     size="icon"
-                                    className='h-8 w-8 rounded-full'
+                                    className='h-8 w-8 rounded-full hover:bg-primary/10'
                                     onClick={(e) => {
                                         e.preventDefault();
                                         e.stopPropagation();
