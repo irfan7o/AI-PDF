@@ -202,6 +202,9 @@ export default function PdfSummarizer() {
                                         {formatFileSize(fileSize)}
                                         {analysisResult?.pageCount && ` - ${analysisResult.pageCount} ${t('fileInfo', 'pages')}`}
                                     </p>
+                                    <Button onClick={resetState} variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10 hover:text-destructive rounded-full h-8 w-8 mt-2" disabled={status === 'loading'}>
+                                        <Trash2 className="h-4 w-4" />
+                                    </Button>
                                 </div>
                             )}
                             {status === 'error' && (
@@ -239,12 +242,7 @@ export default function PdfSummarizer() {
                     </TabsContent>
                 </Tabs>
                 <div className="flex justify-end gap-2 mt-4">
-                     {(status === 'selected' || status === 'loading') && (
-                        <Button variant="ghost" size="icon" onClick={resetState} disabled={status === 'loading'}>
-                           {status === 'loading' ? <Loader className="animate-spin h-5 w-5" /> : <Trash2 className="h-5 w-5" />}
-                        </Button>
-                    )}
-                    <Button onClick={handleSummarize} disabled={(!dataUri && !url) || status === 'loading'}>
+                    <Button onClick={handleSummarize} disabled={(!dataUri && !url) || status === 'loading'} className="w-full">
                         {status === 'loading' ? <Loader className="animate-spin" /> : t('buttons', 'summarize')}
                     </Button>
                 </div>
