@@ -2,7 +2,9 @@
 {
   "main": {
     "title": "Ringkas PDF",
-    "description": "Unggah dokumen PDF untuk mendapatkan ringkasan singkat."
+    "description": "Unggah dokumen PDF untuk mendapatkan ringkasan singkat.",
+    "pdfToAudioDescription": "Unggah dokumen PDF untuk mengubahnya menjadi audio.",
+    "pdfToAudioCta": "PDF Anda siap untuk diubah menjadi audio. Pilih suara dan dengarkan."
   },
   "uploadArea": {
     "dragAndDrop": "Seret dan lepas file di sini",
@@ -12,6 +14,7 @@
   },
   "status": {
     "uploading": "Mengunggah",
+    "converting": "Mengubah ke audio...",
     "errorTitle": "Ups! Terjadi kesalahan.",
     "errorDescription": "Kami tidak dapat menganalisis dokumen Anda. Silakan coba lagi dengan yang lain."
   },
@@ -22,44 +25,10 @@
     "summarize": "Ringkas",
     "tryAgain": "Coba Lagi",
     "close": "Tutup",
-    "summarizeAnother": "Ringkas yang Lain"
+    "summarizeAnother": "Ringkas yang Lain",
+    "convertToAudio": "Ubah ke Audio",
+    "confirmAndConvert": "Konfirmasi & Ubah",
+    "convertAnother": "Ubah file lain"
   },
-  "tabs": {
-    "uploadFile": "Unggah File",
-    "fromUrl": "Dari URL",
-    "summary": "Ringkasan",
-    "fullText": "Ubah menjadi Teks"
-  },
-  "urlInput": {
-    "title": "Masukkan URL PDF",
-    "description": "Tempel tautan ke PDF untuk meringkasnya."
-  },
-  "dialog": {
-    "summaryFor": "Ringkasan untuk",
-    "summaryDescription": "Berikut adalah ringkasan singkat dari dokumen Anda.",
-    "allFeatures": "Semua Fitur",
-    "selectFeature": "Pilih fitur untuk memulai.",
-    "resultsFor": "Hasil untuk",
-    "page": "Halaman"
-  },
-  "floatingMenu": {
-    "pdfSummarizer": "Peringkas PDF",
-    "chatPdf": "Chat PDF",
-    "pdfToAudio": "PDF ke Audio",
-    "pdfTranslator": "Penerjemah PDF",
-    "imageToPdf": "Gambar ke PDF",
-    "pdfToImage": "PDF ke Gambar"
-  },
-  "toast": {
-    "invalidFileType": "Jenis File Tidak Valid",
-    "invalidFileTypeDesc": "Silakan unggah file PDF.",
-    "urlRequired": "URL Diperlukan",
-    "urlRequiredDesc": "Silakan masukkan URL PDF.",
-    "invalidUrl": "URL Tidak Valid",
-    "invalidUrlDesc": "Silakan masukkan URL yang valid.",
-    "analysisFailed": "Analisis Gagal",
-    "analysisFailedDesc": "Terjadi kesalahan saat meringkas PDF Anda. Silakan coba lagi."
-  }
+extraContent: "  \"tabs\": {\n    \"uploadFile\": \"Unggah File\",\n    \"fromUrl\": \"Dari URL\",\n    \"summary\": \"Ringkasan\",\n    \"fullText\": \"Ubah menjadi Teks\"\n  },\n  \"urlInput\": {\n    \"title\": \"Masukkan URL PDF\",\n    \"description\": \"Tempel tautan ke PDF untuk meringkasnya.\"\n  },\n  \"dialog\": {\n    \"summaryFor\": \"Ringkasan untuk\",\n    \"summaryDescription\": \"Berikut adalah ringkasan singkat dari dokumen Anda.\",\n    \"allFeatures\": \"Semua Fitur\",\n    "selectFeature": "Pilih fitur untuk memulai.",\n    \"resultsFor\": \"Hasil untuk\",\n    \"page\": \"Halaman\"\n  },\n  \"floatingMenu\": {\n    \"pdfSummarizer\": \"Peringkas PDF\",\n    \"chatPdf\": \"Chat PDF\",\n    \"pdfToAudio\": \"PDF ke Audio\",\n    \"pdfTranslator\": \"Penerjemah PDF\",\n    \"imageToPdf\": \"Gambar ke PDF\",\n    \"pdfToImage\": \"PDF ke Gambar\"\n  },\n  \"toast\": {\n    \"invalidFileType\": \"Jenis File Tidak Valid\",\n    \"invalidFileTypeDesc\": \"Silakan unggah file PDF.\",\n    \"urlRequired\": \"URL Diperlukan\",\n    \"urlRequiredDesc\": \"Silakan masukkan URL PDF.\",\n    \"invalidUrl\": \"URL Tidak Valid\",\n    \"invalidUrlDesc\": \"Silakan masukkan URL yang valid.\",\n    \"analysisFailed\": \"Analisis Gagal\",\n    \"analysisFailedDesc\": \"Terjadi kesalahan saat meringkas PDF Anda. Silakan coba lagi.\"\n  },\n  \"voiceSelection\": {\n    \"title\": \"Pilih Suara\",\n    \"description\": \"Pilih suara untuk versi audio dokumen Anda.\"\n  },\n  \"audioPlayer\": {\n    \"title\": \"Audio Anda sudah siap\"\n  }\n}\n"
 }
-
-    

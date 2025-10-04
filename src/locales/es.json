@@ -2,7 +2,9 @@
 {
   "main": {
     "title": "Resumir PDF",
-    "description": "Sube un documento PDF para obtener un resumen conciso."
+    "description": "Sube un documento PDF para obtener un resumen conciso.",
+    "pdfToAudioDescription": "Sube un documento PDF para convertirlo en audio.",
+    "pdfToAudioCta": "Tu PDF está listo para ser convertido a audio. Elige una voz y escucha."
   },
   "uploadArea": {
     "dragAndDrop": "Arrastra y suelta el archivo aquí",
@@ -12,6 +14,7 @@
   },
   "status": {
     "uploading": "Subiendo",
+    "converting": "Convirtiendo a audio...",
     "errorTitle": "¡Vaya! Ocurrió un error.",
     "errorDescription": "No pudimos analizar su documento. Por favor, inténtelo de nuevo con otro."
   },
@@ -22,7 +25,10 @@
     "summarize": "Resumir",
     "tryAgain": "Intentar de nuevo",
     "close": "Cerrar",
-    "summarizeAnother": "Resumir otro"
+    "summarizeAnother": "Resumir otro",
+    "convertToAudio": "Convertir a Audio",
+    "confirmAndConvert": "Confirmar y Convertir",
+    "convertAnother": "Convertir otro archivo"
   },
   "tabs": {
     "uploadFile": "Subir archivo",
@@ -59,7 +65,12 @@
     "invalidUrlDesc": "Por favor, ingresa una URL válida.",
     "analysisFailed": "El análisis falló",
     "analysisFailedDesc": "Ocurrió un error al resumir tu PDF. Por favor, inténtalo de nuevo."
+  },
+  "voiceSelection": {
+    "title": "Selecciona una voz",
+    "description": "Elige una voz para la versión de audio de tu documento."
+  },
+  "audioPlayer": {
+    "title": "Tu audio está listo"
   }
 }
-
-    

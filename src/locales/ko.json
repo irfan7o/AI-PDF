@@ -2,7 +2,9 @@
 {
   "main": {
     "title": "PDF 요약",
-    "description": "간결한 요약을 얻으려면 PDF 문서를 업로드하십시오."
+    "description": "간결한 요약을 얻으려면 PDF 문서를 업로드하십시오.",
+    "pdfToAudioDescription": "오디오로 변환하려면 PDF 문서를 업로드하십시오.",
+    "pdfToAudioCta": "PDF가 오디오로 변환될 준비가 되었습니다. 음성을 선택하고 들어보세요."
   },
   "uploadArea": {
     "dragAndDrop": "여기에 파일 끌어다 놓기",
@@ -12,6 +14,7 @@
   },
   "status": {
     "uploading": "업로드 중",
+    "converting": "오디오로 변환 중...",
     "errorTitle": "오류가 발생했습니다.",
     "errorDescription": "문서를 분석할 수 없습니다. 다른 문서로 다시 시도하십시오."
   },
@@ -22,7 +25,10 @@
     "summarize": "요약",
     "tryAgain": "다시 시도",
     "close": "닫기",
-    "summarizeAnother": "다른 파일 요약"
+    "summarizeAnother": "다른 파일 요약",
+    "convertToAudio": "오디오로 변환",
+    "confirmAndConvert": "확인 및 변환",
+    "convertAnother": "다른 파일 변환"
   },
   "tabs": {
     "uploadFile": "파일 업로드",
@@ -59,7 +65,12 @@
     "invalidUrlDesc": "유효한 URL을 입력하십시오.",
     "analysisFailed": "분석 실패",
     "analysisFailedDesc": "PDF를 요약하는 동안 오류가 발생했습니다. 다시 시도하십시오."
+  },
+  "voiceSelection": {
+    "title": "음성 선택",
+    "description": "문서의 오디오 버전에 대한 음성을 선택하십시오."
+  },
+  "audioPlayer": {
+    "title": "오디오가 준비되었습니다"
   }
 }
-
-    

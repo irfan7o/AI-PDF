@@ -2,7 +2,9 @@
 {
   "main": {
     "title": "总结PDF",
-    "description": "上传PDF文档以获得简洁的摘要。"
+    "description": "上传PDF文档以获得简洁的摘要。",
+    "pdfToAudioDescription": "上传PDF文档以将其转换为音频。",
+    "pdfToAudioCta": "您的PDF已准备好转换为音频。请选择一个声音并收听。"
   },
   "uploadArea": {
     "dragAndDrop": "将文件拖放到此处",
@@ -12,6 +14,7 @@
   },
   "status": {
     "uploading": "上传中",
+    "converting": "正在转换为音频...",
     "errorTitle": "哦！出错了。",
     "errorDescription": "我们无法分析您的文档。请换个文档再试一次。"
   },
@@ -22,7 +25,10 @@
     "summarize": "总结",
     "tryAgain": "再试一次",
     "close": "关闭",
-    "summarizeAnother": "总结另一个"
+    "summarizeAnother": "总结另一个",
+    "convertToAudio": "转换为音频",
+    "confirmAndConvert": "确认并转换",
+    "convertAnother": "转换另一个文件"
   },
   "tabs": {
     "uploadFile": "上传文件",
@@ -59,7 +65,12 @@
     "invalidUrlDesc": "请输入有效的URL。",
     "analysisFailed": "分析失败",
     "analysisFailedDesc": "总结您的PDF时出错。请重试。"
+  },
+  "voiceSelection": {
+    "title": "选择声音",
+    "description": "为您的文档的音频版本选择一个声音。"
+  },
+  "audioPlayer": {
+    "title": "您的音频已准备就绪"
   }
 }
-
-    

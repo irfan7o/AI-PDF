@@ -2,7 +2,9 @@
 {
   "main": {
     "title": "PDFを要約",
-    "description": "PDFドキュメントをアップロードして、簡潔な要約を取得します。"
+    "description": "PDFドキュメントをアップロードして、簡潔な要約を取得します。",
+    "pdfToAudioDescription": "PDFドキュメントをアップロードして音声に変換します。",
+    "pdfToAudioCta": "PDFは音声に変換する準備ができました。音声を選択して聞いてください。"
   },
   "uploadArea": {
     "dragAndDrop": "ここにファイルをドラッグ＆ドロップ",
@@ -12,6 +14,7 @@
   },
   "status": {
     "uploading": "アップロード中",
+    "converting": "音声に変換中...",
     "errorTitle": "おっと！エラーが発生しました。",
     "errorDescription": "ドキュメントを分析できませんでした。別のドキュメントで再試行してください。"
   },
@@ -22,7 +25,10 @@
     "summarize": "要約",
     "tryAgain": "再試行",
     "close": "閉じる",
-    "summarizeAnother": "別のものを要約"
+    "summarizeAnother": "別のものを要約",
+    "convertToAudio": "音声に変換",
+    "confirmAndConvert": "確認して変換",
+    "convertAnother": "別のファイルを変換"
   },
   "tabs": {
     "uploadFile": "ファイルをアップロード",
@@ -59,7 +65,12 @@
     "invalidUrlDesc": "有効なURLを入力してください。",
     "analysisFailed": "分析に失敗しました",
     "analysisFailedDesc": "PDFの要約中にエラーが発生しました。もう一度お試しください。"
+  },
+  "voiceSelection": {
+    "title": "音声を選択",
+    "description": "ドキュメントの音声バージョン用の音声を選択してください。"
+  },
+  "audioPlayer": {
+    "title": "音声の準備ができました"
   }
 }
-
-    

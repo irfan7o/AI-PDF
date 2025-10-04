@@ -20,7 +20,7 @@ type MenuItem = {
 const allMenuItems: MenuItem[] = [
     { name: 'pdfSummarizer', href: '/', icon: <FileText/>, active: false },
     { name: 'chatPdf', href: '/chat-pdf', icon: <MessageSquare/>, active: false },
-    { name: 'pdfToAudio', href: '#', icon: <Music/>, active: false },
+    { name: 'pdfToAudio', href: '/pdf-to-audio', icon: <Music/>, active: false },
     { name: 'pdfTranslator', href: '#', icon: <Languages/>, active: false },
     { name: 'imageToPdf', href: '#', 'icon': <FileImage/>, active: false },
     { name: 'pdfToImage', href: '#', 'icon': <Image/>, active: false },

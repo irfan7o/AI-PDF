@@ -2,7 +2,9 @@
 {
   "main": {
     "title": "PDF zusammenfassen",
-    "description": "Laden Sie ein PDF-Dokument hoch, um eine prägnante Zusammenfassung zu erhalten."
+    "description": "Laden Sie ein PDF-Dokument hoch, um eine prägnante Zusammenfassung zu erhalten.",
+    "pdfToAudioDescription": "Laden Sie ein PDF-Dokument hoch, um es in Audio umzuwandeln.",
+    "pdfToAudioCta": "Ihre PDF ist bereit, in Audio umgewandelt zu werden. Wählen Sie eine Stimme und hören Sie zu."
   },
   "uploadArea": {
     "dragAndDrop": "Datei hierher ziehen und ablegen",
@@ -12,6 +14,7 @@
   },
   "status": {
     "uploading": "Hochladen",
+    "converting": "In Audio umwandeln...",
     "errorTitle": "Hoppla! Ein Fehler ist aufgetreten.",
     "errorDescription": "Wir konnten Ihr Dokument nicht analysieren. Bitte versuchen Sie es mit einem anderen."
   },
@@ -22,7 +25,10 @@
     "summarize": "Zusammenfassen",
     "tryAgain": "Erneut versuchen",
     "close": "Schließen",
-    "summarizeAnother": "Eine weitere zusammenfassen"
+    "summarizeAnother": "Eine weitere zusammenfassen",
+    "convertToAudio": "In Audio umwandeln",
+    "confirmAndConvert": "Bestätigen & Umwandeln",
+    "convertAnother": "Eine andere Datei umwandeln"
   },
   "tabs": {
     "uploadFile": "Datei hochladen",
@@ -59,7 +65,12 @@
     "invalidUrlDesc": "Bitte geben Sie eine gültige URL ein.",
     "analysisFailed": "Analyse fehlgeschlagen",
     "analysisFailedDesc": "Beim Zusammenfassen Ihrer PDF-Datei ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+  },
+  "voiceSelection": {
+    "title": "Stimme auswählen",
+    "description": "Wählen Sie eine Stimme für die Audioversion Ihres Dokuments."
+  },
+  "audioPlayer": {
+    "title": "Ihr Audio ist fertig"
   }
 }
-
-    

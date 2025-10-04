@@ -2,7 +2,9 @@
 {
   "main": {
     "title": "Summarize PDF",
-    "description": "Upload a PDF document to get a concise summary."
+    "description": "Upload a PDF document to get a concise summary.",
+    "pdfToAudioDescription": "Upload a PDF document to convert it into audio.",
+    "pdfToAudioCta": "Your PDF is ready to be converted to audio. Choose a voice and listen."
   },
   "uploadArea": {
     "dragAndDrop": "Drag and drop file here",
@@ -12,6 +14,7 @@
   },
   "status": {
     "uploading": "Uploading",
+    "converting": "Converting to audio...",
     "errorTitle": "Oops! An error occurred.",
     "errorDescription": "We couldn't analyze your document. Please try again with another one."
   },
@@ -22,7 +25,10 @@
     "summarize": "Summarize",
     "tryAgain": "Try Again",
     "close": "Close",
-    "summarizeAnother": "Summarize Another"
+    "summarizeAnother": "Summarize Another",
+    "convertToAudio": "Convert to Audio",
+    "confirmAndConvert": "Confirm & Convert",
+    "convertAnother": "Convert another file"
   },
   "tabs": {
     "uploadFile": "Upload File",
@@ -59,7 +65,12 @@
     "invalidUrlDesc": "Please enter a valid URL.",
     "analysisFailed": "Analysis Failed",
     "analysisFailedDesc": "An error occurred while summarizing your PDF. Please try again."
+  },
+  "voiceSelection": {
+    "title": "Select a Voice",
+    "description": "Choose a voice for the audio version of your document."
+  },
+  "audioPlayer": {
+    "title": "Your audio is ready"
   }
 }
-
-    

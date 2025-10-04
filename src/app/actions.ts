@@ -1,10 +1,16 @@
 "use server";
 
 import { summarizePdf, SummarizePdfOutput } from "@/ai/flows/summarize-pdf";
+import { pdfToAudio, PdfToAudioOutput } from "@/ai/flows/pdf-to-audio";
 
 export type AnalysisResult = {
     summary: string;
     pageCount?: number;
+}
+
+export type AudioResult = {
+    audioDataUri?: string;
+    error?: string;
 }
 
 async function fetchAndConvertToDataURI(url: string): Promise<string> {
@@ -52,4 +58,18 @@ export async function getSummary(uri: string): Promise<AnalysisResult> {
     }
     
     return { summary: result.summary, pageCount: result.pageCount };
+}
+
+export async function getAudio(pdfDataUri: string, voice: string): Promise<AudioResult> {
+    if (!pdfDataUri) {
+        return { error: "PDF data URI is required." };
+    }
+
+    try {
+        const result: PdfToAudioOutput = await pdfToAudio({ pdfDataUri, voice });
+        return { audioDataUri: result.audioDataUri };
+    } catch (error: any) {
+        console.error("Error converting PDF to audio:", error);
+        return { error: error.message || "Failed to convert PDF to audio." };
+    }
 }
