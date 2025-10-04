@@ -8,7 +8,8 @@
     "chatPdfDescription": "Sube un documento para empezar a chatear con tu PDF.",
     "pdfTranslatorDescription": "Sube un documento PDF, elige un idioma y obtén una versión traducida.",
     "imageToPdfDescription": "Sube imágenes para convertirlas en un único archivo PDF.",
-    "imageToPdfCta": "Tus imágenes están listas para ser convertidas. Arrastra para reordenar y luego convierte."
+    "imageToPdfCta": "Tus imágenes están listas para ser convertidas. Arrastra para reordenar y luego convierte.",
+    "pdfToImageDescription": "Sube un documento PDF para convertir cada página en una imagen."
   },
   "uploadArea": {
     "dragAndDrop": "Arrastra y suelta el archivo aquí",
@@ -24,6 +25,7 @@
     "converting": "Convirtiendo a audio...",
     "convertingToPdf": "Convirtiendo a PDF...",
     "translating": "Traduciendo...",
+    "convertingToImage": "Convirtiendo a imágenes...",
     "errorTitle": "¡Vaya! Ocurrió un error.",
     "errorDescription": "No pudimos analizar su documento. Por favor, inténtelo de nuevo con otro."
   },
@@ -41,7 +43,8 @@
     "translate": "Traducir",
     "download": "Descargar",
     "translateAnother": "Traducir Otro Archivo",
-    "convertToPdf": "Convertir a PDF"
+    "convertToPdf": "Convertir a PDF",
+    "convertToImage": "Convertir a Imagen"
   },
   "tabs": {
     "uploadFile": "Subir archivo",
@@ -90,5 +93,9 @@
   "translation": {
     "selectLanguage": "Seleccionar idioma de destino...",
     "successTitle": "¡Traducción completada!"
+  },
+  "pdfToImage": {
+    "successTitle": "¡Conversión exitosa!",
+    "successDescription": "Tu PDF ha sido convertido en {count} imágenes."
   }
 }

@@ -8,7 +8,8 @@
     "chatPdfDescription": "Unggah dokumen untuk mulai mengobrol dengan PDF Anda.",
     "pdfTranslatorDescription": "Unggah dokumen PDF, pilih bahasa, dan dapatkan versi terjemahannya.",
     "imageToPdfDescription": "Unggah gambar untuk mengubahnya menjadi satu file PDF.",
-    "imageToPdfCta": "Gambar Anda siap untuk dikonversi. Seret untuk menyusun ulang, lalu konversi."
+    "imageToPdfCta": "Gambar Anda siap untuk dikonversi. Seret untuk menyusun ulang, lalu konversi.",
+    "pdfToImageDescription": "Unggah dokumen PDF untuk mengubah setiap halaman menjadi gambar."
   },
   "uploadArea": {
     "dragAndDrop": "Seret dan lepas file di sini",
@@ -24,6 +25,7 @@
     "converting": "Mengubah ke audio...",
     "convertingToPdf": "Mengubah ke PDF...",
     "translating": "Menerjemahkan...",
+    "convertingToImage": "Mengubah ke gambar...",
     "errorTitle": "Ups! Terjadi kesalahan.",
     "errorDescription": "Kami tidak dapat menganalisis dokumen Anda. Silakan coba lagi dengan yang lain."
   },
@@ -41,7 +43,8 @@
     "translate": "Terjemahkan",
     "download": "Unduh",
     "translateAnother": "Terjemahkan File Lain",
-    "convertToPdf": "Ubah ke PDF"
+    "convertToPdf": "Ubah ke PDF",
+    "convertToImage": "Ubah ke Gambar"
   },
   "tabs": {
     "uploadFile": "Unggah File",
@@ -90,5 +93,9 @@
   "translation": {
     "selectLanguage": "Pilih bahasa target...",
     "successTitle": "Terjemahan selesai!"
+  },
+  "pdfToImage": {
+    "successTitle": "Konversi Berhasil!",
+    "successDescription": "PDF Anda telah diubah menjadi {count} gambar."
   }
 }

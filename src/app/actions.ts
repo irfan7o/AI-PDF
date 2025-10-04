@@ -1,9 +1,11 @@
+
 "use server";
 
 import { summarizePdf, SummarizePdfOutput } from "@/ai/flows/summarize-pdf";
 import { pdfToAudio, PdfToAudioOutput } from "@/ai/flows/pdf-to-audio";
 import { generateVoiceSample, GenerateVoiceSampleOutput } from "@/ai/flows/generate-voice-sample";
 import { translatePdf, TranslatePdfOutput } from "@/ai/flows/translate-pdf";
+import { convertPdfToImagesFlow, ConvertPdfToImagesOutput } from "@/ai/flows/pdf-to-images";
 import { PDFDocument } from 'pdf-lib';
 
 export type AnalysisResult = {
@@ -24,6 +26,11 @@ export type TranslationResult = {
 
 export type ImageToPdfResult = {
     pdfDataUri?: string;
+    error?: string;
+}
+
+export type PdfToImageResult = {
+    images?: string[];
     error?: string;
 }
 
@@ -153,5 +160,20 @@ export async function convertImagesToPdf(imageUris: string[]): Promise<ImageToPd
     } catch (error: any) {
         console.error("Error converting images to PDF:", error);
         return { error: error.message || "Failed to convert images to PDF." };
+    }
+}
+
+
+export async function convertPdfToImages(pdfDataUri: string): Promise<PdfToImageResult> {
+    if (!pdfDataUri) {
+        return { error: "PDF data URI is required." };
+    }
+
+    try {
+        const result: ConvertPdfToImagesOutput = await convertPdfToImagesFlow({ pdfDataUri });
+        return { images: result.images };
+    } catch (error: any) {
+        console.error("Error converting PDF to images:", error);
+        return { error: error.message || "Failed to convert PDF to images." };
     }
 }

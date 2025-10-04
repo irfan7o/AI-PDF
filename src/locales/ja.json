@@ -8,7 +8,8 @@
     "chatPdfDescription": "ドキュメントをアップロードして、PDFとのチャットを開始します。",
     "pdfTranslatorDescription": "PDFドキュメントをアップロードし、言語を選択して、翻訳版を取得します。",
     "imageToPdfDescription": "画像をアップロードして単一のPDFファイルに変換します。",
-    "imageToPdfCta": "画像は変換の準備ができました。ドラッグして並べ替えてから変換してください。"
+    "imageToPdfCta": "画像は変換の準備ができました。ドラッグして並べ替えてから変換してください。",
+    "pdfToImageDescription": "PDFドキュメントをアップロードして、各ページを画像に変換します。"
   },
   "uploadArea": {
     "dragAndDrop": "ここにファイルをドラッグ＆ドロップ",
@@ -24,6 +25,7 @@
     "converting": "音声に変換中...",
     "convertingToPdf": "PDFに変換中...",
     "translating": "翻訳中...",
+    "convertingToImage": "画像に変換中...",
     "errorTitle": "おっと！エラーが発生しました。",
     "errorDescription": "ドキュメントを分析できませんでした。別のドキュメントで再試行してください。"
   },
@@ -41,7 +43,8 @@
     "translate": "翻訳",
     "download": "ダウンロード",
     "translateAnother": "別のファイルを翻訳",
-    "convertToPdf": "PDFに変換"
+    "convertToPdf": "PDFに変換",
+    "convertToImage": "画像に変換"
   },
   "tabs": {
     "uploadFile": "ファイルをアップロード",
@@ -90,5 +93,9 @@
   "translation": {
     "selectLanguage": "ターゲット言語を選択...",
     "successTitle": "翻訳が完了しました！"
+  },
+  "pdfToImage": {
+    "successTitle": "変換に成功しました！",
+    "successDescription": "あなたのPDFは{count}枚の画像に変換されました。"
   }
 }

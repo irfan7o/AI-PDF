@@ -8,7 +8,8 @@
     "chatPdfDescription": "Laden Sie ein Dokument hoch, um mit Ihrer PDF zu chatten.",
     "pdfTranslatorDescription": "Laden Sie ein PDF-Dokument hoch, wählen Sie eine Sprache und erhalten Sie eine übersetzte Version.",
     "imageToPdfDescription": "Laden Sie Bilder hoch, um sie in eine einzige PDF-Datei umzuwandeln.",
-    "imageToPdfCta": "Ihre Bilder sind bereit zur Konvertierung. Ziehen Sie sie, um sie neu anzuordnen, und konvertieren Sie sie dann."
+    "imageToPdfCta": "Ihre Bilder sind bereit zur Konvertierung. Ziehen Sie sie, um sie neu anzuordnen, und konvertieren Sie sie dann.",
+    "pdfToImageDescription": "Laden Sie ein PDF-Dokument hoch, um jede Seite in ein Bild zu konvertieren."
   },
   "uploadArea": {
     "dragAndDrop": "Datei hierher ziehen und ablegen",
@@ -24,6 +25,7 @@
     "converting": "In Audio umwandeln...",
     "convertingToPdf": "In PDF umwandeln...",
     "translating": "Übersetzen...",
+    "convertingToImage": "In Bilder umwandeln...",
     "errorTitle": "Hoppla! Ein Fehler ist aufgetreten.",
     "errorDescription": "Wir konnten Ihr Dokument nicht analysieren. Bitte versuchen Sie es mit einem anderen."
   },
@@ -41,7 +43,8 @@
     "translate": "Übersetzen",
     "download": "Herunterladen",
     "translateAnother": "Weitere Datei übersetzen",
-    "convertToPdf": "In PDF umwandeln"
+    "convertToPdf": "In PDF umwandeln",
+    "convertToImage": "In Bild umwandeln"
   },
   "tabs": {
     "uploadFile": "Datei hochladen",
@@ -90,5 +93,9 @@
   "translation": {
     "selectLanguage": "Zielsprache auswählen...",
     "successTitle": "Übersetzung abgeschlossen!"
+  },
+  "pdfToImage": {
+    "successTitle": "Konvertierung erfolgreich!",
+    "successDescription": "Ihre PDF wurde in {count} Bilder konvertiert."
   }
 }

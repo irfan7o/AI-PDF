@@ -23,7 +23,7 @@ const allMenuItems: MenuItem[] = [
     { name: 'pdfToAudio', href: '/pdf-to-audio', icon: <Music/>, active: false },
     { name: 'pdfTranslator', href: '/pdf-translator', icon: <Languages/>, active: false },
     { name: 'imageToPdf', href: '/image-to-pdf', 'icon': <FileImage/>, active: false },
-    { name: 'pdfToImage', href: '#', 'icon': <Image/>, active: false },
+    { name: 'pdfToImage', href: '/pdf-to-image', 'icon': <Image/>, active: false },
 ];
 
 export default function FloatingMenu({ activeFeature }: { activeFeature?: string }) {

@@ -8,7 +8,8 @@
     "chatPdfDescription": "上传文档以开始与您的 PDF 聊天。",
     "pdfTranslatorDescription": "上传PDF文档，选择一种语言，然后获取翻译版本。",
     "imageToPdfDescription": "上传图像以将其转换为单个PDF文件。",
-    "imageToPdfCta": "您的图像已准备好进行转换。拖动以重新排序，然后进行转换。"
+    "imageToPdfCta": "您的图像已准备好进行转换。拖动以重新排序，然后进行转换。",
+    "pdfToImageDescription": "上传PDF文档以将每一页转换为图像。"
   },
   "uploadArea": {
     "dragAndDrop": "将文件拖放到此处",
@@ -24,6 +25,7 @@
     "converting": "正在转换为音频...",
     "convertingToPdf": "正在转换为PDF...",
     "translating": "翻译中...",
+    "convertingToImage": "正在转换为图像...",
     "errorTitle": "哦！出错了。",
     "errorDescription": "我们无法分析您的文档。请换个文档再试一次。"
   },
@@ -41,7 +43,8 @@
     "translate": "翻译",
     "download": "下载",
     "translateAnother": "翻译另一个文件",
-    "convertToPdf": "转换为PDF"
+    "convertToPdf": "转换为PDF",
+    "convertToImage": "转换为图像"
   },
   "tabs": {
     "uploadFile": "上传文件",
@@ -90,5 +93,9 @@
   "translation": {
     "selectLanguage": "选择目标语言...",
     "successTitle": "翻译完成！"
+  },
+  "pdfToImage": {
+    "successTitle": "转换成功！",
+    "successDescription": "您的PDF已转换为{count}张图片。"
   }
 }
