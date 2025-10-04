@@ -222,16 +222,16 @@ export default function PdfToAudio() {
                                 }}
                             >
                                 <div className="flex flex-col gap-1">
+                                    <h4 className="font-semibold">{voice.name}</h4>
                                     <div className="flex items-center gap-1 text-muted-foreground">
                                         <User className="h-4 w-4" />
                                         <p className="text-sm">{voice.gender}</p>
                                     </div>
-                                    <h4 className="font-semibold">{voice.name}</h4>
                                 </div>
                                 <Button 
                                     variant="ghost" 
                                     size="icon"
-                                    className='h-8 w-8 rounded-full hover:bg-primary/10'
+                                    className='h-8 w-8 rounded-full hover:bg-primary hover:text-primary-foreground'
                                     onClick={(e) => {
                                         e.preventDefault();
                                         e.stopPropagation();
@@ -349,3 +349,6 @@ export default function PdfToAudio() {
     );
 }
 
+
+
+    
