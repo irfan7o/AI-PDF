@@ -2,6 +2,7 @@
 
 import { summarizePdf, SummarizePdfOutput } from "@/ai/flows/summarize-pdf";
 import { pdfToAudio, PdfToAudioOutput } from "@/ai/flows/pdf-to-audio";
+import { generateVoiceSample, GenerateVoiceSampleOutput } from "@/ai/flows/generate-voice-sample";
 
 export type AnalysisResult = {
     summary: string;
@@ -71,5 +72,15 @@ export async function getAudio(pdfDataUri: string, voice: string): Promise<Audio
     } catch (error: any) {
         console.error("Error converting PDF to audio:", error);
         return { error: error.message || "Failed to convert PDF to audio." };
+    }
+}
+
+export async function getVoiceSample(voice: string, name: string): Promise<AudioResult> {
+    try {
+        const result: GenerateVoiceSampleOutput = await generateVoiceSample({ voice, name });
+        return { audioDataUri: result.audioDataUri };
+    } catch (error: any) {
+        console.error("Error generating voice sample:", error);
+        return { error: error.message || "Failed to generate voice sample." };
     }
 }

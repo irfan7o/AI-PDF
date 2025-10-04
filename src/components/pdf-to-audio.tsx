@@ -7,11 +7,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from '@/contexts/translation-context';
-import { getAudio, AudioResult } from '@/app/actions';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription as DialogDescriptionComponent, DialogClose } from '@/components/ui/dialog';
+import { getAudio, AudioResult, getVoiceSample } from '@/app/actions';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription as DialogDescriptionComponent } from '@/components/ui/dialog';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from './ui/scroll-area';
+import { cn } from '@/lib/utils';
 
 type Status = 'idle' | 'uploading' | 'selected' | 'converting' | 'success' | 'error';
 
@@ -38,7 +39,10 @@ export default function PdfToAudio() {
     const { toast } = useToast();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const audioRef = useRef<HTMLAudioElement>(null);
+    const sampleAudioRef = useRef<HTMLAudioElement>(new Audio());
     const [isPlaying, setIsPlaying] = useState(false);
+    const [playingSample, setPlayingSample] = useState<string | null>(null);
+    const [loadingSample, setLoadingSample] = useState<string | null>(null);
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -58,6 +62,15 @@ export default function PdfToAudio() {
             audio.removeEventListener('ended', onEnded);
         };
     }, [audioResult]);
+
+     useEffect(() => {
+        const sampleAudio = sampleAudioRef.current;
+        const onEnded = () => setPlayingSample(null);
+        sampleAudio.addEventListener('ended', onEnded);
+        return () => {
+            sampleAudio.removeEventListener('ended', onEnded);
+        };
+    }, []);
 
     const resetState = () => {
         setStatus('idle');
@@ -97,7 +110,7 @@ export default function PdfToAudio() {
         
         resetState();
         setFile(fileToProcess);
-setStatus('uploading');
+        setStatus('uploading');
 
         const reader = new FileReader();
         reader.onprogress = (event) => {
@@ -137,6 +150,36 @@ setStatus('uploading');
             }
         }
     };
+
+    const handlePlaySample = async (voiceId: string, voiceName: string) => {
+        if (playingSample === voiceId) {
+            sampleAudioRef.current.pause();
+            setPlayingSample(null);
+            return;
+        }
+
+        if (sampleAudioRef.current.src) {
+             sampleAudioRef.current.pause();
+        }
+
+        setLoadingSample(voiceId);
+        setPlayingSample(null);
+
+        try {
+            const result = await getVoiceSample(voiceId, voiceName);
+            if (result.audioDataUri) {
+                sampleAudioRef.current.src = result.audioDataUri;
+                sampleAudioRef.current.play();
+                setPlayingSample(voiceId);
+            } else {
+                toast({ variant: 'destructive', title: 'Error', description: 'Could not play voice sample.' });
+            }
+        } catch (error) {
+            toast({ variant: 'destructive', title: 'Error', description: 'Could not play voice sample.' });
+        } finally {
+            setLoadingSample(null);
+        }
+    };
     
     const formatFileSize = (bytes: number | null) => {
         if (bytes === null) return '';
@@ -150,7 +193,9 @@ setStatus('uploading');
     const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         event.stopPropagation();
-        event.currentTarget.classList.add('border-primary', 'bg-primary/10');
+        if(status === 'idle') {
+            event.currentTarget.classList.add('border-primary', 'bg-primary/10');
+        }
     };
 
     const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
@@ -167,15 +212,32 @@ setStatus('uploading');
                     <DialogDescriptionComponent>{t('voiceSelection', 'description')}</DialogDescriptionComponent>
                 </DialogHeader>
                 <ScrollArea className="max-h-[60vh] pr-6">
-                    <RadioGroup value={selectedVoice} onValueChange={(value) => {setSelectedVoice(value); setIsVoiceModalOpen(false);}} className="grid grid-cols-2 gap-4 mt-4">
+                    <RadioGroup value={selectedVoice} onValueChange={(value) => {setSelectedVoice(value); setIsVoiceModalOpen(false);}} className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                         {voices.map((voice) => (
-                            <Label key={voice.id} htmlFor={voice.id} className="cursor-pointer rounded-lg border p-4 transition-colors hover:bg-accent has-[input:checked]:border-primary has-[input:checked]:bg-primary has-[input:checked]:text-primary-foreground">
+                             <Label key={voice.id} htmlFor={voice.id} className={cn("cursor-pointer rounded-lg border p-4 transition-colors hover:bg-accent flex flex-col justify-between", selectedVoice === voice.id ? "border-primary bg-primary/10" : "")}>
                                 <div className="flex items-center justify-between">
-                                    <h4 className="font-semibold">{voice.name}</h4>
-                                    <RadioGroupItem value={voice.id} id={voice.id} className="sr-only" />
-                                    <User className="h-5 w-5" />
+                                    <div className="flex items-center gap-2">
+                                         <RadioGroupItem value={voice.id} id={voice.id} />
+                                         <h4 className="font-semibold">{voice.name}</h4>
+                                    </div>
+                                    <User className="h-5 w-5 opacity-70" />
                                 </div>
-                                <p className="text-sm opacity-80">{voice.gender}</p>
+                                <div className='flex items-center justify-between mt-2'>
+                                    <p className="text-sm opacity-80">{voice.gender}</p>
+                                     <Button 
+                                         variant="ghost" 
+                                         size="icon"
+                                         className='h-8 w-8 rounded-full'
+                                         onClick={(e) => {
+                                             e.preventDefault();
+                                             e.stopPropagation();
+                                             handlePlaySample(voice.id, voice.name);
+                                         }}
+                                         disabled={loadingSample === voice.id}
+                                     >
+                                        {loadingSample === voice.id ? <Loader className="h-4 w-4 animate-spin"/> : (playingSample === voice.id ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />)}
+                                     </Button>
+                                </div>
                             </Label>
                         ))}
                     </RadioGroup>
@@ -206,7 +268,7 @@ setStatus('uploading');
                                  </div>
                                  <p className="mt-4 font-semibold text-foreground">{t('uploadArea', 'dragAndDrop')}</p>
                                  <p className="my-2 text-sm text-muted-foreground">{t('uploadArea', 'or')}</p>
-                                 <Button variant="ghost" className="hover:bg-primary hover:text-primary-foreground" onClick={() => fileInputRef.current?.click()}>{t('uploadArea', 'chooseFile')}</Button>
+                                 <Button variant="ghost" className="hover:bg-primary hover:text-primary-foreground" onClick={(e) => {e.stopPropagation(); fileInputRef.current?.click()}}>{t('uploadArea', 'chooseFile')}</Button>
                              </div>
                         )}
                         {status === 'uploading' && (
@@ -283,5 +345,3 @@ setStatus('uploading');
         </>
     );
 }
-
-    
