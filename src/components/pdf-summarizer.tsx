@@ -268,7 +268,7 @@ export default function PdfSummarizer() {
                              <Textarea
                                  readOnly
                                  value={analysisResult.summary}
-                                 className="my-4 h-80 resize-none"
+                                 className="my-4 h-80 resize-none bg-muted"
                              />
                          )}
                       </TabsContent>
@@ -277,7 +277,7 @@ export default function PdfSummarizer() {
                              <Textarea
                                  readOnly
                                  value={fullTextResult.pages.map(p => `--- ${t('dialog', 'page')} ${p.pageNumber} ---\n${p.text}`).join('\n\n')}
-                                 className="my-4 h-80 resize-none"
+                                 className="my-4 h-80 resize-none bg-muted"
                              />
                          )}
                       </TabsContent>
