@@ -164,7 +164,7 @@ export default function ImageToPdf() {
                             </div>
                         ))}
                          <div 
-                            onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click(); }}
+                            onClick={() => fileInputRef.current?.click()}
                             className="aspect-square border-2 border-dashed rounded-lg flex flex-col items-center justify-center text-muted-foreground hover:border-primary hover:text-primary cursor-pointer transition-colors"
                          >
                             <FileUp className="h-8 w-8"/>
@@ -187,7 +187,7 @@ export default function ImageToPdf() {
                             <Button variant="outline" onClick={resetState} className="w-full">{t('buttons', 'convertAnother')}</Button>
                         </div>
                     ) : (
-                        <Button onClick={handleConvert} disabled={status !== 'selected'} className="w-full">
+                        <Button onClick={handleConvert} disabled={status === 'converting' || images.length === 0} className="w-full">
                             {t('buttons', 'convertToPdf')}
                         </Button>
                     )}
