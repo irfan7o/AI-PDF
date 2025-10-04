@@ -5,7 +5,8 @@
     "description": "上传PDF文档以获得简洁的摘要。",
     "pdfToAudioDescription": "上传PDF文档以将其转换为音频。",
     "pdfToAudioCta": "您的PDF已准备好转换为音频。请选择一个声音并收听。",
-    "chatPdfDescription": "上传文档以开始与您的 PDF 聊天。"
+    "chatPdfDescription": "上传文档以开始与您的 PDF 聊天。",
+    "pdfTranslatorDescription": "上传PDF文档，选择一种语言，然后获取翻译版本。"
   },
   "uploadArea": {
     "dragAndDrop": "将文件拖放到此处",
@@ -16,6 +17,7 @@
   "status": {
     "uploading": "上传中",
     "converting": "正在转换为音频...",
+    "translating": "翻译中...",
     "errorTitle": "哦！出错了。",
     "errorDescription": "我们无法分析您的文档。请换个文档再试一次。"
   },
@@ -29,7 +31,10 @@
     "summarizeAnother": "总结另一个",
     "convertToAudio": "转换为音频",
     "confirmAndConvert": "确认并转换",
-    "convertAnother": "转换另一个文件"
+    "convertAnother": "转换另一个文件",
+    "translate": "翻译",
+    "download": "下载翻译后的PDF",
+    "translateAnother": "翻译另一个文件"
   },
   "tabs": {
     "uploadFile": "上传文件",
@@ -73,7 +78,9 @@
   },
   "audioPlayer": {
     "title": "您的音频已准备就绪"
+  },
+  "translation": {
+    "selectLanguage": "选择目标语言...",
+    "successTitle": "翻译完成！"
   }
 }
-
-    

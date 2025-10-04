@@ -5,7 +5,8 @@
     "description": "Upload a PDF document to get a concise summary.",
     "pdfToAudioDescription": "Upload a PDF document to convert it into audio.",
     "pdfToAudioCta": "Your PDF is ready to be converted to audio. Choose a voice and listen.",
-    "chatPdfDescription": "Upload a document to start chatting with your PDF."
+    "chatPdfDescription": "Upload a document to start chatting with your PDF.",
+    "pdfTranslatorDescription": "Upload a PDF document, choose a language, and get a translated version."
   },
   "uploadArea": {
     "dragAndDrop": "Drag and drop file here",
@@ -16,6 +17,7 @@
   "status": {
     "uploading": "Uploading",
     "converting": "Converting to audio...",
+    "translating": "Translating...",
     "errorTitle": "Oops! An error occurred.",
     "errorDescription": "We couldn't analyze your document. Please try again with another one."
   },
@@ -29,7 +31,10 @@
     "summarizeAnother": "Summarize Another",
     "convertToAudio": "Convert to Audio",
     "confirmAndConvert": "Confirm & Convert",
-    "convertAnother": "Convert another file"
+    "convertAnother": "Convert another file",
+    "translate": "Translate",
+    "download": "Download Translated PDF",
+    "translateAnother": "Translate Another File"
   },
   "tabs": {
     "uploadFile": "Upload File",
@@ -73,7 +78,9 @@
   },
   "audioPlayer": {
     "title": "Your audio is ready"
+  },
+  "translation": {
+    "selectLanguage": "Select target language...",
+    "successTitle": "Translation complete!"
   }
 }
-
-    

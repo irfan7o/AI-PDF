@@ -21,7 +21,7 @@ const allMenuItems: MenuItem[] = [
     { name: 'pdfSummarizer', href: '/', icon: <FileText/>, active: false },
     { name: 'chatPdf', href: '/chat-pdf', icon: <MessageSquare/>, active: false },
     { name: 'pdfToAudio', href: '/pdf-to-audio', icon: <Music/>, active: false },
-    { name: 'pdfTranslator', href: '#', icon: <Languages/>, active: false },
+    { name: 'pdfTranslator', href: '/pdf-translator', icon: <Languages/>, active: false },
     { name: 'imageToPdf', href: '#', 'icon': <FileImage/>, active: false },
     { name: 'pdfToImage', href: '#', 'icon': <Image/>, active: false },
 ];
@@ -31,7 +31,7 @@ export default function FloatingMenu({ activeFeature }: { activeFeature?: string
   const pathname = usePathname();
 
   const menuItems = allMenuItems.map(item => ({...item, active: item.href === pathname}));
-  const visibleMenuItems = menuItems.slice(0, 3);
+  const visibleMenuItems = menuItems.slice(0, 4);
 
 
   return (

@@ -3,6 +3,7 @@
 import { summarizePdf, SummarizePdfOutput } from "@/ai/flows/summarize-pdf";
 import { pdfToAudio, PdfToAudioOutput } from "@/ai/flows/pdf-to-audio";
 import { generateVoiceSample, GenerateVoiceSampleOutput } from "@/ai/flows/generate-voice-sample";
+import { translatePdf, TranslatePdfOutput } from "@/ai/flows/translate-pdf";
 
 export type AnalysisResult = {
     summary: string;
@@ -13,6 +14,13 @@ export type AudioResult = {
     audioDataUri?: string;
     error?: string;
 }
+
+export type TranslationResult = {
+    translatedPdfDataUri?: string;
+    translatedText?: string;
+    error?: string;
+}
+
 
 async function fetchAndConvertToDataURI(url: string): Promise<string> {
     try {
@@ -82,5 +90,25 @@ export async function getVoiceSample(voice: string, name: string): Promise<Audio
     } catch (error: any) {
         console.error("Error generating voice sample:", error);
         return { error: error.message || "Failed to generate voice sample." };
+    }
+}
+
+export async function getTranslation(pdfDataUri: string, targetLanguage: string): Promise<TranslationResult> {
+    if (!pdfDataUri) {
+        return { error: "PDF data URI is required." };
+    }
+     if (!targetLanguage) {
+        return { error: "Target language is required." };
+    }
+
+    try {
+        const result: TranslatePdfOutput = await translatePdf({ pdfDataUri, targetLanguage });
+        return { 
+            translatedPdfDataUri: result.translatedPdfDataUri,
+            translatedText: result.translatedText
+        };
+    } catch (error: any) {
+        console.error("Error translating PDF:", error);
+        return { error: error.message || "Failed to translate PDF." };
     }
 }

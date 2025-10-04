@@ -5,7 +5,8 @@
     "description": "Unggah dokumen PDF untuk mendapatkan ringkasan singkat.",
     "pdfToAudioDescription": "Unggah dokumen PDF untuk mengubahnya menjadi audio.",
     "pdfToAudioCta": "PDF Anda siap untuk diubah menjadi audio. Pilih suara dan dengarkan.",
-    "chatPdfDescription": "Unggah dokumen untuk mulai mengobrol dengan PDF Anda."
+    "chatPdfDescription": "Unggah dokumen untuk mulai mengobrol dengan PDF Anda.",
+    "pdfTranslatorDescription": "Unggah dokumen PDF, pilih bahasa, dan dapatkan versi terjemahannya."
   },
   "uploadArea": {
     "dragAndDrop": "Seret dan lepas file di sini",
@@ -16,6 +17,7 @@
   "status": {
     "uploading": "Mengunggah",
     "converting": "Mengubah ke audio...",
+    "translating": "Menerjemahkan...",
     "errorTitle": "Ups! Terjadi kesalahan.",
     "errorDescription": "Kami tidak dapat menganalisis dokumen Anda. Silakan coba lagi dengan yang lain."
   },
@@ -29,7 +31,10 @@
     "summarizeAnother": "Ringkas yang Lain",
     "convertToAudio": "Ubah ke Audio",
     "confirmAndConvert": "Konfirmasi & Ubah",
-    "convertAnother": "Ubah file lain"
+    "convertAnother": "Ubah file lain",
+    "translate": "Terjemahkan",
+    "download": "Unduh PDF yang Diterjemahkan",
+    "translateAnother": "Terjemahkan File Lain"
   },
   "tabs": {
     "uploadFile": "Unggah File",
@@ -73,7 +78,9 @@
   },
   "audioPlayer": {
     "title": "Audio Anda sudah siap"
+  },
+  "translation": {
+    "selectLanguage": "Pilih bahasa target...",
+    "successTitle": "Terjemahan selesai!"
   }
 }
-
-    

@@ -5,7 +5,8 @@
     "description": "Laden Sie ein PDF-Dokument hoch, um eine prägnante Zusammenfassung zu erhalten.",
     "pdfToAudioDescription": "Laden Sie ein PDF-Dokument hoch, um es in Audio umzuwandeln.",
     "pdfToAudioCta": "Ihre PDF ist bereit, in Audio umgewandelt zu werden. Wählen Sie eine Stimme und hören Sie zu.",
-    "chatPdfDescription": "Laden Sie ein Dokument hoch, um mit Ihrer PDF zu chatten."
+    "chatPdfDescription": "Laden Sie ein Dokument hoch, um mit Ihrer PDF zu chatten.",
+    "pdfTranslatorDescription": "Laden Sie ein PDF-Dokument hoch, wählen Sie eine Sprache und erhalten Sie eine übersetzte Version."
   },
   "uploadArea": {
     "dragAndDrop": "Datei hierher ziehen und ablegen",
@@ -16,6 +17,7 @@
   "status": {
     "uploading": "Hochladen",
     "converting": "In Audio umwandeln...",
+    "translating": "Übersetzen...",
     "errorTitle": "Hoppla! Ein Fehler ist aufgetreten.",
     "errorDescription": "Wir konnten Ihr Dokument nicht analysieren. Bitte versuchen Sie es mit einem anderen."
   },
@@ -29,7 +31,10 @@
     "summarizeAnother": "Eine weitere zusammenfassen",
     "convertToAudio": "In Audio umwandeln",
     "confirmAndConvert": "Bestätigen & Umwandeln",
-    "convertAnother": "Eine andere Datei umwandeln"
+    "convertAnother": "Eine andere Datei umwandeln",
+    "translate": "Übersetzen",
+    "download": "Übersetztes PDF herunterladen",
+    "translateAnother": "Weitere Datei übersetzen"
   },
   "tabs": {
     "uploadFile": "Datei hochladen",
@@ -73,7 +78,9 @@
   },
   "audioPlayer": {
     "title": "Ihr Audio ist fertig"
+  },
+  "translation": {
+    "selectLanguage": "Zielsprache auswählen...",
+    "successTitle": "Übersetzung abgeschlossen!"
   }
 }
-
-    

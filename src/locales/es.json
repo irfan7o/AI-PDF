@@ -5,7 +5,8 @@
     "description": "Sube un documento PDF para obtener un resumen conciso.",
     "pdfToAudioDescription": "Sube un documento PDF para convertirlo en audio.",
     "pdfToAudioCta": "Tu PDF está listo para ser convertido a audio. Elige una voz y escucha.",
-    "chatPdfDescription": "Sube un documento para empezar a chatear con tu PDF."
+    "chatPdfDescription": "Sube un documento para empezar a chatear con tu PDF.",
+    "pdfTranslatorDescription": "Sube un documento PDF, elige un idioma y obtén una versión traducida."
   },
   "uploadArea": {
     "dragAndDrop": "Arrastra y suelta el archivo aquí",
@@ -16,6 +17,7 @@
   "status": {
     "uploading": "Subiendo",
     "converting": "Convirtiendo a audio...",
+    "translating": "Traduciendo...",
     "errorTitle": "¡Vaya! Ocurrió un error.",
     "errorDescription": "No pudimos analizar su documento. Por favor, inténtelo de nuevo con otro."
   },
@@ -29,7 +31,10 @@
     "summarizeAnother": "Resumir otro",
     "convertToAudio": "Convertir a Audio",
     "confirmAndConvert": "Confirmar y Convertir",
-    "convertAnother": "Convertir otro archivo"
+    "convertAnother": "Convertir otro archivo",
+    "translate": "Traducir",
+    "download": "Descargar PDF Traducido",
+    "translateAnother": "Traducir Otro Archivo"
   },
   "tabs": {
     "uploadFile": "Subir archivo",
@@ -73,7 +78,9 @@
   },
   "audioPlayer": {
     "title": "Tu audio está listo"
+  },
+  "translation": {
+    "selectLanguage": "Seleccionar idioma de destino...",
+    "successTitle": "¡Traducción completada!"
   }
 }
-
-    
