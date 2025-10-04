@@ -240,7 +240,7 @@ export default function PdfSummarizer() {
                         />
                     </TabsContent>
                     <TabsContent value="fromUrl">
-                        <div className="p-4 text-center">
+                        <div className="p-4 text-center mt-4 min-h-[200px] flex flex-col justify-center">
                             <h3 className="text-lg font-semibold">{t('urlInput', 'title')}</h3>
                             <p className="text-sm text-muted-foreground mt-1">{t('urlInput', 'description')}</p>
                             <Input
@@ -298,5 +298,3 @@ export default function PdfSummarizer() {
         </Card>
     );
 }
-
-    
