@@ -16,12 +16,14 @@ import { ScrollArea } from './ui/scroll-area';
 type Status = 'idle' | 'uploading' | 'selected' | 'converting' | 'success' | 'error';
 
 const voices = [
-    { id: 'onyx', name: 'Onyx', gender: 'Male' },
-    { id: 'nova', name: 'Nova', gender: 'Female' },
-    { id: 'shimmer', name: 'Shimmer', gender: 'Female' },
-    { id: 'echo', name: 'Echo', gender: 'Male' },
-    { id: 'fable', name: 'Fable', gender: 'Male' },
-    { id: 'alloy', name: 'Alloy', gender: 'Male' },
+    { id: 'Algenib', name: 'Algenib', gender: 'Male' },
+    { id: 'Achernar', name: 'Achernar', gender: 'Female' },
+    { id: 'arkab', name: 'Arkab', gender: 'Male' },
+    { id: 'deneb', name: 'Deneb', gender: 'Female' },
+    { id: 'hadar', name: 'Hadar', gender: 'Male' },
+    { id: 'rasalhague', name: 'Rasalhague', gender: 'Female' },
+    { id: 'shaula', name: 'Shaula', gender: 'Female' },
+    { id: 'spica', name: 'Spica', gender: 'Male' },
 ];
 
 export default function PdfToAudio() {
@@ -200,10 +202,10 @@ export default function PdfToAudio() {
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
-                    onClick={() => status !== 'selected' && fileInputRef.current?.click()}
+                    onClick={() => status === 'idle' && fileInputRef.current?.click()}
                     className="p-6 pt-0"
                 >
-                    <div className={`w-full min-h-[300px] h-full rounded-lg border-2 border-dashed p-12 text-center transition-colors flex items-center justify-center ${status !== 'selected' ? 'cursor-pointer hover:border-primary hover:bg-primary/10' : ''}`}>
+                    <div className={`w-full min-h-[300px] h-full rounded-lg border-2 border-dashed p-12 text-center transition-colors flex items-center justify-center ${status === 'idle' ? 'cursor-pointer hover:border-primary hover:bg-primary/10' : ''}`}>
                         {status === 'idle' && (
                              <div className="flex flex-col items-center justify-center h-full">
                                  <div className="rounded-full p-3 bg-gray-200 dark:bg-muted">
@@ -211,7 +213,7 @@ export default function PdfToAudio() {
                                  </div>
                                  <p className="mt-4 font-semibold text-foreground">{t('uploadArea', 'dragAndDrop')}</p>
                                  <p className="my-2 text-sm text-muted-foreground">{t('uploadArea', 'or')}</p>
-                                 <Button variant="ghost">{t('uploadArea', 'chooseFile')}</Button>
+                                 <Button variant="ghost" onClick={() => fileInputRef.current?.click()}>{t('uploadArea', 'chooseFile')}</Button>
                              </div>
                         )}
                         {status === 'uploading' && (
@@ -246,7 +248,7 @@ export default function PdfToAudio() {
                          className="hidden"
                          onChange={handleFileChange}
                          accept="application/pdf"
-                         disabled={status === 'selected' || status === 'converting' || status === 'success'}
+                         disabled={status !== 'idle'}
                      />
                 </CardContent>
 
@@ -272,9 +274,9 @@ export default function PdfToAudio() {
 
                     <div className="flex justify-end gap-2 w-full">
                         {(status === 'selected' || status === 'success' || status === 'error') && status !== 'converting' && (
-                            <Button variant="ghost" onClick={resetState}>
-                               {status === 'success' ? t('buttons', 'convertAnother') : t('buttons', 'tryAgain')}
-                            </Button>
+                             <Button variant="ghost" onClick={resetState}>
+                                {status === 'success' ? t('buttons', 'convertAnother') : t('buttons', 'tryAgain')}
+                             </Button>
                         )}
                         {status === 'selected' && (
                             <Button onClick={() => setIsVoiceModalOpen(true)} disabled={status !== 'selected'}>
@@ -289,6 +291,5 @@ export default function PdfToAudio() {
             {renderVoiceSelectionModal()}
         </>
     );
-}
 
     
