@@ -4,7 +4,8 @@
     "title": "Ringkas PDF",
     "description": "Unggah dokumen PDF untuk mendapatkan ringkasan singkat.",
     "pdfToAudioDescription": "Unggah dokumen PDF untuk mengubahnya menjadi audio.",
-    "pdfToAudioCta": "PDF Anda siap untuk diubah menjadi audio. Pilih suara dan dengarkan."
+    "pdfToAudioCta": "PDF Anda siap untuk diubah menjadi audio. Pilih suara dan dengarkan.",
+    "chatPdfDescription": "Unggah dokumen untuk mulai mengobrol dengan PDF Anda."
   },
   "uploadArea": {
     "dragAndDrop": "Seret dan lepas file di sini",
@@ -74,3 +75,5 @@
     "title": "Audio Anda sudah siap"
   }
 }
+
+    

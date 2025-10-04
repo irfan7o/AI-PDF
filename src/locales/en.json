@@ -4,7 +4,8 @@
     "title": "Summarize PDF",
     "description": "Upload a PDF document to get a concise summary.",
     "pdfToAudioDescription": "Upload a PDF document to convert it into audio.",
-    "pdfToAudioCta": "Your PDF is ready to be converted to audio. Choose a voice and listen."
+    "pdfToAudioCta": "Your PDF is ready to be converted to audio. Choose a voice and listen.",
+    "chatPdfDescription": "Upload a document to start chatting with your PDF."
   },
   "uploadArea": {
     "dragAndDrop": "Drag and drop file here",
@@ -74,3 +75,5 @@
     "title": "Your audio is ready"
   }
 }
+
+    

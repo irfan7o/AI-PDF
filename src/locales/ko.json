@@ -4,7 +4,8 @@
     "title": "PDF 요약",
     "description": "간결한 요약을 얻으려면 PDF 문서를 업로드하십시오.",
     "pdfToAudioDescription": "오디오로 변환하려면 PDF 문서를 업로드하십시오.",
-    "pdfToAudioCta": "PDF가 오디오로 변환될 준비가 되었습니다. 음성을 선택하고 들어보세요."
+    "pdfToAudioCta": "PDF가 오디오로 변환될 준비가 되었습니다. 음성을 선택하고 들어보세요.",
+    "chatPdfDescription": "문서를 업로드하여 PDF와 채팅을 시작하십시오."
   },
   "uploadArea": {
     "dragAndDrop": "여기에 파일 끌어다 놓기",
@@ -74,3 +75,5 @@
     "title": "오디오가 준비되었습니다"
   }
 }
+
+    

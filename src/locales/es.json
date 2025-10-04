@@ -4,7 +4,8 @@
     "title": "Resumir PDF",
     "description": "Sube un documento PDF para obtener un resumen conciso.",
     "pdfToAudioDescription": "Sube un documento PDF para convertirlo en audio.",
-    "pdfToAudioCta": "Tu PDF está listo para ser convertido a audio. Elige una voz y escucha."
+    "pdfToAudioCta": "Tu PDF está listo para ser convertido a audio. Elige una voz y escucha.",
+    "chatPdfDescription": "Sube un documento para empezar a chatear con tu PDF."
   },
   "uploadArea": {
     "dragAndDrop": "Arrastra y suelta el archivo aquí",
@@ -74,3 +75,5 @@
     "title": "Tu audio está listo"
   }
 }
+
+    

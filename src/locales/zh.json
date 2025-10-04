@@ -4,7 +4,8 @@
     "title": "总结PDF",
     "description": "上传PDF文档以获得简洁的摘要。",
     "pdfToAudioDescription": "上传PDF文档以将其转换为音频。",
-    "pdfToAudioCta": "您的PDF已准备好转换为音频。请选择一个声音并收听。"
+    "pdfToAudioCta": "您的PDF已准备好转换为音频。请选择一个声音并收听。",
+    "chatPdfDescription": "上传文档以开始与您的 PDF 聊天。"
   },
   "uploadArea": {
     "dragAndDrop": "将文件拖放到此处",
@@ -74,3 +75,5 @@
     "title": "您的音频已准备就绪"
   }
 }
+
+    

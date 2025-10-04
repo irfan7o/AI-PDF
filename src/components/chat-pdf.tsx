@@ -4,7 +4,7 @@
 import { useState, useRef, useEffect, ChangeEvent, DragEvent } from 'react';
 import { FileUp, Loader, AlertCircle, FileText, Send, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Input } from '@/components/ui/input';
 import { useTranslation } from '@/contexts/translation-context';
@@ -184,6 +184,7 @@ export default function ChatPdf() {
         <Card className="w-full max-w-lg shadow-sm rounded-xl">
              <CardHeader className="text-center">
                  <CardTitle className="font-headline text-2xl">{t('floatingMenu', 'chatPdf')}</CardTitle>
+                 <CardDescription>{t('main', 'chatPdfDescription')}</CardDescription>
              </CardHeader>
             <CardContent
                 onDrop={handleDrop}
@@ -231,5 +232,7 @@ export default function ChatPdf() {
         </Card>
     );
 }
+
+    
 
     
