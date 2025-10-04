@@ -65,7 +65,6 @@ export default function PdfToAudio() {
         setDataUri(null);
         setAudioResult(null);
         setUploadProgress(0);
-        setIsVoiceModalOpen(false);
         if (audioRef.current) {
             audioRef.current.pause();
             audioRef.current.currentTime = 0;
@@ -167,7 +166,7 @@ export default function PdfToAudio() {
                     <DialogDescriptionComponent>{t('voiceSelection', 'description')}</DialogDescriptionComponent>
                 </DialogHeader>
                 <ScrollArea className="max-h-[60vh] pr-6">
-                    <RadioGroup value={selectedVoice} onValueChange={setSelectedVoice} className="grid grid-cols-2 gap-4 mt-4">
+                    <RadioGroup value={selectedVoice} onValueChange={(value) => {setSelectedVoice(value); setIsVoiceModalOpen(false);}} className="grid grid-cols-2 gap-4 mt-4">
                         {voices.map((voice) => (
                             <Label key={voice.id} htmlFor={voice.id} className="cursor-pointer rounded-lg border p-4 transition-colors hover:bg-accent has-[input:checked]:bg-primary has-[input:checked]:text-primary-foreground has-[input:checked]:border-primary">
                                 <div className="flex items-center justify-between">
@@ -180,11 +179,6 @@ export default function PdfToAudio() {
                         ))}
                     </RadioGroup>
                 </ScrollArea>
-                <div className="flex justify-end mt-4">
-                    <DialogClose asChild>
-                      <Button>Pilih</Button>
-                    </DialogClose>
-                </div>
             </DialogContent>
         </Dialog>
     );
@@ -263,9 +257,6 @@ export default function PdfToAudio() {
                                 </Button>
                                 <audio ref={audioRef} src={audioResult.audioDataUri} className="hidden"></audio>
                             </div>
-                             <Button variant="ghost" onClick={resetState}>
-                                {t('buttons', 'convertAnother')}
-                            </Button>
                         </div>
                     )}
                     
@@ -281,21 +272,13 @@ export default function PdfToAudio() {
                            <div className='flex flex-col gap-2 w-full items-center'>
                              <Button variant="outline" size="sm" onClick={() => setIsVoiceModalOpen(true)} disabled={status !== 'selected'}>
                                  <ListMusic className="mr-2" />
-                                 Pilih Suara
+                                 {voices.find(v => v.id === selectedVoice)?.name || 'Select Voice'}
                              </Button>
-                              <p className="text-sm text-muted-foreground">
-                                Suara terpilih: <span className="font-semibold">{voices.find(v => v.id === selectedVoice)?.name}</span>
-                              </p>
                              <Button onClick={handleGenerate} disabled={status !== 'selected'} className="w-full">
                                  <Music className="mr-2" />
                                  Generate Audio
                              </Button>
                            </div>
-                        )}
-                         {(status === 'error') && (
-                            <Button variant="ghost" onClick={resetState}>
-                                {t('buttons', 'tryAgain')}
-                            </Button>
                         )}
                     </div>
                 </CardFooter>
@@ -304,5 +287,5 @@ export default function PdfToAudio() {
             {renderVoiceSelectionModal()}
         </>
     );
-}
+    
     
