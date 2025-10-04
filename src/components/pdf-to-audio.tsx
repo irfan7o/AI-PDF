@@ -4,7 +4,7 @@
 import { useState, useRef, useEffect, ChangeEvent, DragEvent } from 'react';
 import { FileUp, Loader, AlertCircle, Trash2, FileText, Music, User, Play, Pause, ListMusic } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from '@/contexts/translation-context';
 import { getAudio, AudioResult } from '@/app/actions';
@@ -283,13 +283,16 @@ export default function PdfToAudio() {
                                  <ListMusic className="mr-2" />
                                  Pilih Suara
                              </Button>
+                              <p className="text-sm text-muted-foreground">
+                                Suara terpilih: <span className="font-semibold">{voices.find(v => v.id === selectedVoice)?.name}</span>
+                              </p>
                              <Button onClick={handleGenerate} disabled={status !== 'selected'} className="w-full">
                                  <Music className="mr-2" />
                                  Generate Audio
                              </Button>
                            </div>
                         )}
-                         {(status === 'success' || status === 'error') && (
+                         {(status === 'success' || status === 'error') && !audioResult?.audioDataUri && (
                             <Button variant="ghost" onClick={resetState}>
                                 {status === 'success' ? t('buttons', 'convertAnother') : t('buttons', 'tryAgain')}
                             </Button>
@@ -305,3 +308,4 @@ export default function PdfToAudio() {
     
 
     
+
