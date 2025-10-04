@@ -215,14 +215,14 @@ export default function PdfToAudio() {
                                 <p className="text-sm text-muted-foreground mt-4">{t('status', 'uploading')} {Math.round(uploadProgress)}%</p>
                             </div>
                         )}
-                        {(status === 'selected' || status === 'converting' || status === 'success') && file && (
+                        {(status === 'selected' || status === 'converting' || status === 'success' || status === 'error') && file && (
                              <div className="text-center">
                                  <FileText className="h-12 w-12 mx-auto text-primary" />
                                  <p className="font-semibold mt-4">{file.name}</p>
                                  <p className="text-sm text-muted-foreground">
                                      {formatFileSize(file.size)}
                                  </p>
-                                 <Button onClick={resetState} variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10 hover:text-destructive rounded-full h-8 w-8 mt-2">
+                                 <Button onClick={resetState} variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10 hover:text-destructive rounded-full h-8 w-8 mt-2" disabled={status === 'converting'}>
                                      <Trash2 className="h-4 w-4" />
                                  </Button>
                              </div>
@@ -233,7 +233,6 @@ export default function PdfToAudio() {
                                      <AlertCircle className="h-8 w-8 text-destructive" />
                                  </div>
                                  <h2 className="mt-2 text-lg font-semibold text-destructive">{t('status', 'errorTitle')}</h2>
-                                 <Button variant="ghost" onClick={resetState} className="mt-4">{t('buttons', 'tryAgain')}</Button>
                              </div>
                         )}
                     </div>
@@ -268,19 +267,15 @@ export default function PdfToAudio() {
                         </div>
                     )}
 
-                    <div className="flex flex-col gap-2 w-full">
-                        {status === 'selected' && (
-                           <div className='flex flex-col gap-2 w-full items-center'>
-                             <Button variant="outline" size="sm" onClick={() => setIsVoiceModalOpen(true)} disabled={status !== 'selected'}>
-                                 <ListMusic className="mr-2" />
-                                 {voices.find(v => v.id === selectedVoice)?.name || 'Select Voice'}
-                             </Button>
-                             <Button onClick={handleGenerate} disabled={status !== 'selected' || !selectedVoice} className="w-full">
-                                 <Music className="mr-2" />
-                                 Generate Audio
-                             </Button>
-                           </div>
-                        )}
+                    <div className="flex flex-col gap-2 w-full items-center">
+                         <Button variant="outline" size="sm" onClick={() => setIsVoiceModalOpen(true)} disabled={status !== 'selected' && status !== 'success' && status !== 'error'}>
+                             <ListMusic className="mr-2" />
+                             {voices.find(v => v.id === selectedVoice)?.name || "Select Voice"}
+                         </Button>
+                         <Button onClick={handleGenerate} disabled={!dataUri || !selectedVoice || status === 'converting' || status === 'uploading'} className="w-full">
+                             <Music className="mr-2" />
+                             Generate Audio
+                         </Button>
                     </div>
                 </CardFooter>
             </Card>
