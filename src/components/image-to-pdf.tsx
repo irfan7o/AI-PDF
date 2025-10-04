@@ -164,7 +164,7 @@ export default function ImageToPdf() {
                             </div>
                         ))}
                          <div 
-                            onClick={() => fileInputRef.current?.click()}
+                            onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click(); }}
                             className="aspect-square border-2 border-dashed rounded-lg flex flex-col items-center justify-center text-muted-foreground hover:border-primary hover:text-primary cursor-pointer transition-colors"
                          >
                             <FileUp className="h-8 w-8"/>
