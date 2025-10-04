@@ -141,7 +141,9 @@ export default function ImageToPdf() {
             <Card className="w-full max-w-2xl shadow-sm rounded-xl">
                 <CardHeader>
                     <CardTitle className="font-headline text-2xl text-center">{t('floatingMenu', 'imageToPdf')}</CardTitle>
-                    <CardDescription className="text-center">{t('main', 'imageToPdfCta')}</CardDescription>
+                    <CardDescription className="text-center">
+                        You have {images.length} image{images.length > 1 ? 's' : ''} ready to be converted. Drag to reorder, then convert.
+                    </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
@@ -166,12 +168,14 @@ export default function ImageToPdf() {
                          <label htmlFor="file-upload-more" className="cursor-pointer">
                             <div
                                 className="aspect-square border-2 border-dashed rounded-lg flex flex-col items-center justify-center text-muted-foreground hover:border-primary hover:text-primary transition-colors h-full w-full p-0"
+                                onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click() }}
                             >
                                 <FileUp className="h-8 w-8"/>
                                 <p className="text-xs mt-2 text-center">{t('uploadArea', 'addMore')}</p>
                             </div>
                          </label>
                          <input
+                            ref={fileInputRef}
                             id="file-upload-more"
                             type="file"
                             className="hidden"
