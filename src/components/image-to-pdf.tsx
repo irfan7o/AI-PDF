@@ -163,13 +163,14 @@ export default function ImageToPdf() {
                                 </div>
                             </div>
                         ))}
-                         <div 
+                         <Button
+                            variant="outline"
                             onClick={() => fileInputRef.current?.click()}
-                            className="aspect-square border-2 border-dashed rounded-lg flex flex-col items-center justify-center text-muted-foreground hover:border-primary hover:text-primary cursor-pointer transition-colors"
+                            className="aspect-square border-2 border-dashed rounded-lg flex flex-col items-center justify-center text-muted-foreground hover:border-primary hover:text-primary cursor-pointer transition-colors h-full w-full p-0"
                          >
                             <FileUp className="h-8 w-8"/>
                             <p className="text-xs mt-2 text-center">{t('uploadArea', 'addMore')}</p>
-                         </div>
+                         </Button>
                     </div>
                 </CardContent>
                 <CardFooter className="flex-col gap-4">
