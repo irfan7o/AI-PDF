@@ -203,7 +203,7 @@ export default function PdfToAudio() {
                     onClick={() => status === 'idle' && fileInputRef.current?.click()}
                     className="p-6 pt-0"
                 >
-                    <div className={`w-full min-h-[300px] h-full rounded-lg border-2 border-dashed p-12 text-center transition-colors flex items-center justify-center ${status === 'idle' ? 'cursor-pointer hover:border-primary hover:bg-primary/10' : ''}`}>
+                    <div className={`w-full min-h-[300px] h-full rounded-lg border-2 border-dashed p-12 text-center transition-colors flex flex-col items-center justify-center ${status === 'idle' ? 'cursor-pointer hover:border-primary hover:bg-primary/10' : ''}`}>
                         {status === 'idle' && (
                              <div className="flex flex-col items-center justify-center h-full">
                                  <div className="rounded-full p-3 bg-gray-200 dark:bg-muted">
@@ -227,6 +227,9 @@ export default function PdfToAudio() {
                                  <p className="text-sm text-muted-foreground">
                                      {formatFileSize(file.size)}
                                  </p>
+                                 <Button onClick={resetState} variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10 hover:text-destructive rounded-full h-8 w-8 mt-2">
+                                     <Trash2 className="h-4 w-4" />
+                                 </Button>
                              </div>
                         )}
                          {status === 'error' && (
@@ -286,7 +289,7 @@ export default function PdfToAudio() {
                              </Button>
                            </div>
                         )}
-                         {(status !== 'idle' && status !== 'uploading' && status !== 'selected' && status !== 'converting') && (
+                         {(status === 'success' || status === 'error') && (
                             <Button variant="ghost" onClick={resetState}>
                                 {status === 'success' ? t('buttons', 'convertAnother') : t('buttons', 'tryAgain')}
                             </Button>
