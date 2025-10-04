@@ -4,7 +4,7 @@
 import { useState, useRef, useEffect, ChangeEvent, DragEvent } from 'react';
 import { FileUp, Loader, AlertCircle, Trash2, FileText, Music, User, Play, Pause, ListMusic } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from '@/contexts/translation-context';
 import { getAudio, AudioResult } from '@/app/actions';
@@ -292,9 +292,9 @@ export default function PdfToAudio() {
                              </Button>
                            </div>
                         )}
-                         {(status === 'success' || status === 'error') && !audioResult?.audioDataUri && (
+                         {(status === 'error') && (
                             <Button variant="ghost" onClick={resetState}>
-                                {status === 'success' ? t('buttons', 'convertAnother') : t('buttons', 'tryAgain')}
+                                {t('buttons', 'tryAgain')}
                             </Button>
                         )}
                     </div>
@@ -306,6 +306,3 @@ export default function PdfToAudio() {
     );
 }
     
-
-    
-
