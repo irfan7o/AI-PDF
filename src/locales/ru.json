@@ -6,17 +6,23 @@
     "pdfToAudioDescription": "Загрузите PDF-документ, чтобы преобразовать его в аудио.",
     "pdfToAudioCta": "Ваш PDF готов к преобразованию в аудио. Выберите голос и слушайте.",
     "chatPdfDescription": "Загрузите документ, чтобы начать общение с вашим PDF.",
-    "pdfTranslatorDescription": "Загрузите PDF-документ, выберите язык и получите переведенную версию."
+    "pdfTranslatorDescription": "Загрузите PDF-документ, выберите язык и получите переведенную версию.",
+    "imageToPdfDescription": "Загрузите изображения, чтобы преобразовать их в один PDF-файл.",
+    "imageToPdfCta": "Ваши изображения готовы к конвертации. Перетащите для изменения порядка, затем конвертируйте."
   },
   "uploadArea": {
     "dragAndDrop": "Перетащите файл сюда",
+    "dragAndDropImages": "Перетащите изображения сюда",
     "or": "или",
     "chooseFile": "Выберите файл",
+    "chooseFiles": "Выберите файлы",
+    "addMore": "Добавить еще",
     "fileSizeLimit": "PDF-файлы до 25 МБ"
   },
   "status": {
     "uploading": "Загрузка",
     "converting": "Преобразование в аудио...",
+    "convertingToPdf": "Преобразование в PDF...",
     "translating": "Перевод...",
     "errorTitle": "Ой! Произошла ошибка.",
     "errorDescription": "Не удалось проанализировать ваш документ. Пожалуйста, попробуйте другой."
@@ -33,8 +39,9 @@
     "confirmAndConvert": "Подтвердить и преобразовать",
     "convertAnother": "Преобразовать другой файл",
     "translate": "Перевести",
-    "download": "Скачать переведенный PDF",
-    "translateAnother": "Перевести другой файл"
+    "download": "Скачать",
+    "translateAnother": "Перевести другой файл",
+    "convertToPdf": "Преобразовать в PDF"
   },
   "tabs": {
     "uploadFile": "Загрузить файл",
@@ -65,6 +72,7 @@
   "toast": {
     "invalidFileType": "Неверный тип файла",
     "invalidFileTypeDesc": "Пожалуйста, загрузите PDF-файл.",
+    "invalidImageFileTypeDesc": "Пожалуйста, загружайте только файлы изображений.",
     "urlRequired": "Требуется URL",
     "urlRequiredDesc": "Пожалуйста, введите URL PDF.",
     "invalidUrl": "Неверный URL",

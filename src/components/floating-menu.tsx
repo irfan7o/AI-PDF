@@ -22,7 +22,7 @@ const allMenuItems: MenuItem[] = [
     { name: 'chatPdf', href: '/chat-pdf', icon: <MessageSquare/>, active: false },
     { name: 'pdfToAudio', href: '/pdf-to-audio', icon: <Music/>, active: false },
     { name: 'pdfTranslator', href: '/pdf-translator', icon: <Languages/>, active: false },
-    { name: 'imageToPdf', href: '#', 'icon': <FileImage/>, active: false },
+    { name: 'imageToPdf', href: '/image-to-pdf', 'icon': <FileImage/>, active: false },
     { name: 'pdfToImage', href: '#', 'icon': <Image/>, active: false },
 ];
 

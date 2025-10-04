@@ -6,17 +6,23 @@
     "pdfToAudioDescription": "上传PDF文档以将其转换为音频。",
     "pdfToAudioCta": "您的PDF已准备好转换为音频。请选择一个声音并收听。",
     "chatPdfDescription": "上传文档以开始与您的 PDF 聊天。",
-    "pdfTranslatorDescription": "上传PDF文档，选择一种语言，然后获取翻译版本。"
+    "pdfTranslatorDescription": "上传PDF文档，选择一种语言，然后获取翻译版本。",
+    "imageToPdfDescription": "上传图像以将其转换为单个PDF文件。",
+    "imageToPdfCta": "您的图像已准备好进行转换。拖动以重新排序，然后进行转换。"
   },
   "uploadArea": {
     "dragAndDrop": "将文件拖放到此处",
+    "dragAndDropImages": "将图像拖放到此处",
     "or": "或",
     "chooseFile": "选择文件",
+    "chooseFiles": "选择文件",
+    "addMore": "添加更多",
     "fileSizeLimit": "最大25MB的PDF文件"
   },
   "status": {
     "uploading": "上传中",
     "converting": "正在转换为音频...",
+    "convertingToPdf": "正在转换为PDF...",
     "translating": "翻译中...",
     "errorTitle": "哦！出错了。",
     "errorDescription": "我们无法分析您的文档。请换个文档再试一次。"
@@ -33,8 +39,9 @@
     "confirmAndConvert": "确认并转换",
     "convertAnother": "转换另一个文件",
     "translate": "翻译",
-    "download": "下载翻译后的PDF",
-    "translateAnother": "翻译另一个文件"
+    "download": "下载",
+    "translateAnother": "翻译另一个文件",
+    "convertToPdf": "转换为PDF"
   },
   "tabs": {
     "uploadFile": "上传文件",
@@ -65,6 +72,7 @@
   "toast": {
     "invalidFileType": "文件类型无效",
     "invalidFileTypeDesc": "请上传PDF文件。",
+    "invalidImageFileTypeDesc": "请只上传图片文件。",
     "urlRequired": "需要URL",
     "urlRequiredDesc": "请输入PDF的URL。",
     "invalidUrl": "无效的URL",

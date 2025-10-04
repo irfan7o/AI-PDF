@@ -4,6 +4,7 @@ import { summarizePdf, SummarizePdfOutput } from "@/ai/flows/summarize-pdf";
 import { pdfToAudio, PdfToAudioOutput } from "@/ai/flows/pdf-to-audio";
 import { generateVoiceSample, GenerateVoiceSampleOutput } from "@/ai/flows/generate-voice-sample";
 import { translatePdf, TranslatePdfOutput } from "@/ai/flows/translate-pdf";
+import { PDFDocument } from 'pdf-lib';
 
 export type AnalysisResult = {
     summary: string;
@@ -18,6 +19,11 @@ export type AudioResult = {
 export type TranslationResult = {
     translatedPdfDataUri?: string;
     translatedText?: string;
+    error?: string;
+}
+
+export type ImageToPdfResult = {
+    pdfDataUri?: string;
     error?: string;
 }
 
@@ -110,5 +116,42 @@ export async function getTranslation(pdfDataUri: string, targetLanguage: string)
     } catch (error: any) {
         console.error("Error translating PDF:", error);
         return { error: error.message || "Failed to translate PDF." };
+    }
+}
+
+export async function convertImagesToPdf(imageUris: string[]): Promise<ImageToPdfResult> {
+    if (!imageUris || imageUris.length === 0) {
+        return { error: "No images provided for conversion." };
+    }
+
+    try {
+        const pdfDoc = await PDFDocument.create();
+
+        for (const imageUri of imageUris) {
+            const imageBuffer = Buffer.from(imageUri.split(',')[1], 'base64');
+            const image = await pdfDoc.embedPng(imageBuffer);
+            
+            const page = pdfDoc.addPage();
+            const { width, height } = image.scale(1);
+            page.setSize(width, height);
+            
+            page.drawImage(image, {
+                x: 0,
+                y: 0,
+                width: width,
+                height: height,
+            });
+        }
+
+        const pdfBytes = await pdfDoc.save();
+        const pdfBase64 = Buffer.from(pdfBytes).toString('base64');
+        
+        return {
+            pdfDataUri: `data:application/pdf;base64,${pdfBase64}`
+        };
+
+    } catch (error: any) {
+        console.error("Error converting images to PDF:", error);
+        return { error: error.message || "Failed to convert images to PDF." };
     }
 }
