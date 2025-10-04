@@ -9,7 +9,6 @@ import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from '@/contexts/translation-context';
 import { getAudio, AudioResult, getVoiceSample } from '@/app/actions';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription as DialogDescriptionComponent } from '@/components/ui/dialog';
-import { RadioGroup } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from './ui/scroll-area';
 import { cn } from '@/lib/utils';
@@ -212,9 +211,16 @@ export default function PdfToAudio() {
                     <DialogDescriptionComponent>{t('voiceSelection', 'description')}</DialogDescriptionComponent>
                 </DialogHeader>
                 <ScrollArea className="max-h-[60vh] pr-6">
-                    <RadioGroup value={selectedVoice} onValueChange={(value) => {setSelectedVoice(value); setIsVoiceModalOpen(false);}} className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                         {voices.map((voice) => (
-                             <Label key={voice.id} htmlFor={voice.id} className={cn("cursor-pointer rounded-lg border p-4 transition-colors hover:bg-accent flex justify-between items-center", selectedVoice === voice.id ? "border-primary bg-primary/10" : "")}>
+                             <Label 
+                                key={voice.id} 
+                                className={cn("cursor-pointer rounded-lg border p-4 transition-colors hover:bg-accent flex justify-between items-center", selectedVoice === voice.id ? "border-primary bg-primary/10" : "")}
+                                onClick={() => {
+                                    setSelectedVoice(voice.id);
+                                    setIsVoiceModalOpen(false);
+                                }}
+                            >
                                 <div className="flex flex-col gap-1">
                                     <div className="flex items-center gap-1 text-muted-foreground">
                                         <User className="h-4 w-4" />
@@ -237,7 +243,7 @@ export default function PdfToAudio() {
                                 </Button>
                             </Label>
                         ))}
-                    </RadioGroup>
+                    </div>
                 </ScrollArea>
             </DialogContent>
         </Dialog>
@@ -326,7 +332,7 @@ export default function PdfToAudio() {
                     )}
 
                     <div className="flex flex-col gap-2 w-full items-center">
-                         <Button variant="outline" size="sm" onClick={() => setIsVoiceModalOpen(true)} disabled={status === 'converting' || !dataUri}>
+                         <Button variant="outline" size="sm" onClick={() => setIsVoiceModalOpen(true)} disabled={status === 'converting' || status === 'uploading' || status === 'idle'}>
                              <ListMusic className="mr-2" />
                              {selectedVoice ? voices.find(v => v.id === selectedVoice)?.name : "Select Voice"}
                          </Button>
@@ -342,3 +348,4 @@ export default function PdfToAudio() {
         </>
     );
 }
+
