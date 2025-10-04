@@ -282,14 +282,9 @@ export default function PdfSummarizer() {
                          )}
                       </TabsContent>
                     </Tabs>
-                    <DialogClose asChild>
-                        <Button type="button" onClick={resetState}>{t('buttons', 'summarizeAnother')}</Button>
-                    </DialogClose>
                 </DialogContent>
             </Dialog>
 
         </Card>
     );
 }
-
-    
