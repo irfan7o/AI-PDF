@@ -28,7 +28,6 @@ export default function PdfToAudio() {
     const { t } = useTranslation();
     const [status, setStatus] = useState<Status>('idle');
     const [file, setFile] = useState<File | null>(null);
-    const [fileUrl, setFileUrl] = useState<string | null>(null);
     const [dataUri, setDataUri] = useState<string | null>(null);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [audioResult, setAudioResult] = useState<AudioResult | null>(null);
@@ -39,17 +38,6 @@ export default function PdfToAudio() {
     const audioRef = useRef<HTMLAudioElement>(null);
     const [isPlaying, setIsPlaying] = useState(false);
 
-    useEffect(() => {
-        if (file) {
-            const url = URL.createObjectURL(file);
-            setFileUrl(url);
-            return () => {
-                URL.revokeObjectURL(url);
-                setFileUrl(null);
-            };
-        }
-    }, [file]);
-    
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio) return;
@@ -76,6 +64,11 @@ export default function PdfToAudio() {
         setAudioResult(null);
         setUploadProgress(0);
         setIsVoiceModalOpen(false);
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
+        }
+        setIsPlaying(false);
         if (fileInputRef.current) {
             fileInputRef.current.value = "";
         }
@@ -144,106 +137,26 @@ export default function PdfToAudio() {
             }
         }
     };
+    
+    const formatFileSize = (bytes: number | null) => {
+        if (bytes === null) return '';
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    };
 
-    const renderFileUpload = () => (
-         <Card className="w-full max-w-lg shadow-sm rounded-xl">
-             <CardHeader className="text-center">
-                 <CardTitle className="font-headline text-2xl">{t('floatingMenu', 'pdfToAudio')}</CardTitle>
-                 <CardDescription>{t('main', 'pdfToAudioDescription')}</CardDescription>
-             </CardHeader>
-            <CardContent
-                onDrop={handleDrop}
-                onDragOver={(e) => e.preventDefault()}
-                onDragLeave={(e) => e.preventDefault()}
-                onClick={() => fileInputRef.current?.click()}
-                className="p-6 pt-0"
-            >
-                <div className="w-full min-h-[300px] h-full rounded-lg border-2 border-dashed p-12 text-center transition-colors flex items-center justify-center cursor-pointer hover:border-primary hover:bg-primary/10">
-                    {status === 'idle' && (
-                         <div className="flex flex-col items-center justify-center h-full">
-                             <div className="rounded-full p-3 bg-gray-200 dark:bg-muted">
-                                 <FileUp className="h-8 w-8 text-gray-500 dark:text-muted-foreground" />
-                             </div>
-                             <p className="mt-4 font-semibold text-foreground">{t('uploadArea', 'dragAndDrop')}</p>
-                             <p className="my-2 text-sm text-muted-foreground">{t('uploadArea', 'or')}</p>
-                             <Button variant="ghost">{t('uploadArea', 'chooseFile')}</Button>
-                         </div>
-                    )}
-                    {status === 'uploading' && (
-                        <div className="flex h-full w-full flex-col items-center justify-center">
-                            <Loader className="h-12 w-12 animate-spin text-primary" />
-                            <p className="text-sm text-muted-foreground mt-4">{t('status', 'uploading')} {Math.round(uploadProgress)}%</p>
-                        </div>
-                    )}
-                </div>
-                 <input
-                     ref={fileInputRef}
-                     id="file-upload"
-                     type="file"
-                     className="hidden"
-                     onChange={handleFileChange}
-                     accept="application/pdf"
-                 />
-            </CardContent>
-        </Card>
-    );
+    const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
+        event.currentTarget.classList.add('border-primary', 'bg-primary/10');
+    };
 
-    const renderPdfViewer = () => {
-        if (!file || !fileUrl) return null;
-        return (
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-6xl h-[calc(100vh-18rem)]">
-                <Card className="flex flex-col">
-                    <CardHeader className='flex-row items-center justify-between p-3 border-b'>
-                        <CardTitle className='text-sm font-medium truncate'>{file.name}</CardTitle>
-                        <Button onClick={resetState} variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10 hover:text-destructive rounded-full h-8 w-8">
-                           <Trash2 className="h-4 w-4"/>
-                        </Button>
-                    </CardHeader>
-                    <CardContent className="flex-grow p-0">
-                       <iframe src={fileUrl} className="w-full h-full border-0" title={file.name ?? 'PDF Preview'}/>
-                    </CardContent>
-                </Card>
-
-                <Card className="flex flex-col h-full items-center justify-center">
-                    <CardHeader>
-                        <CardTitle>{t('floatingMenu', 'pdfToAudio')}</CardTitle>
-                        <CardDescription className="text-center">{t('main', 'pdfToAudioCta')}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        {status === 'converting' ? (
-                            <div className="flex flex-col items-center gap-4">
-                                <Loader className="h-12 w-12 animate-spin text-primary" />
-                                <p className="text-muted-foreground">{t('status', 'converting')}</p>
-                            </div>
-                        ) : status === 'success' && audioResult?.audioDataUri ? (
-                            <div className="flex flex-col items-center gap-4 p-4 rounded-lg bg-muted w-full">
-                                <h3 className="font-semibold">{t('audioPlayer', 'title')}</h3>
-                                <div className='flex items-center gap-4'>
-                                <Button onClick={togglePlayPause} size="icon" className='rounded-full h-14 w-14'>
-                                    {isPlaying ? <Pause className='h-6 w-6'/> : <Play className='h-6 w-6'/>}
-                                </Button>
-                                <audio ref={audioRef} src={audioResult.audioDataUri} className="hidden"></audio>
-                                </div>
-                                <Button variant="link" onClick={resetState}>{t('buttons', 'convertAnother')}</Button>
-                            </div>
-                        ) : (
-                             <Button size="lg" onClick={() => setIsVoiceModalOpen(true)}>
-                                 <Music className="mr-2" />
-                                 {t('buttons', 'convertToAudio')}
-                            </Button>
-                        )}
-                    </CardContent>
-                     {status === 'error' && (
-                         <CardFooter className="flex-col gap-2 text-center">
-                             <AlertCircle className="h-8 w-8 text-destructive" />
-                             <h2 className="mt-2 text-lg font-semibold text-destructive">{t('status', 'errorTitle')}</h2>
-                             <p className="mt-1 text-sm text-muted-foreground">{t('status', 'errorDescription')}</p>
-                             <Button variant="outline" onClick={resetState} className="mt-4">{t('buttons', 'tryAgain')}</Button>
-                         </CardFooter>
-                     )}
-                </Card>
-            </div>
-        );
+    const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
+        event.currentTarget.classList.remove('border-primary', 'bg-primary/10');
     };
 
     const renderVoiceSelectionModal = () => (
@@ -268,20 +181,114 @@ export default function PdfToAudio() {
                     </RadioGroup>
                 </ScrollArea>
                 <div className="flex justify-end mt-4">
-                    <Button onClick={handleConvert}>{t('buttons', 'confirmAndConvert')}</Button>
+                    <Button onClick={handleConvert} disabled={status === 'converting'}>
+                        {status === 'converting' ? <Loader className="animate-spin" /> : t('buttons', 'confirmAndConvert')}
+                    </Button>
                 </div>
             </DialogContent>
         </Dialog>
     );
 
-    if (status === 'idle' || status === 'uploading') {
-        return renderFileUpload();
-    }
-    
     return (
         <>
-            {renderPdfViewer()}
+            <Card className="w-full max-w-lg shadow-sm rounded-xl">
+                 <CardHeader className="text-center">
+                     <CardTitle className="font-headline text-2xl">{t('floatingMenu', 'pdfToAudio')}</CardTitle>
+                     <CardDescription>{t('main', 'pdfToAudioDescription')}</CardDescription>
+                 </CardHeader>
+                <CardContent
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onClick={() => status !== 'selected' && fileInputRef.current?.click()}
+                    className="p-6 pt-0"
+                >
+                    <div className={`w-full min-h-[300px] h-full rounded-lg border-2 border-dashed p-12 text-center transition-colors flex items-center justify-center ${status !== 'selected' ? 'cursor-pointer hover:border-primary hover:bg-primary/10' : ''}`}>
+                        {status === 'idle' && (
+                             <div className="flex flex-col items-center justify-center h-full">
+                                 <div className="rounded-full p-3 bg-gray-200 dark:bg-muted">
+                                     <FileUp className="h-8 w-8 text-gray-500 dark:text-muted-foreground" />
+                                 </div>
+                                 <p className="mt-4 font-semibold text-foreground">{t('uploadArea', 'dragAndDrop')}</p>
+                                 <p className="my-2 text-sm text-muted-foreground">{t('uploadArea', 'or')}</p>
+                                 <Button variant="ghost">{t('uploadArea', 'chooseFile')}</Button>
+                             </div>
+                        )}
+                        {status === 'uploading' && (
+                            <div className="flex h-full w-full flex-col items-center justify-center">
+                                <Loader className="h-12 w-12 animate-spin text-primary" />
+                                <p className="text-sm text-muted-foreground mt-4">{t('status', 'uploading')} {Math.round(uploadProgress)}%</p>
+                            </div>
+                        )}
+                        {(status === 'selected' || status === 'converting' || status === 'success') && file && (
+                             <div className="text-center">
+                                 <FileText className="h-12 w-12 mx-auto text-primary" />
+                                 <p className="font-semibold mt-4">{file.name}</p>
+                                 <p className="text-sm text-muted-foreground">
+                                     {formatFileSize(file.size)}
+                                 </p>
+                             </div>
+                        )}
+                         {status === 'error' && (
+                             <div className="text-center p-4 rounded-lg h-full flex flex-col justify-center">
+                                 <div className="flex justify-center">
+                                     <AlertCircle className="h-8 w-8 text-destructive" />
+                                 </div>
+                                 <h2 className="mt-2 text-lg font-semibold text-destructive">{t('status', 'errorTitle')}</h2>
+                                 <p className="mt-1 text-sm text-muted-foreground">{t('status', 'errorDescription')}</p>
+                             </div>
+                        )}
+                    </div>
+                     <input
+                         ref={fileInputRef}
+                         id="file-upload"
+                         type="file"
+                         className="hidden"
+                         onChange={handleFileChange}
+                         accept="application/pdf"
+                         disabled={status === 'selected' || status === 'converting' || status === 'success'}
+                     />
+                </CardContent>
+
+                <CardFooter className="flex-col gap-4">
+                    {status === 'success' && audioResult?.audioDataUri && (
+                        <div className="flex flex-col items-center gap-4 p-4 rounded-lg bg-muted w-full">
+                            <h3 className="font-semibold">{t('audioPlayer', 'title')}</h3>
+                            <div className='flex items-center gap-4'>
+                                <Button onClick={togglePlayPause} size="icon" className='rounded-full h-14 w-14'>
+                                    {isPlaying ? <Pause className='h-6 w-6'/> : <Play className='h-6 w-6'/>}
+                                </Button>
+                                <audio ref={audioRef} src={audioResult.audioDataUri} className="hidden"></audio>
+                            </div>
+                        </div>
+                    )}
+                    
+                    {status === 'converting' && (
+                        <div className="flex flex-col items-center gap-2">
+                           <Loader className="h-8 w-8 animate-spin text-primary" />
+                           <p className="text-muted-foreground">{t('status', 'converting')}</p>
+                        </div>
+                    )}
+
+                    <div className="flex justify-end gap-2 w-full">
+                        {(status === 'selected' || status === 'success' || status === 'error') && status !== 'converting' && (
+                            <Button variant="ghost" onClick={resetState}>
+                               {status === 'success' ? t('buttons', 'convertAnother') : t('buttons', 'tryAgain')}
+                            </Button>
+                        )}
+                        {status === 'selected' && (
+                            <Button onClick={() => setIsVoiceModalOpen(true)} disabled={status !== 'selected'}>
+                                <Music className="mr-2" />
+                                {t('buttons', 'convertToAudio')}
+                            </Button>
+                        )}
+                    </div>
+                </CardFooter>
+            </Card>
+
             {renderVoiceSelectionModal()}
         </>
     );
 }
+
+    
