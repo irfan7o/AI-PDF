@@ -127,6 +127,20 @@ export default function PdfSummarizer() {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     };
 
+    const getDialogTitle = () => {
+        if (fileName) {
+            return fileName;
+        }
+        if (url) {
+            try {
+                return new URL(url).pathname.split('/').pop() || '';
+            } catch (error) {
+                return '';
+            }
+        }
+        return '';
+    };
+
     return (
         <Card className="w-full max-w-lg shadow-sm rounded-xl">
             <CardHeader className="text-center">
@@ -220,9 +234,9 @@ export default function PdfSummarizer() {
             </CardContent>
 
             <Dialog open={status === 'success'} onOpenChange={(open) => !open && resetState()}>
-                <DialogContent className="sm:max-w-md">
+                <DialogContent className="sm:max-w-2xl">
                     <DialogHeader>
-                        <DialogTitle>{t('dialog', 'summaryFor')} <span className="font-mono">{fileName || (url ? new URL(url).pathname.split('/').pop() : '')}</span></DialogTitle>
+                        <DialogTitle>{t('dialog', 'summaryFor')} <span className="font-mono">{getDialogTitle()}</span></DialogTitle>
                         <DialogDescription>{t('dialog', 'summaryDescription')}</DialogDescription>
                     </DialogHeader>
                     {analysisResult && (
@@ -247,5 +261,3 @@ export default function PdfSummarizer() {
         </Card>
     );
 }
-
-    
