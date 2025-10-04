@@ -202,7 +202,7 @@ export default function PdfTranslator() {
                     
                     <div className="flex flex-col gap-2 w-full items-center">
                          <Select onValueChange={setTargetLanguage} value={targetLanguage} disabled={status === 'translating' || status === 'uploading' || status === 'idle'}>
-                            <SelectTrigger>
+                            <SelectTrigger className="focus:ring-0 focus:ring-offset-0">
                                 <SelectValue placeholder={t('translation', 'selectLanguage')} />
                             </SelectTrigger>
                             <SelectContent>
