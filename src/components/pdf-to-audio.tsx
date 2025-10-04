@@ -4,11 +4,11 @@
 import { useState, useRef, useEffect, ChangeEvent, DragEvent } from 'react';
 import { FileUp, Loader, AlertCircle, Trash2, FileText, Music, User, Play, Pause } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from '@/contexts/translation-context';
 import { getAudio, AudioResult } from '@/app/actions';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription as DialogDescriptionComponent } from '@/components/ui/dialog';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from './ui/scroll-area';
@@ -251,7 +251,7 @@ export default function PdfToAudio() {
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>{t('voiceSelection', 'title')}</DialogTitle>
-                    <DialogDescription>{t('voiceSelection', 'description')}</DialogDescription>
+                    <DialogDescriptionComponent>{t('voiceSelection', 'description')}</DialogDescriptionComponent>
                 </DialogHeader>
                 <ScrollArea className="max-h-[60vh] pr-6">
                     <RadioGroup value={selectedVoice} onValueChange={setSelectedVoice} className="grid grid-cols-2 gap-4 mt-4">
