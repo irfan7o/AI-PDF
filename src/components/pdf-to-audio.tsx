@@ -214,8 +214,8 @@ export default function PdfToAudio() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                         {voices.map((voice) => (
                              <Label 
-                                key={voice.id} 
-                                className={cn("cursor-pointer rounded-lg p-4 transition-colors hover:bg-primary hover:text-primary-foreground flex justify-between items-center", selectedVoice === voice.id ? "bg-primary/10" : "bg-muted")}
+                                key={voice.id}
+                                className={cn("group cursor-pointer rounded-lg p-4 transition-colors hover:bg-primary hover:text-primary-foreground flex justify-between items-center", selectedVoice === voice.id ? "bg-primary/10" : "bg-muted")}
                                 onClick={() => {
                                     setSelectedVoice(voice.id);
                                     setIsVoiceModalOpen(false);
@@ -223,7 +223,7 @@ export default function PdfToAudio() {
                             >
                                 <div>
                                     <h4 className="font-semibold">{voice.name}</h4>
-                                    <div className="flex items-center gap-1 text-muted-foreground">
+                                    <div className="flex items-center gap-1 text-muted-foreground group-hover:text-primary-foreground">
                                         <User className="h-4 w-4" />
                                         <p className="text-sm">{voice.gender}</p>
                                     </div>
@@ -231,7 +231,7 @@ export default function PdfToAudio() {
                                 <Button 
                                     variant="ghost" 
                                     size="icon"
-                                    className='h-8 w-8 rounded-full hover:bg-primary/50'
+                                    className='h-8 w-8 rounded-full bg-transparent group-hover:bg-primary-foreground group-hover:text-primary'
                                     onClick={(e) => {
                                         e.preventDefault();
                                         e.stopPropagation();
@@ -239,7 +239,7 @@ export default function PdfToAudio() {
                                     }}
                                     disabled={loadingSample === voice.id}
                                 >
-                                   {loadingSample === voice.id ? <Loader className="h-4 w-4 animate-spin"/> : (playingSample === voice.id ? <Pause className="h-4 w-4 text-primary-foreground" /> : <Play className="h-4 w-4" />)}
+                                   {loadingSample === voice.id ? <Loader className="h-4 w-4 animate-spin"/> : (playingSample === voice.id ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />)}
                                 </Button>
                             </Label>
                         ))}
@@ -263,7 +263,10 @@ export default function PdfToAudio() {
                     onClick={() => status === 'idle' && fileInputRef.current?.click()}
                     className="p-6 pt-0"
                 >
-                    <div className={`group w-full min-h-[300px] h-full rounded-lg border-2 border-dashed p-12 text-center transition-colors flex flex-col items-center justify-center ${status === 'idle' ? 'cursor-pointer hover:border-primary hover:bg-primary/10' : ''}`}>
+                    <div className={cn(
+                        "group w-full min-h-[300px] h-full rounded-lg border-2 border-dashed p-12 text-center transition-colors flex flex-col items-center justify-center",
+                        status === 'idle' && "cursor-pointer hover:border-primary hover:bg-primary/10"
+                    )}>
                         {status === 'idle' && (
                              <div className="flex flex-col items-center justify-center h-full">
                                  <div className="rounded-full p-3 bg-gray-200 dark:bg-muted">
@@ -350,5 +353,7 @@ export default function PdfToAudio() {
 }
 
 
+
+    
 
     
