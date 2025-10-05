@@ -215,13 +215,13 @@ export default function PdfToAudio() {
                         {voices.map((voice) => (
                              <Label 
                                 key={voice.id} 
-                                className={cn("cursor-pointer rounded-lg border p-4 transition-colors hover:bg-accent flex justify-between items-center", selectedVoice === voice.id ? "border-primary bg-primary/10" : "")}
+                                className={cn("cursor-pointer rounded-lg p-4 transition-colors hover:bg-primary hover:text-primary-foreground flex justify-between items-center", selectedVoice === voice.id ? "bg-primary/10" : "bg-muted")}
                                 onClick={() => {
                                     setSelectedVoice(voice.id);
                                     setIsVoiceModalOpen(false);
                                 }}
                             >
-                                <div className="flex flex-col gap-1">
+                                <div>
                                     <h4 className="font-semibold">{voice.name}</h4>
                                     <div className="flex items-center gap-1 text-muted-foreground">
                                         <User className="h-4 w-4" />
@@ -231,7 +231,7 @@ export default function PdfToAudio() {
                                 <Button 
                                     variant="ghost" 
                                     size="icon"
-                                    className='h-8 w-8 rounded-full hover:bg-primary hover:text-primary-foreground'
+                                    className='h-8 w-8 rounded-full hover:bg-primary/50'
                                     onClick={(e) => {
                                         e.preventDefault();
                                         e.stopPropagation();
@@ -239,7 +239,7 @@ export default function PdfToAudio() {
                                     }}
                                     disabled={loadingSample === voice.id}
                                 >
-                                   {loadingSample === voice.id ? <Loader className="h-4 w-4 animate-spin"/> : (playingSample === voice.id ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />)}
+                                   {loadingSample === voice.id ? <Loader className="h-4 w-4 animate-spin"/> : (playingSample === voice.id ? <Pause className="h-4 w-4 text-primary-foreground" /> : <Play className="h-4 w-4" />)}
                                 </Button>
                             </Label>
                         ))}
