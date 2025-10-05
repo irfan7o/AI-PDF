@@ -73,7 +73,7 @@ export default function FloatingMenu({ activeFeature }: { activeFeature?: string
             <Button
                 key={item.name}
                 variant={item.href === pathname ? 'default' : 'ghost'}
-                className="w-full justify-start gap-2 h-12 text-base border-0 hover:bg-primary/10 hover:text-primary"
+                className="w-full justify-start gap-2 h-12 text-base border-0 hover:bg-primary/10 hover:text-primary bg-muted"
                 asChild
               >
                 <Link href={item.href}>
