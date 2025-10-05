@@ -135,17 +135,17 @@ export default function ChatPdf() {
                     </CardContent>
                 </Card>
 
-                <Card className="flex flex-col h-full">
-                    <CardHeader>
+                <Card className="flex flex-col h-full bg-card">
+                    <CardHeader className="bg-card">
                         <CardTitle>{t('floatingMenu', 'chatPdf')}</CardTitle>
                     </CardHeader>
-                    <CardContent className="flex-grow overflow-hidden">
-                       <ScrollArea className="h-full pr-4">
+                    <CardContent className="flex-grow overflow-hidden bg-muted">
+                       <ScrollArea className="h-full p-4 pr-6">
                             <div className="flex flex-col gap-4">
                                 {messages.map((msg, index) => (
                                     <div key={index} className={`flex items-start gap-3 ${msg.role === 'user' ? 'justify-end' : ''}`}>
                                         {msg.role === 'assistant' && <FileText className="w-6 h-6 text-primary flex-shrink-0" />}
-                                        <div className={`rounded-lg p-3 max-w-[80%] ${msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
+                                        <div className={`rounded-lg p-3 max-w-[80%] ${msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-card'}`}>
                                             <p className="text-sm">{msg.content}</p>
                                         </div>
                                     </div>
@@ -161,7 +161,7 @@ export default function ChatPdf() {
                             </div>
                         </ScrollArea>
                     </CardContent>
-                    <CardFooter>
+                    <CardFooter className="bg-card pt-6">
                          <form onSubmit={handleSendMessage} className="flex w-full gap-2">
                              <Input 
                                  placeholder="Ask something about the document..."
@@ -232,5 +232,7 @@ export default function ChatPdf() {
         </Card>
     );
 }
+
+    
 
     
