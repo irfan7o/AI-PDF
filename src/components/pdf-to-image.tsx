@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useRef, ChangeEvent, DragEvent } from 'react';
-import { FileUp, Loader, AlertCircle, Trash2, FileText, Download } from 'lucide-react';
+import { FileUp, Loader, AlertCircle, Trash2, FileText, Download, Image as ImageIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
@@ -222,7 +222,7 @@ export default function PdfToImage() {
                         </div>
                     ) : (
                          <Button onClick={handleConvert} disabled={status !== 'selected'} className="w-full">
-                             <Image className="mr-2" />
+                             <ImageIcon className="mr-2" />
                              {t('buttons', 'convertToImage')}
                          </Button>
                     )}
@@ -231,3 +231,5 @@ export default function PdfToImage() {
         </>
     );
 }
+
+    
