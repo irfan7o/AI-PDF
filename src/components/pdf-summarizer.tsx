@@ -254,6 +254,10 @@ export default function PdfSummarizer() {
                         ? "bg-primary text-primary-foreground hover:bg-primary/90"
                         : "group-hover:bg-primary group-hover:text-primary-foreground"
                     )}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      fileInputRef.current?.click();
+                    }}
                   >
                     {t("uploadArea", "chooseFile")}
                   </Button>

@@ -1,17 +1,23 @@
+"use client";
 
-'use client';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  ReactNode,
+} from "react";
 
-import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
-
-import en from '@/locales/en.json';
-import id from '@/locales/id.json';
-import ru from '@/locales/ru.json';
-import hi from '@/locales/hi.json';
-import es from '@/locales/es.json';
-import de from '@/locales/de.json';
-import zh from '@/locales/zh.json';
-import ja from '@/locales/ja.json';
-import ko from '@/locales/ko.json';
+import en from "@/locales/en.json";
+import id from "@/locales/id.json";
+import ru from "@/locales/ru.json";
+import hi from "@/locales/hi.json";
+import es from "@/locales/es.json";
+import de from "@/locales/de.json";
+import zh from "@/locales/zh.json";
+import ja from "@/locales/ja.json";
+import ko from "@/locales/ko.json";
 
 const translations = { en, id, ru, hi, es, de, zh, ja, ko };
 
@@ -22,37 +28,58 @@ type TranslationContextType = {
   setLanguage: (language: Language) => void;
   t: <T extends keyof (typeof translations)[Language]>(
     section: T,
-    key: keyof (typeof translations)[Language][T]
+    key: keyof (typeof translations)[Language][T],
+    interpolations?: Record<string, string | number>
   ) => string;
 };
 
-const TranslationContext = createContext<TranslationContextType | undefined>(undefined);
+const TranslationContext = createContext<TranslationContextType | undefined>(
+  undefined
+);
 
 type TranslationProviderProps = {
   children: ReactNode;
 };
 
-export const TranslationProvider: React.FC<TranslationProviderProps> = ({ children }) => {
-  const [language, setLanguageState] = useState<Language>('en');
+export const TranslationProvider: React.FC<TranslationProviderProps> = ({
+  children,
+}) => {
+  const [language, setLanguageState] = useState<Language>("en");
 
   useEffect(() => {
-    const savedLanguage = localStorage.getItem('language') as Language;
+    const savedLanguage = localStorage.getItem("language") as Language;
     if (savedLanguage && translations[savedLanguage]) {
       setLanguageState(savedLanguage);
     }
   }, []);
 
   const setLanguage = (lang: Language) => {
-    localStorage.setItem('language', lang);
+    localStorage.setItem("language", lang);
     setLanguageState(lang);
   };
 
-  const t = useCallback(<T extends keyof (typeof translations)[Language]>(
-    section: T,
-    key: keyof (typeof translations)[Language][T]
-  ) => {
-    return translations[language][section][key] || translations['en'][section][key] || String(key);
-  }, [language]);
+  const t = useCallback(
+    <T extends keyof (typeof translations)[Language]>(
+      section: T,
+      key: keyof (typeof translations)[Language][T],
+      interpolations?: Record<string, string | number>
+    ) => {
+      let text =
+        translations[language][section][key] ||
+        translations["en"][section][key] ||
+        String(key);
+
+      // Handle interpolations
+      if (interpolations && typeof text === "string") {
+        Object.entries(interpolations).forEach(([placeholder, value]) => {
+          text = (text as string).replace(`{${placeholder}}`, String(value));
+        });
+      }
+
+      return String(text);
+    },
+    [language]
+  );
 
   return (
     <TranslationContext.Provider value={{ language, setLanguage, t }}>
@@ -64,7 +91,7 @@ export const TranslationProvider: React.FC<TranslationProviderProps> = ({ childr
 export const useTranslation = (): TranslationContextType => {
   const context = useContext(TranslationContext);
   if (context === undefined) {
-    throw new Error('useTranslation must be used within a TranslationProvider');
+    throw new Error("useTranslation must be used within a TranslationProvider");
   }
   return context;
 };
