@@ -356,7 +356,9 @@ export default function PdfToAudio() {
                 <Button
                   variant={isMobile ? "default" : "ghost"}
                   className={cn(
-                    isMobile ? "bg-primary text-primary-foreground hover:bg-primary/90" : "group-hover:bg-primary group-hover:text-primary-foreground"
+                    isMobile
+                      ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                      : "group-hover:bg-primary group-hover:text-primary-foreground"
                   )}
                   onClick={(e) => {
                     e.stopPropagation();
