@@ -9,6 +9,8 @@ import { useToast } from '@/hooks/use-toast';
 import { Input } from '@/components/ui/input';
 import { useTranslation } from '@/contexts/translation-context';
 import { ScrollArea } from './ui/scroll-area';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { cn } from '@/lib/utils';
 
 type Status = 'idle' | 'uploading' | 'selected' | 'loading' | 'error';
 type Message = {
@@ -18,6 +20,7 @@ type Message = {
 
 export default function ChatPdf() {
     const { t } = useTranslation();
+    const isMobile = useIsMobile();
     const [status, setStatus] = useState<Status>('idle');
     const [file, setFile] = useState<File | null>(null);
     const [fileUrl, setFileUrl] = useState<string | null>(null);
@@ -201,7 +204,14 @@ export default function ChatPdf() {
                              </div>
                              <p className="mt-4 font-semibold text-foreground">{t('uploadArea', 'dragAndDrop')}</p>
                              <p className="my-2 text-sm text-muted-foreground">{t('uploadArea', 'or')}</p>
-                             <Button variant="ghost" className="group-hover:bg-primary group-hover:text-primary-foreground">{t('uploadArea', 'chooseFile')}</Button>
+                             <Button 
+                               variant={isMobile ? "default" : "ghost"} 
+                               className={cn(
+                                 isMobile ? "bg-primary text-primary-foreground hover:bg-primary/90" : "group-hover:bg-primary group-hover:text-primary-foreground"
+                               )}
+                             >
+                               {t('uploadArea', 'chooseFile')}
+                             </Button>
                          </div>
                     )}
                     {status === 'uploading' && (

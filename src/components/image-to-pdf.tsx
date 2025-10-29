@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from '@/contexts/translation-context';
 import { convertImagesToPdf, ImageToPdfResult } from '@/app/actions';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 
@@ -22,6 +23,7 @@ interface ImageFile {
 
 export default function ImageToPdf() {
     const { t } = useTranslation();
+    const isMobile = useIsMobile();
     const [status, setStatus] = useState<Status>('idle');
     const [images, setImages] = useState<ImageFile[]>([]);
     const [pdfResult, setPdfResult] = useState<ImageToPdfResult | null>(null);
@@ -230,7 +232,15 @@ export default function ImageToPdf() {
                                  </div>
                                  <p className="mt-4 font-semibold text-foreground">{t('uploadArea', 'dragAndDropImages')}</p>
                                  <p className="my-2 text-sm text-muted-foreground">{t('uploadArea', 'or')}</p>
-                                 <Button variant="ghost" className="group-hover:bg-primary group-hover:text-primary-foreground" onClick={(e) => {e.stopPropagation(); fileInputRef.current?.click()}}>{t('uploadArea', 'chooseFiles')}</Button>
+                                 <Button 
+                                   variant={isMobile ? "default" : "ghost"} 
+                                   className={cn(
+                                     isMobile ? "bg-primary text-primary-foreground hover:bg-primary/90" : "group-hover:bg-primary group-hover:text-primary-foreground"
+                                   )} 
+                                   onClick={(e) => {e.stopPropagation(); fileInputRef.current?.click()}}
+                                 >
+                                   {t('uploadArea', 'chooseFiles')}
+                                 </Button>
                              </div>
                         )}
                     </div>

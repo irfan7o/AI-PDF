@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTranslation } from '@/contexts/translation-context';
 import { getSummary, AnalysisResult } from '@/app/actions';
+import { useIsMobile } from '@/hooks/use-mobile';
 import {
     Dialog,
     DialogContent,
@@ -31,6 +32,7 @@ type FullTextResult = {
 
 export default function PdfSummarizer() {
     const { t } = useTranslation();
+    const isMobile = useIsMobile();
     const [status, setStatus] = useState<Status>('idle');
     const [dataUri, setDataUri] = useState<string | null>(null);
     const [fileName, setFileName] = useState<string | null>(null);
@@ -197,7 +199,14 @@ export default function PdfSummarizer() {
                                     </div>
                                     <p className="mt-4 font-semibold text-foreground">{t('uploadArea', 'dragAndDrop')}</p>
                                     <p className="my-2 text-sm text-muted-foreground">{t('uploadArea', 'or')}</p>
-                                    <Button variant="ghost" className="group-hover:bg-primary group-hover:text-primary-foreground">{t('uploadArea', 'chooseFile')}</Button>
+                                    <Button 
+                                      variant={isMobile ? "default" : "ghost"} 
+                                      className={cn(
+                                        isMobile ? "bg-primary text-primary-foreground hover:bg-primary/90" : "group-hover:bg-primary group-hover:text-primary-foreground"
+                                      )}
+                                    >
+                                      {t('uploadArea', 'chooseFile')}
+                                    </Button>
                                 </div>
                             )}
                             {status === 'uploading' && (

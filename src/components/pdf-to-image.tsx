@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from '@/contexts/translation-context';
 import { convertPdfToImages, PdfToImageResult } from '@/app/actions';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 
@@ -15,6 +16,7 @@ type Status = 'idle' | 'uploading' | 'selected' | 'converting' | 'success' | 'er
 
 export default function PdfToImage() {
     const { t } = useTranslation();
+    const isMobile = useIsMobile();
     const [status, setStatus] = useState<Status>('idle');
     const [file, setFile] = useState<File | null>(null);
     const [dataUri, setDataUri] = useState<string | null>(null);
@@ -172,7 +174,15 @@ export default function PdfToImage() {
                                  </div>
                                  <p className="mt-4 font-semibold text-foreground">{t('uploadArea', 'dragAndDrop')}</p>
                                  <p className="my-2 text-sm text-muted-foreground">{t('uploadArea', 'or')}</p>
-                                 <Button variant="ghost" className="group-hover:bg-primary group-hover:text-primary-foreground" onClick={(e) => {e.stopPropagation(); fileInputRef.current?.click()}}>{t('uploadArea', 'chooseFile')}</Button>
+                                 <Button 
+                                   variant={isMobile ? "default" : "ghost"} 
+                                   className={cn(
+                                     isMobile ? "bg-primary text-primary-foreground hover:bg-primary/90" : "group-hover:bg-primary group-hover:text-primary-foreground"
+                                   )} 
+                                   onClick={(e) => {e.stopPropagation(); fileInputRef.current?.click()}}
+                                 >
+                                   {t('uploadArea', 'chooseFile')}
+                                 </Button>
                              </div>
                         )}
                         {status === 'uploading' && (

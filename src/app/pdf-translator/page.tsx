@@ -1,12 +1,12 @@
-import PdfTranslator from '@/components/pdf-translator';
-import FloatingMenu from '@/components/floating-menu';
-import Header from '@/components/layout/header';
+import PdfTranslator from "@/components/pdf-translator";
+import FloatingMenu from "@/components/floating-menu";
+import Header from "@/components/layout/header";
 
 export default function PdfTranslatorPage() {
   return (
     <>
       <Header />
-      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-muted/40 p-4 pt-20 pb-24">
+      <div className="flex min-h-screen w-full flex-col items-center justify-center bg-muted/40 px-3 py-4 pt-16 pb-20 sm:px-4 sm:pt-20 sm:pb-24 md:px-6">
         <PdfTranslator />
         <FloatingMenu activeFeature="pdfTranslator" />
       </div>

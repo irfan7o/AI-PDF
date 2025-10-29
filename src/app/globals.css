@@ -101,4 +101,45 @@
     ::-webkit-scrollbar-thumb:hover {
         background: hsl(var(--muted-foreground) / 0.7);
     }
+
+    /* Mobile-first responsive typography */
+    .text-responsive-sm {
+        @apply text-xs sm:text-sm;
+    }
+    .text-responsive-base {
+        @apply text-sm sm:text-base;
+    }
+    .text-responsive-lg {
+        @apply text-base sm:text-lg;
+    }
+    .text-responsive-xl {
+        @apply text-lg sm:text-xl;
+    }
+    .text-responsive-2xl {
+        @apply text-xl sm:text-2xl;
+    }
+
+    /* Mobile-first responsive spacing */
+    .p-responsive {
+        @apply p-3 sm:p-4 md:p-6;
+    }
+    .px-responsive {
+        @apply px-3 sm:px-4 md:px-6;
+    }
+    .py-responsive {
+        @apply py-2 sm:py-3 md:py-4;
+    }
+    .gap-responsive {
+        @apply gap-2 sm:gap-3 md:gap-4;
+    }
+
+    /* Touch-friendly buttons */
+    .btn-touch {
+        @apply min-h-[44px] min-w-[44px];
+    }
+
+    /* Mobile-safe max width */
+    .container-mobile {
+        @apply max-w-full px-4 sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8;
+    }
 }
