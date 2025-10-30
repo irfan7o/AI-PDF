@@ -1,27 +1,29 @@
+"use client";
+
 import Link from "next/link";
+import Image from "next/image";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function Logo() {
+  const isMobile = useIsMobile();
+
   return (
-    <Link href="/">
-      <svg
-        width="40"
-        height="40"
-        viewBox="0 0 32 32"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-10 w-10"
-      >
-        <path
-          d="M16 4C9.37258 4 4 9.37258 4 16C4 22.6274 9.37258 28 16 28C22.6274 28 28 22.6274 28 16C28 9.37258 22.6274 4 16 4Z"
-          className="fill-primary"
-          fill="hsl(var(--primary))"
+    <Link
+      href="/"
+      className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity group"
+    >
+      <div className="flex-shrink-0">
+        <Image
+          src="/logo.svg"
+          alt="AIPDF Logo"
+          width={40}
+          height={40}
+          className="h-8 w-8 sm:h-10 sm:w-10 group-hover:scale-105 transition-transform duration-200"
+          priority
         />
-        <path
-          d="M16 8V16H24C24 11.5817 20.4183 8 16 8Z"
-          className="fill-primary-foreground"
-          fill="hsl(var(--primary-foreground))"
-        />
-      </svg>
+      </div>
+      {/* Single line text for all screen sizes */}
+      <span className="font-bold text-lg sm:text-xl text-black">AIPDF</span>
     </Link>
   );
 }
