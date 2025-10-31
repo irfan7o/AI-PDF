@@ -49,18 +49,22 @@ const summarizePdfFlow = ai.defineFlow(
     outputSchema: SummarizePdfOutputSchema,
   },
   async input => {
-    const pdf = (await import('pdf-parse')).default;
-    const pdfBuffer = Buffer.from(input.pdfDataUri.split(',')[1], 'base64');
-    const pdfData = await pdf(pdfBuffer);
+    // Use the reliable PDF extraction utility
+    const { extractTextFromPdf } = await import('@/lib/pdf-extractor');
+    const pdfResult = await extractTextFromPdf(input.pdfDataUri);
+    
+    if (!pdfResult.success || !pdfResult.text.trim()) {
+      throw new Error(pdfResult.text || "Could not extract readable text from PDF.");
+    }
 
-    const {output} = await summarizePdfPrompt({document: pdfData.text});
+    const {output} = await summarizePdfPrompt({document: pdfResult.text});
     if (!output) {
       throw new Error("Could not generate summary.");
     }
     
     return {
         summary: output.summary,
-        pageCount: pdfData.numpages,
+        pageCount: pdfResult.numPages,
     };
   }
 );

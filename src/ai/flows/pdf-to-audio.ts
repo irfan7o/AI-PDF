@@ -38,7 +38,7 @@ async function toWav(pcmData: Buffer): Promise<string> {
       bitDepth: 16,
     });
     const chunks: Buffer[] = [];
-    writer.on('data', chunk => chunks.push(chunk));
+    writer.on('data', (chunk: Buffer) => chunks.push(chunk));
     writer.on('end', () => resolve(Buffer.concat(chunks).toString('base64')));
     writer.on('error', reject);
     writer.end(pcmData);
@@ -52,13 +52,17 @@ const pdfToAudioFlow = ai.defineFlow(
     outputSchema: PdfToAudioOutputSchema,
   },
   async ({pdfDataUri, voice}) => {
-    const pdf = (await import('pdf-parse')).default;
-    const pdfBuffer = Buffer.from(pdfDataUri.split(',')[1], 'base64');
-    const pdfData = await pdf(pdfBuffer);
+    // Use reliable PDF extraction
+    const { extractTextFromPdf } = await import('@/lib/pdf-extractor');
+    const pdfResult = await extractTextFromPdf(pdfDataUri);
+    
+    if (!pdfResult.success || !pdfResult.text.trim()) {
+      throw new Error(pdfResult.text || "Could not extract text from the PDF.");
+    }
 
     // Truncate text to avoid hitting model limits, especially for large PDFs.
     const MAX_TEXT_LENGTH = 10000;
-    const documentText = pdfData.text.substring(0, MAX_TEXT_LENGTH);
+    let documentText = pdfResult.text.substring(0, MAX_TEXT_LENGTH);
     
     if (!documentText) {
         throw new Error("Could not extract text from the PDF.");

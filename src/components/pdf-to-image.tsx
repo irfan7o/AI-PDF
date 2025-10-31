@@ -172,8 +172,9 @@ export default function PdfToImage() {
                 <Image
                   src={imageUri}
                   alt={`Page ${index + 1}`}
-                  layout="fill"
-                  objectFit="contain"
+                  fill
+                  style={{ objectFit: "contain" }}
+                  unoptimized
                 />
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <Button

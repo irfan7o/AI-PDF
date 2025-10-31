@@ -14,7 +14,12 @@ import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslation } from "@/contexts/translation-context";
-import { getSummary, AnalysisResult } from "@/app/actions";
+import {
+  getSummary,
+  getFullText,
+  AnalysisResult,
+  FullTextResult,
+} from "@/app/actions";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
   Dialog,
@@ -34,12 +39,7 @@ type Status =
   | "loading"
   | "error"
   | "success";
-type FullTextResult = {
-  pages: {
-    pageNumber: number;
-    text: string;
-  }[];
-};
+// FullTextResult type imported from actions
 
 export default function PdfSummarizer() {
   const { t } = useTranslation();
@@ -151,18 +151,26 @@ export default function PdfSummarizer() {
         return;
       }
       setAnalysisResult(result);
-      // This part is faked for now, as we don't get full text from the action
-      const fakeFullText: FullTextResult = {
-        pages: Array.from({ length: result.pageCount || 1 }, (_, i) => ({
-          pageNumber: i + 1,
-          text: `This is the full text content for page ${
-            i + 1
-          }. In a real application, this would contain all the text extracted from the corresponding page in the PDF document. This allows users to read, copy, or review the exact text from the original file. This feature is useful for detailed analysis or when the summary is not enough. This fake data is for demonstration purposes. This is the full text content for page ${
-            i + 1
-          }. In a real application, this would contain all the text extracted from the corresponding page in the PDF document. This allows users to read, copy, or review the exact text from the original file.`,
-        })),
-      };
-      setFullTextResult(fakeFullText);
+
+      // Extract full text using real extraction
+      try {
+        if (!dataUri) throw new Error("No PDF data available");
+        const fullText = await getFullText(dataUri);
+        setFullTextResult(fullText);
+      } catch (fullTextError) {
+        console.warn("Full text extraction failed:", fullTextError);
+        // Fallback to basic structure
+        const fallbackFullText: FullTextResult = {
+          pages: [
+            {
+              pageNumber: 1,
+              text: "Full text extraction failed. Please try with a different PDF file that contains selectable text.",
+            },
+          ],
+          totalPages: result.pageCount || 1,
+        };
+        setFullTextResult(fallbackFullText);
+      }
 
       setStatus("success");
     } catch (error) {

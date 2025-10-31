@@ -74,17 +74,17 @@ const translatePdfFlow = ai.defineFlow(
     outputSchema: TranslatePdfOutputSchema,
   },
   async ({pdfDataUri, targetLanguage}) => {
-    const pdf = (await import('pdf-parse')).default;
-    const pdfBuffer = Buffer.from(pdfDataUri.split(',')[1], 'base64');
-    const pdfData = await pdf(pdfBuffer);
-
-    if (!pdfData.text) {
-        throw new Error("Could not extract text from the PDF.");
+    // Use reliable PDF extraction
+    const { extractTextFromPdf } = await import('@/lib/pdf-extractor');
+    const pdfResult = await extractTextFromPdf(pdfDataUri);
+    
+    if (!pdfResult.success || !pdfResult.text.trim()) {
+      throw new Error(pdfResult.text || "Could not extract text from the PDF.");
     }
     
     // Truncate text to a reasonable length for translation to avoid hitting model limits
     const MAX_TEXT_LENGTH = 15000;
-    const documentText = pdfData.text.substring(0, MAX_TEXT_LENGTH);
+    let documentText = pdfResult.text.substring(0, MAX_TEXT_LENGTH);
     
     const { output } = await translationPrompt({ text: documentText, targetLanguage });
     if (!output) {
